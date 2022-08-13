@@ -1,0 +1,7 @@
+package com.abavilla.vbl.repo.impl;
+
+import com.abavilla.vbl.model.Customer;
+import com.abavilla.vbl.repo.AbsRepo;
+
+public class CxRepo extends AbsRepo<Customer> {
+}

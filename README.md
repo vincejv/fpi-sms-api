@@ -1,4 +1,4 @@
-# code-with-quarkus Project
+# Abavilla FPI SMS Project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 

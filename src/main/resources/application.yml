@@ -1,4 +1,6 @@
 quarkus:
+  http:
+    port: ${PORT:8080}
   mongodb:
     connection-string:
       mongodb://localhost
@@ -7,6 +9,7 @@ quarkus:
   rest-client:
     m360-api:
       url: https://api.m360.com.ph/v3/api/broadcast
+      #url: https://localhost
       scope: javax.inject.Singleton
 
 ph:

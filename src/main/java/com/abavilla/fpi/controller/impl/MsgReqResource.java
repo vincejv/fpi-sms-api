@@ -2,7 +2,7 @@ package com.abavilla.fpi.controller.impl;
 
 import com.abavilla.fpi.controller.AbsResource;
 import com.abavilla.fpi.dto.impl.MsgReqDto;
-import com.abavilla.fpi.dto.impl.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.dto.impl.MsgReqStatusDto;
 import com.abavilla.fpi.entity.impl.MsgReq;
 import com.abavilla.fpi.service.impl.MsgReqSvc;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public class MsgReqResource extends AbsResource<MsgReqDto, MsgReq, MsgReqSvc> {
 
   @POST
-  public Uni<BroadcastResponseDto> sendMsg(MsgReqDto msgReqDto) {
+  public Uni<MsgReqStatusDto> sendMsg(MsgReqDto msgReqDto) {
     return service.sendMsg(msgReqDto);
   }
 

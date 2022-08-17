@@ -30,16 +30,16 @@ public class BroadcastRequestDto extends AbsDto {
   @JsonProperty("is_intl")
   private Boolean isInternational;
 
+  /**
+   * 0 - SMSC Default Alphabet
+   * 1 - ASCII
+   * 3 - Latin 1 (ISO-8859-1)
+   * 8 - UCS2 (ISO/IEC-10646)
+   */
   @JsonProperty("dcs")
-  private int dataCodingScheme;
+  private Integer dataCodingScheme;
 
   public BroadcastRequestDto() {
     isInternational = false;
-    dataCodingScheme = 0;    /*
-                             * 0 - SMSC Default Alphabet
-                             * 1 - ASCII
-                             * 3 - Latin 1 (ISO-8859-1)
-                             * 8 - UCS2 (ISO/IEC-10646)
-                             */
   }
 }

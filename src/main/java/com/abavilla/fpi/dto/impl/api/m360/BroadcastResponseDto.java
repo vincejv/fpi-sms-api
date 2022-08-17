@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,4 +21,6 @@ public class BroadcastResponseDto extends AbsDto {
   private int msgCount;
   private int telcoId;
   private String messageId;
+  private List<String> message;
+  private BroadcastRequestDto broadcastRequest;
 }

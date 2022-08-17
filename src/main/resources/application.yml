@@ -3,7 +3,7 @@ quarkus:
     port: ${PORT:8080}
   mongodb:
     connection-string:
-      mongodb://localhost
+      ${MONGO_CONN_STRING:mongodb://localhost}
     database: vbl
 # Your configuration properties
   rest-client:
@@ -15,6 +15,6 @@ quarkus:
 ph:
   com:
     m360:
-      api-key: 123456789
-      api-secret: 123456789
-      sender-id: ABCDE
+      api-key: ${SMS_API_KEY:123456789}
+      api-secret: ${SMS_SECRET:123456789}
+      sender-id: ${SMS_SID:ABCDE}

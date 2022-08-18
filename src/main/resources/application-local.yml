@@ -1,0 +1,19 @@
+quarkus:
+  http:
+    port: ${PORT:8080}
+  mongodb:
+    connection-string:
+      ${MONGO_CONN_STRING:mongodb://localhost}
+    database: vbl
+# Your configuration properties
+  rest-client:
+    m360-api:
+      url: https://api.m360.com.ph/v3/api/broadcast
+      #url: https://localhost
+      scope: javax.inject.Singleton
+ph:
+  com:
+    m360:
+      api-key: ${SMS_API_KEY:123456789}
+      api-secret: ${SMS_SECRET:123456789}
+      sender-id: ${SMS_SID:ABCDE}

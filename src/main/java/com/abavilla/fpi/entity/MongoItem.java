@@ -9,5 +9,5 @@ import org.bson.types.ObjectId;
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 public abstract class MongoItem extends AbsItem {
-  private ObjectId id;
+  protected ObjectId id;
 }

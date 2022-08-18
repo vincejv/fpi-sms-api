@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @RegisterForReflection
 public abstract class AbsDto implements IDto {
 
-  private LocalDateTime dateCreated;
-  private LocalDateTime dateUpdated;
+  protected LocalDateTime dateCreated;
+  protected LocalDateTime dateUpdated;
 
   @Override
   public JsonNode toJson() {

@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @RegisterForReflection
 public abstract class AbsItem implements IItem {
 
-  private LocalDateTime dateCreated;
-  private LocalDateTime dateUpdated;
+  protected LocalDateTime dateCreated;
+  protected LocalDateTime dateUpdated;
   @Override
   public JsonNode toJson() {
     return MapperUtil.mapper().convertValue(this, JsonNode.class);

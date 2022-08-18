@@ -5,6 +5,7 @@ import com.abavilla.fpi.dto.impl.MsgReqStatusDto;
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.MsgReq;
+import com.abavilla.fpi.entity.impl.StateEncap;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
 import com.abavilla.fpi.mapper.MsgReqMapper;
 import com.abavilla.fpi.service.AbsSvc;
@@ -14,6 +15,7 @@ import io.smallrye.mutiny.Uni;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
@@ -41,7 +43,8 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
           MsgReq msgReq = msgReqMapper.mapFromResponse(respDto);
           msgReq.setDateCreated(LocalDateTime.now());
           msgReq.setDateUpdated(LocalDateTime.now());
-          msgReq.setApiStatus(ApiStatus.WAIT);
+          var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now());
+          msgReq.setApiStatus(List.of(stateItem));
           return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
         })
         .map(respMongo -> {

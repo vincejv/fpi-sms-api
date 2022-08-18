@@ -1,7 +1,6 @@
 package com.abavilla.fpi.entity.impl;
 
 import com.abavilla.fpi.entity.MongoItem;
-import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.enums.Telco;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
@@ -10,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,13 +20,13 @@ public class MsgReq extends MongoItem {
   @BsonProperty("transid")
   private String transId;
   private LocalDateTime timestamp;
-  private LocalDateTime ackTimestamp;
+  private LocalDateTime lastAcknowledgement;
   @BsonProperty("msgcount")
   private Integer msgCount;
   @BsonProperty("telco")
   private Telco telco;
   private String messageId;
-  private ApiStatus apiStatus;
+  private List<StateEncap> apiStatus;
   @BsonProperty("request")
   private BroadcastRequest broadcastRequest;
   private String test;

@@ -2,15 +2,15 @@ package com.abavilla.fpi.service.impl;
 
 import com.abavilla.fpi.dto.impl.NullDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
-import com.abavilla.fpi.entity.impl.LateLeakAck;
 import com.abavilla.fpi.entity.impl.LeakAck;
 import com.abavilla.fpi.entity.impl.MsgReq;
+import com.abavilla.fpi.entity.impl.StateEncap;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
-import com.abavilla.fpi.exceptions.LateAckEx;
 import com.abavilla.fpi.repo.impl.MsgReqRepo;
 import com.abavilla.fpi.service.AbsSvc;
 import com.abavilla.fpi.util.MapperUtil;
 import io.smallrye.mutiny.Uni;
+import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.context.ManagedExecutor;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -51,19 +52,18 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck>  {
           .onFailure().retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
           .atMost(5) // Retry for item not found and nothing else
           .chain(msgReq -> {
-            if (msgReq.getAckTimestamp() == null) {
-              msgReq.setAckTimestamp(ackTime);
+            var stateItem = new StateEncap(apiStatus, ackTime);
+            if (CollectionUtils.isEmpty(msgReq.getApiStatus())) {
+              msgReq.setApiStatus(List.of(stateItem));
             } else {
-              if (msgReq.getAckTimestamp().isEqual(ackTime) || msgReq.getAckTimestamp().isEqual(ackTime)) {
-                throw new LateAckEx("Acknowledgement already set: " + msgId); // throw late ack
-              }
+              msgReq.getApiStatus().add(stateItem);
             }
-            msgReq.setApiStatus(apiStatus);
+            msgReq.setLastAcknowledgement(ackTime);
             msgReq.setDateUpdated(LocalDateTime.now());
             return msgReqRepo.persistOrUpdate(msgReq);
           })
           .onFailure().call(ex -> {
-            LeakAck leak = ex instanceof LateAckEx ? new LateLeakAck() : new LeakAck();
+            LeakAck leak = new LeakAck();
             leak.setDateCreated(LocalDateTime.now());
             leak.setDateUpdated(LocalDateTime.now());
             leak.setMsgId(msgId);

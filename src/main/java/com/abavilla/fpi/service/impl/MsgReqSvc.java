@@ -15,6 +15,7 @@ import io.smallrye.mutiny.Uni;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @ApplicationScoped
@@ -41,9 +42,9 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
         })
         .chain(respDto -> {
           MsgReq msgReq = msgReqMapper.mapFromResponse(respDto);
-          msgReq.setDateCreated(LocalDateTime.now());
-          msgReq.setDateUpdated(LocalDateTime.now());
-          var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now());
+          msgReq.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+          msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
+          var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now(ZoneOffset.UTC));
           msgReq.setApiStatus(List.of(stateItem));
           return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
         })

@@ -17,6 +17,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -59,13 +60,13 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck>  {
               msgReq.getApiStatus().add(stateItem);
             }
             msgReq.setLastAcknowledgement(ackTime);
-            msgReq.setDateUpdated(LocalDateTime.now());
+            msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
             return msgReqRepo.persistOrUpdate(msgReq);
           })
           .onFailure().call(ex -> {
             LeakAck leak = new LeakAck();
-            leak.setDateCreated(LocalDateTime.now());
-            leak.setDateUpdated(LocalDateTime.now());
+            leak.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+            leak.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
             leak.setMsgId(msgId);
             leak.setApiStatus(apiStatus);
             leak.setTimestamp(ackTime);

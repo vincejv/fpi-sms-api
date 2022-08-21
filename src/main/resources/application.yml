@@ -12,6 +12,7 @@ quarkus:
       #url: https://localhost
       scope: javax.inject.Singleton
   oidc:
+    auth-server-url: ${OIDC_AUTH_URL:https://localhost:8543/realms/quarkus}
     client-id: ${OIDC_CLIENT_ID:backend-api}
     credentials: ${OIDC_SECRET:AABBCC}
     tls:

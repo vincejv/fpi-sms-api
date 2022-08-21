@@ -16,14 +16,10 @@ import java.util.Map;
 public class MapperUtil {
   private static ObjectMapper mapper;
   @Inject
-  private ObjectMapper _mapper;
+  ObjectMapper _mapper;
 
   public void init() {
     mapper = _mapper;
-  }
-
-  public MapperUtil() {
-    init();
   }
 
   public static ObjectMapper mapper() {

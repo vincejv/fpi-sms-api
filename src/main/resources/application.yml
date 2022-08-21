@@ -21,6 +21,10 @@ quarkus:
   keycloak:
     policy-enforcer:
       enable: true
+      paths:
+        '1':
+          path: /fpi
+          enforcement-mode: DISABLED
 
 ph:
   com:

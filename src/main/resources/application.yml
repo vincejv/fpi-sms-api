@@ -23,8 +23,20 @@ quarkus:
       enable: true
       paths:
         '1':
-          path: /fpi/*
+          path: /fpi/login/*
           enforcement-mode: DISABLED
+        '2':
+          path: /fpi/sms/dlr/*
+          enforcement-mode: DISABLED
+
+fpi:
+  webhook:
+    dlr:
+      webhook:
+        api-key: ${FPI_DLR_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
+    mo:
+      webhook:
+        api-key: ${FPI_MO_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
 
 ph:
   com:

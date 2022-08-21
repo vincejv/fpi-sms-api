@@ -30,7 +30,7 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
 
   public Uni<MsgReqStatusDto> sendMsg(MsgReqDto msgReqDto) {
     Uni<BroadcastResponseDto> broadcastResponseDtoUni = m360Svc.sendMsg(msgReqDto);
-    Log.info("message request: " + msgReqDto);
+    Log.debug("message request: " + msgReqDto);
     return broadcastResponseDtoUni
         .onFailure().recoverWithItem(ex-> {  // | api failure
           Log.error("m360 api error: " + ex);
@@ -48,7 +48,7 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
           return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
         })
         .map(respMongo -> {
-          Log.info("mongo save: " + respMongo);  // receive request from to save to mongo
+          Log.debug("mongo save: " + respMongo);  // receive request from to save to mongo
           MsgReqStatusDto status = new MsgReqStatusDto();
           if (respMongo != null) {
             status.setStatus(respMongo

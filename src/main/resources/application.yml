@@ -23,7 +23,7 @@ quarkus:
       enable: true
       paths:
         '1':
-          path: /fpi
+          path: /fpi/*
           enforcement-mode: DISABLED
 
 ph:

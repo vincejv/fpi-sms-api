@@ -8,7 +8,7 @@ import io.smallrye.mutiny.Uni;
 
 import javax.ws.rs.Path;
 
-@Path("/log/error")
+@Path("/fpi/log/error")
 public class ErrorLogResource extends AbsResource<ErrorLogDto, ErrorLog, ErrorLogSvc> {
   public Uni<ErrorLogDto> post(ErrorLogDto dto) {
     return service.post(dto);

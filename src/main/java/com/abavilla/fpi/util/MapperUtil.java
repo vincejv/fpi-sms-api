@@ -1,25 +1,31 @@
 package com.abavilla.fpi.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Map;
 
+@ApplicationScoped
 public class MapperUtil {
-  private static final ObjectMapper mapper;
+  private static ObjectMapper mapper;
+  @Inject
+  private ObjectMapper _mapper;
 
-  static {
-    mapper = new ObjectMapper();
-    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    mapper.registerModule(new JavaTimeModule());
+  public void init() {
+    mapper = _mapper;
   }
+
+  public MapperUtil() {
+    init();
+  }
+
   public static ObjectMapper mapper() {
     return mapper;
   }

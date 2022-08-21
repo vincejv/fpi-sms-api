@@ -14,7 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-@Path("/msg")
+@Path("/fpi/msg")
 public class MsgReqResource extends AbsResource<MsgReqDto, MsgReq, MsgReqSvc> {
 
   @POST

@@ -29,5 +29,4 @@ public class MsgReq extends MongoItem {
   private List<StateEncap> apiStatus;
   @BsonProperty("request")
   private BroadcastRequest broadcastRequest;
-  private String test;
 }

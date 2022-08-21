@@ -7,7 +7,7 @@ import com.abavilla.fpi.service.impl.MsgTemplateSvc;
 
 import javax.ws.rs.Path;
 
-@Path("/msg/template")
+@Path("/fpi/msg/template")
 public class MsgTemplateResource extends AbsResource<MsgTemplateDto, MsgTemplate, MsgTemplateSvc> {
 
 }

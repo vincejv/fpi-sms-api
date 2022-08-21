@@ -11,6 +11,15 @@ quarkus:
       url: https://api.m360.com.ph/v3/api/broadcast
       #url: https://localhost
       scope: javax.inject.Singleton
+  oidc:
+    client-id: ${OIDC_CLIENT_ID:backend-api}
+    credentials: ${OIDC_SECRET:AABBCC}
+    tls:
+      verification: none
+  keycloak:
+    policy-enforcer:
+      enable: true
+
 ph:
   com:
     m360:

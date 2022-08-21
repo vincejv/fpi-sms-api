@@ -7,7 +7,7 @@ import com.abavilla.fpi.service.impl.CxSvc;
 
 import javax.ws.rs.Path;
 
-@Path("/cx")
+@Path("/fpi/cx")
 public class CxResource extends AbsResource<CustomerDto, Customer, CxSvc> {
 
 }

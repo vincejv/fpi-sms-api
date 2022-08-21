@@ -14,4 +14,6 @@ public class Session extends MongoItem {
   private String username;
   private String refreshToken;
   private String accessToken;
+  private String ipAddress;
+  private String userAgent;
 }

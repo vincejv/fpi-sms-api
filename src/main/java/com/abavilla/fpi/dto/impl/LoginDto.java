@@ -13,4 +13,6 @@ import lombok.NoArgsConstructor;
 public class LoginDto extends MongoItem {
   private String username;
   private String password;
+  private String remoteAddress;
+  private String userAgent;
 }

@@ -33,6 +33,8 @@ public class LoginSvc extends AbsSvc<SessionDto, Session> {
         newSession.setAccessToken(auth.getToken());
         newSession.setRefreshToken(auth.getRefreshToken());
         newSession.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+        newSession.setIpAddress(login.getRemoteAddress());
+        newSession.setUserAgent(login.getUserAgent());
         return repo.persist(newSession);
       }
       return Uni.createFrom().item(session.get());
@@ -48,6 +50,8 @@ public class LoginSvc extends AbsSvc<SessionDto, Session> {
       newSession.setAccessToken(auth.getToken());
       newSession.setRefreshToken(auth.getRefreshToken());
       newSession.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+      newSession.setIpAddress(login.getRemoteAddress());
+      newSession.setUserAgent(login.getUserAgent());
       return repo.persistOrUpdate(newSession);
     }).map(this::mapToDto);
   }

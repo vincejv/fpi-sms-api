@@ -9,5 +9,5 @@ import javax.enterprise.context.ApplicationScoped;
 @Getter
 public class ApiKeyConfig {
   @ConfigProperty(name = "fpi.webhook.dlr.webhook.api-key")
-  private String webhookKey;
+  String webhookKey;
 }

@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class MsgTemplate extends MongoItem {
   private String name;
   private String content;
+  private Boolean tokenRefresh;
 }

@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class MsgTemplateDto extends AbsDto {
   private String name;
   private String content;
+  private Boolean tokenRefresh;
 }

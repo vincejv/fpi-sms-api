@@ -1,6 +1,6 @@
 package com.abavilla.fpi.repo.impl;
 
-import com.abavilla.fpi.entity.impl.MsgReq;
+import com.abavilla.fpi.entity.impl.sms.MsgReq;
 import com.abavilla.fpi.repo.AbsMongoRepo;
 import io.smallrye.mutiny.Uni;
 

@@ -28,15 +28,18 @@ quarkus:
         '2':
           path: /fpi/sms/dlr/*
           enforcement-mode: DISABLED
+        '3':
+          path: /fpi/load/callback/*
+          enforcement-mode: DISABLED
 
 fpi:
   webhook:
     dlr:
-      webhook:
-        api-key: ${FPI_DLR_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
+      api-key: ${FPI_DLR_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
     mo:
-      webhook:
-        api-key: ${FPI_MO_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
+      api-key: ${FPI_MO_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
+    gen:
+      api-key: ${FPI_GEN_WEBHOOK_KEY:FPIDLRAABBBDDCCCQQQ}
 
 ph:
   com:

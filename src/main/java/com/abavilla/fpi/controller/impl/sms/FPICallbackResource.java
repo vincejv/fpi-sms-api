@@ -1,9 +1,9 @@
-package com.abavilla.fpi.controller.impl;
+package com.abavilla.fpi.controller.impl.sms;
 
 import com.abavilla.fpi.config.ApiKeyConfig;
 import com.abavilla.fpi.controller.AbsResource;
 import com.abavilla.fpi.dto.impl.NullDto;
-import com.abavilla.fpi.entity.impl.LeakAck;
+import com.abavilla.fpi.entity.impl.sms.LeakAck;
 import com.abavilla.fpi.service.impl.MsgAckSvc;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.smallrye.mutiny.Uni;
@@ -23,7 +23,7 @@ public class FPICallbackResource extends AbsResource<NullDto, LeakAck, MsgAckSvc
                                @QueryParam("transid") String msgId,
                                @QueryParam("timestamp") String timestamp,
                                @PathParam("apiKey") String apiKey) {
-    if (StringUtils.equals(apiKey, apiKeyConfig.getWebhookKey())) {
+    if (StringUtils.equals(apiKey, apiKeyConfig.getDlrApiKey())) {
       return service.acknowledge(msgId, stsCde, timestamp);
     } else {
       throw new WebApplicationException(Response

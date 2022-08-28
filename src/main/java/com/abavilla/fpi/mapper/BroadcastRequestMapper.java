@@ -2,7 +2,7 @@ package com.abavilla.fpi.mapper;
 
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.impl.BroadcastRequest;
+import com.abavilla.fpi.entity.impl.sms.BroadcastRequest;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

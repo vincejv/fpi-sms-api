@@ -1,4 +1,4 @@
-package com.abavilla.fpi.entity.impl;
+package com.abavilla.fpi.entity.impl.sms;
 
 import com.abavilla.fpi.entity.MongoItem;
 import com.abavilla.fpi.entity.enums.DCSCoding;

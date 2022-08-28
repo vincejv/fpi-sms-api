@@ -2,7 +2,7 @@ package com.abavilla.fpi.service.impl;
 
 import com.abavilla.fpi.dto.impl.LoginDto;
 import com.abavilla.fpi.dto.impl.SessionDto;
-import com.abavilla.fpi.entity.impl.Session;
+import com.abavilla.fpi.entity.impl.sms.Session;
 import com.abavilla.fpi.mapper.SessionMapper;
 import com.abavilla.fpi.repo.impl.SessionRepo;
 import com.abavilla.fpi.service.AbsSvc;

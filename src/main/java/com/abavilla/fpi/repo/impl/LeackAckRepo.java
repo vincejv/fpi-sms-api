@@ -1,6 +1,6 @@
 package com.abavilla.fpi.repo.impl;
 
-import com.abavilla.fpi.entity.impl.LeakAck;
+import com.abavilla.fpi.entity.impl.sms.LeakAck;
 import com.abavilla.fpi.repo.AbsMongoRepo;
 
 import javax.enterprise.context.ApplicationScoped;

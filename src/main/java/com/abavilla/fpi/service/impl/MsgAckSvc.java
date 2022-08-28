@@ -2,9 +2,9 @@ package com.abavilla.fpi.service.impl;
 
 import com.abavilla.fpi.dto.impl.NullDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
-import com.abavilla.fpi.entity.impl.LeakAck;
-import com.abavilla.fpi.entity.impl.MsgReq;
-import com.abavilla.fpi.entity.impl.StateEncap;
+import com.abavilla.fpi.entity.impl.sms.LeakAck;
+import com.abavilla.fpi.entity.impl.sms.MsgReq;
+import com.abavilla.fpi.entity.impl.sms.StateEncap;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
 import com.abavilla.fpi.repo.impl.MsgReqRepo;
 import com.abavilla.fpi.service.AbsSvc;

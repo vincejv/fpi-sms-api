@@ -1,4 +1,4 @@
-package com.abavilla.fpi.entity.impl;
+package com.abavilla.fpi.entity.impl.sms;
 
 import com.abavilla.fpi.entity.MongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;

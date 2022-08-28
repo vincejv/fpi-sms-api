@@ -1,7 +1,7 @@
 package com.abavilla.fpi.service.impl;
 
 import com.abavilla.fpi.dto.impl.CustomerDto;
-import com.abavilla.fpi.entity.impl.Customer;
+import com.abavilla.fpi.entity.impl.sms.Customer;
 import com.abavilla.fpi.mapper.CxMapper;
 import com.abavilla.fpi.service.AbsSvc;
 

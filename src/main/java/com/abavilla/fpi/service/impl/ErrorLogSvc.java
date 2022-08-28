@@ -1,7 +1,7 @@
 package com.abavilla.fpi.service.impl;
 
 import com.abavilla.fpi.dto.impl.ErrorLogDto;
-import com.abavilla.fpi.entity.impl.ErrorLog;
+import com.abavilla.fpi.entity.impl.sms.ErrorLog;
 import com.abavilla.fpi.service.AbsSvc;
 import com.abavilla.fpi.util.MapperUtil;
 import io.smallrye.mutiny.Uni;

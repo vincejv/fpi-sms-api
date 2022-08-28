@@ -1,9 +1,9 @@
 package com.abavilla.fpi.controller.impl.sms;
 
 import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.ErrorLogDto;
+import com.abavilla.fpi.dto.impl.sms.ErrorLogDto;
 import com.abavilla.fpi.entity.impl.sms.ErrorLog;
-import com.abavilla.fpi.service.impl.ErrorLogSvc;
+import com.abavilla.fpi.service.impl.sms.ErrorLogSvc;
 import io.smallrye.mutiny.Uni;
 
 import javax.ws.rs.Path;

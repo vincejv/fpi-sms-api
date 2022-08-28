@@ -5,14 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 @RegisterForReflection
-public abstract class AbsDto implements IDto {
-
-  protected LocalDateTime dateCreated;
-  protected LocalDateTime dateUpdated;
+public abstract class AbsFieldDto implements IDto {
 
   @Override
   public JsonNode toJson() {

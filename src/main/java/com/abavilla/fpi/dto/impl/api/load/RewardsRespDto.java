@@ -12,22 +12,21 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class RewardsCallbackDto extends AbsDto {
+public class RewardsRespDto extends AbsDto {
   @JsonProperty("outboundRewardRequest")
   private Body body;
+  private String error;
 
   @Data
   @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @RegisterForReflection
   public static class Body extends AbsFieldDto {
-    private String status;
-    @JsonProperty("promo")
-    private String sku;
-    private String timestamp;
     @JsonProperty("transaction_id")
     private Integer transactionId;
-    @JsonProperty("address")
-    private String mobileNumber;
+    private String status;
+    private String address;
+    private String promo;
+    private String timestamp;
   }
 }

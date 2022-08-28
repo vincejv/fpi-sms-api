@@ -1,8 +1,8 @@
-package com.abavilla.fpi.service.impl;
+package com.abavilla.fpi.service.impl.sms;
 
-import com.abavilla.fpi.dto.impl.CustomerDto;
+import com.abavilla.fpi.dto.impl.sms.CustomerDto;
 import com.abavilla.fpi.entity.impl.sms.Customer;
-import com.abavilla.fpi.mapper.CxMapper;
+import com.abavilla.fpi.mapper.sms.CxMapper;
 import com.abavilla.fpi.service.AbsSvc;
 
 import javax.enterprise.context.ApplicationScoped;

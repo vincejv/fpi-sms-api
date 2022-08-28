@@ -1,4 +1,4 @@
-package com.abavilla.fpi.dto.impl;
+package com.abavilla.fpi.dto.impl.sms;
 
 import com.abavilla.fpi.dto.AbsDto;
 import io.quarkus.runtime.annotations.RegisterForReflection;

@@ -7,13 +7,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-@RegisterForReflection
 @NoArgsConstructor
-@MongoEntity(collection="rewards_log")
-public class RewardsTransStatus extends MongoItem {
-  private RewardsReq request;
-  private RewardsResp response;
-  private RewardsCallback callback;
+@RegisterForReflection
+@MongoEntity(collection = "rewards_leak")
+public class RewardsCallback extends MongoItem {
+  private String status;
+  private String sku;
+  private LocalDateTime timestamp;
+  private Integer transactionId;
+  private String mobileNumber;
 }

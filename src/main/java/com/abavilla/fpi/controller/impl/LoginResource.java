@@ -1,8 +1,8 @@
 package com.abavilla.fpi.controller.impl;
 
 import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.LoginDto;
-import com.abavilla.fpi.dto.impl.SessionDto;
+import com.abavilla.fpi.dto.impl.sms.LoginDto;
+import com.abavilla.fpi.dto.impl.sms.SessionDto;
 import com.abavilla.fpi.entity.impl.sms.Session;
 import com.abavilla.fpi.service.impl.LoginSvc;
 import com.abavilla.fpi.util.HttpUtil;

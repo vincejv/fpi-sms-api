@@ -1,4 +1,4 @@
-package com.abavilla.fpi.dto.impl;
+package com.abavilla.fpi.dto.impl.load;
 
 import com.abavilla.fpi.dto.AbsDto;
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class MsgReqDto extends AbsDto {
-  private String content;
-  private String mobileNumber;
+public class LoadReqDto extends AbsDto {
+  private String mobile;
+  private String sku;
 }

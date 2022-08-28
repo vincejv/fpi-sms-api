@@ -1,4 +1,4 @@
-package com.abavilla.fpi.mapper;
+package com.abavilla.fpi.mapper.sms;
 
 import com.abavilla.fpi.dto.IDto;
 import com.abavilla.fpi.entity.IItem;

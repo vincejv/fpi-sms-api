@@ -1,4 +1,4 @@
-package com.abavilla.fpi.service.impl;
+package com.abavilla.fpi.service.impl.sms;
 
 import com.abavilla.fpi.dto.impl.NullDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
@@ -6,7 +6,7 @@ import com.abavilla.fpi.entity.impl.sms.LeakAck;
 import com.abavilla.fpi.entity.impl.sms.MsgReq;
 import com.abavilla.fpi.entity.impl.sms.StateEncap;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
-import com.abavilla.fpi.repo.impl.MsgReqRepo;
+import com.abavilla.fpi.repo.impl.sms.MsgReqRepo;
 import com.abavilla.fpi.service.AbsSvc;
 import com.abavilla.fpi.util.MapperUtil;
 import io.smallrye.mutiny.Uni;

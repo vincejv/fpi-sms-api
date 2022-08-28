@@ -1,6 +1,6 @@
-package com.abavilla.fpi.service.impl;
+package com.abavilla.fpi.service.impl.sms;
 
-import com.abavilla.fpi.dto.impl.MsgTemplateDto;
+import com.abavilla.fpi.dto.impl.sms.MsgTemplateDto;
 import com.abavilla.fpi.entity.impl.sms.MsgTemplate;
 import com.abavilla.fpi.service.AbsSvc;
 import com.abavilla.fpi.util.MapperUtil;

@@ -1,4 +1,4 @@
-package com.abavilla.fpi.dto.impl;
+package com.abavilla.fpi.dto.impl.sms;
 
 import com.abavilla.fpi.dto.AbsDto;
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class MsgReqStatusDto extends AbsDto {
-  private Integer status;
+public class MsgTemplateDto extends AbsDto {
+  private String name;
+  private String content;
+  private Boolean tokenRefresh;
 }

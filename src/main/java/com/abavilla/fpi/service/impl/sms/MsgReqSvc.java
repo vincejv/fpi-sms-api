@@ -1,13 +1,13 @@
-package com.abavilla.fpi.service.impl;
+package com.abavilla.fpi.service.impl.sms;
 
-import com.abavilla.fpi.dto.impl.MsgReqDto;
-import com.abavilla.fpi.dto.impl.MsgReqStatusDto;
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.dto.impl.sms.MsgReqDto;
+import com.abavilla.fpi.dto.impl.sms.MsgReqStatusDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.sms.MsgReq;
 import com.abavilla.fpi.entity.impl.sms.StateEncap;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
-import com.abavilla.fpi.mapper.MsgReqMapper;
+import com.abavilla.fpi.mapper.sms.MsgReqMapper;
 import com.abavilla.fpi.service.AbsSvc;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;

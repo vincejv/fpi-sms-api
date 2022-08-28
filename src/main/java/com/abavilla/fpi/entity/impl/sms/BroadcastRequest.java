@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @AllArgsConstructor
 public class BroadcastRequest extends MongoItem {

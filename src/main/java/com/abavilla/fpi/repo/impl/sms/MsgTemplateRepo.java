@@ -1,4 +1,4 @@
-package com.abavilla.fpi.repo.impl;
+package com.abavilla.fpi.repo.impl.sms;
 
 import com.abavilla.fpi.entity.impl.sms.MsgTemplate;
 import com.abavilla.fpi.repo.AbsMongoRepo;

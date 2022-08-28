@@ -1,8 +1,8 @@
-package com.abavilla.fpi.service.impl;
+package com.abavilla.fpi.service.impl.sms;
 
-import com.abavilla.fpi.dto.impl.MsgReqDto;
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.dto.impl.sms.MsgReqDto;
 import com.abavilla.fpi.entity.enums.DCSCoding;
 import com.abavilla.fpi.repo.impl.m360.M360ApiRepo;
 import com.abavilla.fpi.service.AbsApiSvc;

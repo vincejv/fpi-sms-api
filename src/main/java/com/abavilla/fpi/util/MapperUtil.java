@@ -39,4 +39,8 @@ public class MapperUtil {
   public static Map<String, ?> convertJsonNodeToMap(JsonNode jsonNode) {
     return mapper.convertValue(jsonNode, new TypeReference<Map<String, Object>>(){});
   }
+
+  public static <T> T convertJsonToObj(JsonNode jsonNode, Class<T> clazz) {
+    return mapper.convertValue(jsonNode, clazz);
+  }
 }

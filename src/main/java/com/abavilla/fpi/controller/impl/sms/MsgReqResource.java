@@ -1,10 +1,10 @@
 package com.abavilla.fpi.controller.impl.sms;
 
 import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.MsgReqDto;
-import com.abavilla.fpi.dto.impl.MsgReqStatusDto;
+import com.abavilla.fpi.dto.impl.sms.MsgReqDto;
+import com.abavilla.fpi.dto.impl.sms.MsgReqStatusDto;
 import com.abavilla.fpi.entity.impl.sms.MsgReq;
-import com.abavilla.fpi.service.impl.MsgReqSvc;
+import com.abavilla.fpi.service.impl.sms.MsgReqSvc;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;

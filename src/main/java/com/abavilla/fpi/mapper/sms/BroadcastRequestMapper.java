@@ -1,4 +1,4 @@
-package com.abavilla.fpi.mapper;
+package com.abavilla.fpi.mapper.sms;
 
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.entity.enums.DCSCoding;

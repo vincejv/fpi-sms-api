@@ -1,6 +1,6 @@
-package com.abavilla.fpi.dto.impl;
+package com.abavilla.fpi.dto.impl.sms;
 
-import com.abavilla.fpi.entity.MongoItem;
+import com.abavilla.fpi.dto.AbsDto;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class LoginDto extends MongoItem {
-  private String username;
-  private String password;
-  private String remoteAddress;
-  private String userAgent;
+public class MsgReqStatusDto extends AbsDto {
+  private Integer status;
 }

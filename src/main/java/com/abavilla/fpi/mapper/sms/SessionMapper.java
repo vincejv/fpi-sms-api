@@ -1,6 +1,6 @@
-package com.abavilla.fpi.mapper;
+package com.abavilla.fpi.mapper.sms;
 
-import com.abavilla.fpi.dto.impl.SessionDto;
+import com.abavilla.fpi.dto.impl.sms.SessionDto;
 import com.abavilla.fpi.entity.impl.sms.Session;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

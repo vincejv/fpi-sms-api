@@ -10,6 +10,7 @@ import com.abavilla.fpi.repo.impl.load.GLLoadApiRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;
 import com.abavilla.fpi.util.MapperUtil;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -40,7 +41,6 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
   String amaxToken;
 
   public Uni<Void> reloadNumber(LoadReqDto loadReq) {
-    //var apiReq = new RewardsReqDto();
     var apiReqBody = new RewardsReqDto.Body();
     apiReqBody.setAppId(appId);
     apiReqBody.setAppSecret(appSecret);
@@ -76,11 +76,13 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
 
   @Override
   public RewardsReqDto mapToDto(RewardsTransStatus entity) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    Log.error("Not implemented yet!");
+    return null;
   }
 
   @Override
   public RewardsTransStatus mapToEntity(RewardsReqDto dto) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    Log.error("Not implemented yet!");
+    return null;
   }
 }

@@ -10,8 +10,8 @@ import com.abavilla.fpi.repo.impl.load.GLLoadApiRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;
 import com.abavilla.fpi.util.MapperUtil;
-import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
+import org.apache.commons.lang3.NotImplementedException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -53,8 +53,6 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
     apiReq.setBody(apiReqBody);
 
     var log = new RewardsTransStatus();
-    log.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
-    log.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
     rewardsMapper.mapRequestDtoToEntity(apiReq, log);
 
     return
@@ -69,6 +67,8 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
             })
             .chain(resp -> {
               rewardsMapper.mapRespDtoToEntity(resp, log);
+              log.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+              log.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
               return repo.persist(log);
             })
             .replaceWithVoid();
@@ -76,13 +76,11 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
 
   @Override
   public RewardsReqDto mapToDto(RewardsTransStatus entity) {
-    Log.error("Not implemented yet!");
-    return null;
+    throw new NotImplementedException();
   }
 
   @Override
   public RewardsTransStatus mapToEntity(RewardsReqDto dto) {
-    Log.error("Not implemented yet!");
-    return null;
+    throw new NotImplementedException();
   }
 }

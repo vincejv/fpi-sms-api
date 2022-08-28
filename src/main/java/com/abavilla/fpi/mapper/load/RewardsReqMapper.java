@@ -11,9 +11,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
@@ -45,15 +46,23 @@ public interface RewardsReqMapper {
   RewardsCallback mapCallbackDtoToCallbackEntity(RewardsCallbackDto dto);
 
   default String ldtToStr(LocalDateTime ldtTimestamp) {
-    var formatter = DateTimeFormatter
-        .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
-    return OffsetDateTime.of(ldtTimestamp, ZoneOffset.UTC).format(formatter);
+    if (ldtTimestamp != null) {
+      var formatter = DateTimeFormatter
+          .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
+      return ZonedDateTime.of(ldtTimestamp, ZoneId.of("UTC")).format(formatter);
+    } else {
+      return null;
+    }
   }
 
   default LocalDateTime strToLdt(String strTimestamp) {
     var formatter = DateTimeFormatter
         .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
-    var odt = OffsetDateTime.parse(strTimestamp, formatter);
-    return odt.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+    try {
+      var zdt = ZonedDateTime.parse(strTimestamp, formatter);
+      return zdt.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+    } catch (DateTimeException ex) {
+      return null;
+    }
   }
 }

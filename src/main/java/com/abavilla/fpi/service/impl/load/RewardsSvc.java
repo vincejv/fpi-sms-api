@@ -3,8 +3,10 @@ package com.abavilla.fpi.service.impl.load;
 import com.abavilla.fpi.dto.impl.api.load.RewardsReqDto;
 import com.abavilla.fpi.dto.impl.api.load.RewardsRespDto;
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
+import com.abavilla.fpi.dto.impl.load.LoadRespDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
+import com.abavilla.fpi.mapper.load.LoadRespMapper;
 import com.abavilla.fpi.mapper.load.RewardsReqMapper;
 import com.abavilla.fpi.repo.impl.load.GLLoadApiRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
@@ -30,6 +32,8 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
 
   @Inject
   RewardsReqMapper rewardsMapper;
+  @Inject
+  LoadRespMapper loadRespMapper;
 
   @ConfigProperty(name = "ph.com.gl.app-id")
   String appId;
@@ -40,7 +44,7 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
   @ConfigProperty(name = "ph.com.gl.rewards.token")
   String amaxToken;
 
-  public Uni<Void> reloadNumber(LoadReqDto loadReq) {
+  public Uni<LoadRespDto> reloadNumber(LoadReqDto loadReq) {
     var apiReqBody = new RewardsReqDto.Body();
     apiReqBody.setAppId(appId);
     apiReqBody.setAppSecret(appSecret);
@@ -71,7 +75,8 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
               log.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
               return repo.persist(log);
             })
-            .replaceWithVoid();
+            .map(rewardsTransStatus ->
+                loadRespMapper.mapToDto(rewardsTransStatus.getResponse()));
   }
 
   @Override

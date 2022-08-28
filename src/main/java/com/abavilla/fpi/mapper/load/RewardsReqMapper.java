@@ -21,19 +21,27 @@ import java.time.format.DateTimeFormatter;
 public interface RewardsReqMapper {
 
   @Mapping(source = "body.", target = "request.")
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
   void mapRequestDtoToEntity(RewardsReqDto dto,
                              @MappingTarget RewardsTransStatus rewardsTransStatus);
 
   @Mapping(source = "body.", target = "response.")
   @Mapping(source = "error", target = "response.error")
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
   void mapRespDtoToEntity(RewardsRespDto dto,
                           @MappingTarget RewardsTransStatus rewardsTransStatus);
 
   @Mapping(source = "body.", target = "callback.")
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
   void mapCallbackDtoToEntity(RewardsCallbackDto dto,
                               @MappingTarget RewardsTransStatus rewardsTransStatus);
 
   @Mapping(source = "body.", target = ".")
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
   RewardsCallback mapCallbackDtoToCallbackEntity(RewardsCallbackDto dto);
 
   default String ldtToStr(LocalDateTime ldtTimestamp) {

@@ -1,4 +1,4 @@
-package com.abavilla.fpi.mapper.gl.load;
+package com.abavilla.fpi.mapper.load.gl;
 
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
 import com.abavilla.fpi.entity.impl.load.RewardsResp;

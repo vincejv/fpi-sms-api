@@ -1,7 +1,7 @@
 package com.abavilla.fpi.controller.impl.load;
 
 import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.api.gl.load.RewardsReqDto;
+import com.abavilla.fpi.dto.impl.api.load.gl.RewardsReqDto;
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.service.impl.load.RewardsSvc;

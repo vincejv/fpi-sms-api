@@ -1,8 +1,8 @@
-package com.abavilla.fpi.mapper.gl.load;
+package com.abavilla.fpi.mapper.load.gl;
 
-import com.abavilla.fpi.dto.impl.api.gl.load.RewardsCallbackDto;
-import com.abavilla.fpi.dto.impl.api.gl.load.RewardsReqDto;
-import com.abavilla.fpi.dto.impl.api.gl.load.RewardsRespDto;
+import com.abavilla.fpi.dto.impl.api.load.gl.RewardsCallbackDto;
+import com.abavilla.fpi.dto.impl.api.load.gl.RewardsReqDto;
+import com.abavilla.fpi.dto.impl.api.load.gl.RewardsRespDto;
 import com.abavilla.fpi.entity.impl.load.RewardsCallback;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import org.mapstruct.InjectionStrategy;

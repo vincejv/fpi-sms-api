@@ -1,9 +1,9 @@
-package com.abavilla.fpi.service.impl.gl.load;
+package com.abavilla.fpi.service.impl.load.gl;
 
-import com.abavilla.fpi.dto.impl.api.gl.load.RewardsCallbackDto;
+import com.abavilla.fpi.dto.impl.api.load.gl.RewardsCallbackDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
-import com.abavilla.fpi.mapper.gl.load.RewardsReqMapper;
+import com.abavilla.fpi.mapper.load.gl.RewardsReqMapper;
 import com.abavilla.fpi.repo.impl.load.RewardsLeakRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;

@@ -1,4 +1,4 @@
-package com.abavilla.fpi.dto.impl.api.gl.load;
+package com.abavilla.fpi.dto.impl.api.load.gl;
 
 import com.abavilla.fpi.dto.AbsDto;
 import com.abavilla.fpi.dto.AbsFieldDto;

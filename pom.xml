@@ -20,6 +20,13 @@
     <org.projectlombok.version>1.18.24</org.projectlombok.version>
     <json-jackson.version>2.13.3</json-jackson.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>github</id>
+      <name>Github DTOne Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/dtone/dtone-dvs-api-java-client</url>
+    </repository>
+  </repositories>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -130,6 +137,12 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-config-yaml</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.dtone.dvs</groupId>
+      <artifactId>dvs-apiclient</artifactId>
+      <version>1.0</version>
     </dependency>
 
   </dependencies>

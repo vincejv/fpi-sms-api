@@ -1,4 +1,4 @@
-package com.abavilla.fpi.dto.impl.api.load;
+package com.abavilla.fpi.dto.impl.api.gl.load;
 
 import com.abavilla.fpi.dto.AbsDto;
 import com.abavilla.fpi.dto.AbsFieldDto;
@@ -12,24 +12,21 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class RewardsReqDto extends AbsDto {
-
+public class RewardsRespDto extends AbsDto {
   @JsonProperty("outboundRewardRequest")
   private Body body;
+  private String error;
 
   @Data
   @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @RegisterForReflection
   public static class Body extends AbsFieldDto {
-    @JsonProperty("app_id")
-    private String appId;
-    @JsonProperty("app_secret")
-    private String appSecret;
-    @JsonProperty("rewards_token")
-    private String rewardsToken;
+    @JsonProperty("transaction_id")
+    private Integer transactionId;
+    private String status;
     private String address;
-    @JsonProperty("promo")
-    private String sku;
+    private String promo;
+    private String timestamp;
   }
 }

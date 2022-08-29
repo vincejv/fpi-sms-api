@@ -1,17 +1,15 @@
 package com.abavilla.fpi.service.impl.load;
 
-import com.abavilla.fpi.dto.impl.api.load.RewardsReqDto;
-import com.abavilla.fpi.dto.impl.api.load.RewardsRespDto;
+import com.abavilla.fpi.dto.impl.api.gl.load.RewardsReqDto;
+import com.abavilla.fpi.dto.impl.api.gl.load.RewardsRespDto;
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
-import com.abavilla.fpi.dto.impl.load.LoadRespDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
-import com.abavilla.fpi.mapper.load.LoadRespMapper;
-import com.abavilla.fpi.mapper.load.RewardsReqMapper;
-import com.abavilla.fpi.repo.impl.load.GLLoadApiRepo;
+import com.abavilla.fpi.mapper.gl.load.LoadRespMapper;
+import com.abavilla.fpi.mapper.gl.load.RewardsReqMapper;
+import com.abavilla.fpi.repo.impl.gl.load.GLLoadApiRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;
-import com.abavilla.fpi.util.MapperUtil;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.lang3.NotImplementedException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -19,6 +17,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -44,7 +43,7 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
   @ConfigProperty(name = "ph.com.gl.rewards.token")
   String amaxToken;
 
-  public Uni<LoadRespDto> reloadNumber(LoadReqDto loadReq) {
+  public Uni<Response> reloadNumber(LoadReqDto loadReq) {
     var apiReqBody = new RewardsReqDto.Body();
     apiReqBody.setAppId(appId);
     apiReqBody.setAppSecret(appSecret);
@@ -61,22 +60,31 @@ public class RewardsSvc extends AbsSvc<RewardsReqDto, RewardsTransStatus> {
 
     return
         loadApi.sendLoad(apiReq)
-            .onFailure().recoverWithItem(ex->{
-              var resp = new RewardsRespDto();
-              if (ex instanceof ApiSvcEx) {
-                var json = ((ApiSvcEx) ex).getJsonResponse();
-                resp = MapperUtil.convertJsonToObj(json, RewardsRespDto.class);
-              }
+            .onFailure(ApiSvcEx.class).recoverWithItem(ex -> {
+              var apiEx = (ApiSvcEx) ex;
+              var resp = apiEx.getJsonResponse(RewardsRespDto.class);
+              resp.chainEx(apiEx);
               return resp;
             })
             .chain(resp -> {
               rewardsMapper.mapRespDtoToEntity(resp, log);
               log.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
               log.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-              return repo.persist(log);
+              return repo.persist(log).chain(()->Uni.createFrom().item(log));
             })
-            .map(rewardsTransStatus ->
-                loadRespMapper.mapToDto(rewardsTransStatus.getResponse()));
+            .map(rewardsTransStatus -> {
+              var dtoResp = loadRespMapper.mapToDto(rewardsTransStatus.getResponse());
+              if (rewardsTransStatus.lastEx() == null) {
+                return Response.ok().entity(dtoResp).build();
+              } else {
+                if (rewardsTransStatus.lastEx() instanceof ApiSvcEx) {
+                  return Response.status(((ApiSvcEx)rewardsTransStatus.lastEx())
+                      .getHttpResponseStatus().code()).entity(dtoResp).build();
+                } else {
+                  return Response.serverError().entity(dtoResp).build();
+                }
+              }
+            });
   }
 
   @Override

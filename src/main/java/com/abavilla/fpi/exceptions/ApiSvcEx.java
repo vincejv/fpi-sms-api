@@ -1,5 +1,6 @@
 package com.abavilla.fpi.exceptions;
 
+import com.abavilla.fpi.util.MapperUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.Getter;
@@ -17,5 +18,9 @@ public class ApiSvcEx extends RuntimeException {
   }
   public ApiSvcEx(String message) {
     super(message);
+  }
+
+  public <T> T getJsonResponse(Class<T> clazz) {
+    return MapperUtil.convertJsonToObj(jsonResponse, clazz);
   }
 }

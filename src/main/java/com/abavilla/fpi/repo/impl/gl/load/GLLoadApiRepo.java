@@ -1,8 +1,8 @@
-package com.abavilla.fpi.repo.impl.load;
+package com.abavilla.fpi.repo.impl.gl.load;
 
 import com.abavilla.fpi.config.ApiRepoExHandler;
-import com.abavilla.fpi.dto.impl.api.load.RewardsReqDto;
-import com.abavilla.fpi.dto.impl.api.load.RewardsRespDto;
+import com.abavilla.fpi.dto.impl.api.gl.load.RewardsReqDto;
+import com.abavilla.fpi.dto.impl.api.gl.load.RewardsRespDto;
 import com.abavilla.fpi.repo.IApiRepo;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;

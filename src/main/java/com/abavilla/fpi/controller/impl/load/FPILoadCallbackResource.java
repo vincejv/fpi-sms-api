@@ -2,9 +2,9 @@ package com.abavilla.fpi.controller.impl.load;
 
 import com.abavilla.fpi.config.ApiKeyConfig;
 import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.api.load.RewardsCallbackDto;
+import com.abavilla.fpi.dto.impl.api.gl.load.RewardsCallbackDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
-import com.abavilla.fpi.service.impl.load.RewardsCallbackSvc;
+import com.abavilla.fpi.service.impl.gl.load.RewardsCallbackSvc;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.lang3.StringUtils;

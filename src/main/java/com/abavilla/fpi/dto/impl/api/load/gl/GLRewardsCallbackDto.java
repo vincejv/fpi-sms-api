@@ -44,7 +44,7 @@ public class GLRewardsCallbackDto extends AbsDto {
     private String sku;
     private String timestamp;
     @JsonProperty("transaction_id")
-    private Integer transactionId;
+    private Long transactionId;
     @JsonProperty("address")
     private String mobileNumber;
   }

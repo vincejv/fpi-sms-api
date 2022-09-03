@@ -18,11 +18,11 @@
 
 package com.abavilla.fpi.repo.impl.load;
 
-import com.abavilla.fpi.entity.impl.gl.GLRewardsCallback;
-import com.abavilla.fpi.repo.AbsMongoRepo;
-
 import javax.enterprise.context.ApplicationScoped;
 
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
+import com.abavilla.fpi.repo.AbsMongoRepo;
+
 @ApplicationScoped
-public class RewardsLeakRepo extends AbsMongoRepo<GLRewardsCallback> {
+public class RewardsLeakRepo extends AbsMongoRepo<AbsMongoItem> {
 }

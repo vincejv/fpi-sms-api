@@ -18,12 +18,10 @@
 
 package com.abavilla.fpi.entity.impl.load;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
+import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.mongo.AbsMongoField;
-import com.abavilla.fpi.entity.mongo.AbsMongoItem;
-import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,20 +31,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @NoArgsConstructor
-@MongoEntity(collection="rewards_log")
-public class RewardsTransStatus extends AbsMongoItem {
-  private LoadReq loadRequest;
-  private String loadProvider;
-  private String transactionId;
-  private String extTransactionId;
-  private AbsMongoField apiRequest;
-  private AbsMongoField apiResponse;
-  private List<CallBack<AbsMongoItem>> apiCallback;
-
-  public List<CallBack<AbsMongoItem>> getApiCallback() {
-    if (apiCallback == null) {
-      apiCallback = new ArrayList<>();
-    }
-    return apiCallback;
-  }
+public class CallBack<T> extends AbsMongoField {
+  private T content;
+  private ApiStatus status;
+  private LocalDateTime dateReceived;
 }

@@ -19,6 +19,7 @@
 package com.abavilla.fpi.dto.impl.load;
 
 import com.abavilla.fpi.dto.AbsDto;
+import com.abavilla.fpi.entity.enums.ApiStatus;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @RegisterForReflection
 public class LoadRespDto extends AbsDto {
-  private String status;
+  private ApiStatus status;
   private String error;
   private String timestamp;
   private String transactionId;

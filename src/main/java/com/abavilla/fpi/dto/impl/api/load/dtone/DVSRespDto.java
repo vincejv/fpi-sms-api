@@ -16,14 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.entity.impl.load;
+package com.abavilla.fpi.dto.impl.api.load.dtone;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import com.abavilla.fpi.entity.mongo.AbsMongoField;
-import com.abavilla.fpi.entity.mongo.AbsMongoItem;
-import io.quarkus.mongodb.panache.common.MongoEntity;
+import com.abavilla.fpi.dto.AbsDto;
+import com.dtone.dvs.dto.Benefit;
+import com.dtone.dvs.dto.Party;
+import com.dtone.dvs.dto.PartyIdentifier;
+import com.dtone.dvs.dto.Pin;
+import com.dtone.dvs.dto.Prices;
+import com.dtone.dvs.dto.Product;
+import com.dtone.dvs.dto.Promotion;
+import com.dtone.dvs.dto.Rates;
+import com.dtone.dvs.dto.Status;
+import com.dtone.dvs.dto.Values;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,22 +39,26 @@ import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@RegisterForReflection
 @NoArgsConstructor
-@MongoEntity(collection="rewards_log")
-public class RewardsTransStatus extends AbsMongoItem {
-  private LoadReq loadRequest;
-  private String loadProvider;
-  private String transactionId;
-  private String extTransactionId;
-  private AbsMongoField apiRequest;
-  private AbsMongoField apiResponse;
-  private List<CallBack<AbsMongoItem>> apiCallback;
-
-  public List<CallBack<AbsMongoItem>> getApiCallback() {
-    if (apiCallback == null) {
-      apiCallback = new ArrayList<>();
-    }
-    return apiCallback;
-  }
+@RegisterForReflection
+public class DVSRespDto extends AbsDto {
+  private Long id;
+  private String externalId;
+  private LocalDateTime creationDate;
+  private LocalDateTime confirmationExpirationDate;
+  private LocalDateTime confirmationDate;
+  private Status status;
+  private String operatorReference;
+  private Pin pin;
+  private Product product;
+  private Prices prices;
+  private Rates rates;
+  private List<Benefit> benefits;
+  private List<Promotion> promotions;
+  private Values requestedValues;
+  private Values adjustedValues;
+  private Party sender;
+  private Party beneficiary;
+  private PartyIdentifier debitPartyIdentifier;
+  private PartyIdentifier creditPartyIdentifier;
 }

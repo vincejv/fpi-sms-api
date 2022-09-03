@@ -52,23 +52,26 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
   public Uni<LoadRespDto> reload(LoadReqDto req, PromoSku promo) {
     var dvsReq = buildRngRequest(req, promo);
     Log.info(dvsReq);
-    var dvsRespJob = Uni.createFrom().item(dvsClient
-        .createTransaction(dvsReq, false));
+    var dvsRespJob = Uni.createFrom()
+        .item(dvsClient
+        .createTransaction(dvsReq, false))
+        .onFailure().recoverWithNull();
 
     var ret = new LoadRespDto();
     ret.setTransactionId(req.getTransactionId());
     ret.setApiRequest(dvsReq);
 
     return dvsRespJob.map(dvsResp -> {
-
-      if (dvsResp.isSuccess()) {
-        ret.setStatus(dvsResp.getResult().getStatus().getMessage());
-      } else {
-        ret.setError(dvsResp.getErrors()
-            .stream().map(Error::getMessage)
-            .collect(Collectors.joining(", ")));
+      if (dvsResp != null) {
+        if (dvsResp.isSuccess()) {
+          ret.setStatus(dvsResp.getResult().getStatus().getMessage());
+        } else {
+          ret.setError(dvsResp.getErrors()
+              .stream().map(Error::getMessage)
+              .collect(Collectors.joining(", ")));
+        }
+        ret.setApiResponse(dvsResp.getResult());
       }
-      ret.setApiResponse(dvsResp.getResult());
       return ret;
     });
   }

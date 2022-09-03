@@ -18,6 +18,11 @@
 
 package com.abavilla.fpi.service.impl.load.dtone;
 
+import java.util.stream.Collectors;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
 import com.abavilla.fpi.entity.impl.load.PromoSku;
@@ -31,10 +36,6 @@ import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.math.NumberUtils;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class DTOneLoadSvc extends AbsLoadProviderSvc {
@@ -53,8 +54,7 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
     var dvsReq = buildRngRequest(req, promo);
     Log.info(dvsReq);
     var dvsRespJob = Uni.createFrom()
-        .item(dvsClient
-        .createTransaction(dvsReq, false))
+        .item(dvsClient.createTransaction(dvsReq, false))
         .onFailure().recoverWithNull();
 
     var ret = new LoadRespDto();

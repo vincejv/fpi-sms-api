@@ -16,7 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.controller.impl.gl;
+package com.abavilla.fpi.util;
 
-public class FPIGLCallbackResource {
+public abstract class AbavillaConst {
+  public static final String COMMA_SEP = ", ";
+  public static final String PH_CURRENCY = "PHP";
 }

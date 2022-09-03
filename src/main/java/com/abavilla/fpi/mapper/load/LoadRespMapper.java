@@ -18,30 +18,43 @@
 
 package com.abavilla.fpi.mapper.load;
 
-import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
-import com.abavilla.fpi.dto.impl.load.LoadRespDto;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.MappingTarget;
-
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
+import com.abavilla.fpi.dto.impl.load.LoadRespDto;
+import com.dtone.dvs.dto.TransactionResponse;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
     injectionStrategy = InjectionStrategy.FIELD)
 public interface LoadRespMapper {
 
-  @Mapping(target = "extTransactionId", source = "body.transactionId")
-  @Mapping(target = "transactionId", ignore = true)
-  @Mapping( target = ".", source = "body.")
-  @Mapping(target = "dateCreated", ignore = true)
-  @Mapping(target = "dateUpdated", ignore = true)
+  @Mappings(value = {
+      @Mapping(target = "extTransactionId", source = "body.transactionId"),
+      @Mapping(target = "transactionId", ignore = true),
+      @Mapping(target = ".", source = "body."),
+      @Mapping(target = "dateCreated", ignore = true),
+      @Mapping(target = "dateUpdated", ignore = true),
+  })
   void mapGLRespToDto(GLRewardsRespDto source,
+                      @MappingTarget LoadRespDto dest);
+  @Mappings(value = {
+      @Mapping(target = "extTransactionId", source = "id"),
+      @Mapping(target = "status", source = "status.message"),
+      @Mapping(target = "timestamp", source = "creationDate"),
+      @Mapping(target = "dateCreated", ignore = true),
+      @Mapping(target = "dateUpdated", ignore = true),
+  })
+  void mapDTRespToDto(TransactionResponse source,
                       @MappingTarget LoadRespDto dest);
 
   default String ldtToStr(LocalDateTime ldtTimestamp) {

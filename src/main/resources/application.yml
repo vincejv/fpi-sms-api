@@ -66,3 +66,4 @@ com:
     base-url: ${DTONE_BASEURL:https://preprod-dvs-api.dtone.com}
     api-key: ${DTONE_APIKEY:aaaaabbcccceee}
     api-secret: ${DTONE_APISECRET:zzzzxxeeedd}
+    callback-url: ${DTONE_CALLBACK_URL:https://example.com}

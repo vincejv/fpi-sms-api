@@ -26,20 +26,30 @@ import javax.inject.Inject;
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
 import com.abavilla.fpi.entity.impl.load.PromoSku;
+import com.abavilla.fpi.mapper.load.LoadRespMapper;
 import com.abavilla.fpi.service.impl.load.AbsLoadProviderSvc;
+import com.abavilla.fpi.util.AbavillaConst;
 import com.dtone.dvs.DvsApiClient;
 import com.dtone.dvs.dto.Error;
 import com.dtone.dvs.dto.PartyIdentifier;
 import com.dtone.dvs.dto.Source;
 import com.dtone.dvs.dto.TransactionRequest;
+import com.dtone.dvs.dto.UnitTypes;
 import io.smallrye.mutiny.Uni;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class DTOneLoadSvc extends AbsLoadProviderSvc {
   @Inject
   DvsApiClient dvsClient;
+
+  @Inject
+  LoadRespMapper loadRespMapper;
+
+  @ConfigProperty(name = "com.dtone.callback-url")
+  String callbackUrl;
 
   @Override
   public void init() {
@@ -62,11 +72,11 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
     return dvsRespJob.map(dvsResp -> {
       if (dvsResp != null) {
         if (dvsResp.isSuccess()) {
-          ret.setStatus(dvsResp.getResult().getStatus().getMessage());
+          loadRespMapper.mapDTRespToDto(dvsResp.getResult(), ret);
         } else {
           ret.setError(dvsResp.getErrors()
               .stream().map(Error::getMessage)
-              .collect(Collectors.joining(", ")));
+              .collect(Collectors.joining(AbavillaConst.COMMA_SEP)));
         }
         ret.setApiResponse(dvsResp.getResult());
       }
@@ -78,8 +88,8 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
                                              PromoSku promo) {
     var destUnit = new Source(); // required for ranged products
     destUnit.setAmount(NumberUtils.toDouble(loadRequest.getSku()));
-    destUnit.setUnitType("CURRENCY");
-    destUnit.setUnit("PHP"); // Philippines peso
+    destUnit.setUnitType(UnitTypes.CURRENCY.name());
+    destUnit.setUnit(AbavillaConst.PH_CURRENCY); // Philippines peso
 
     var dtoOneReq = new TransactionRequest();
     //dtoOneReq.setCalculationMode(CalculationMode.DESTINATION_AMOUNT);
@@ -93,7 +103,7 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
     dtoOneReq.setProductId(NumberUtils.toLong(  // product id selection
         getProductCode(promo)));
 
-    dtoOneReq.setCallbackUrl("https://api.abavilla.com/fpi/load/callback/intlprov");
+    dtoOneReq.setCallbackUrl(callbackUrl);
     dtoOneReq.setExternalId(loadRequest.getTransactionId());
     return dtoOneReq;
   }

@@ -18,21 +18,22 @@
 
 package com.abavilla.fpi.controller.impl.load;
 
-import com.abavilla.fpi.config.ApiKeyConfig;
-import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
-import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
-import com.abavilla.fpi.service.impl.load.gl.RewardsCallbackSvc;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.smallrye.mutiny.Uni;
-import org.apache.commons.lang3.StringUtils;
-
 import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+
+import com.abavilla.fpi.config.ApiKeyConfig;
+import com.abavilla.fpi.controller.AbsResource;
+import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
+import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
+import com.abavilla.fpi.service.impl.load.gl.RewardsCallbackSvc;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.quarkus.logging.Log;
+import io.smallrye.mutiny.Uni;
+import org.apache.commons.lang3.StringUtils;
 
 @Path("/fpi/load")
 public class FPILoadCallbackResource
@@ -47,6 +48,7 @@ public class FPILoadCallbackResource
     if (StringUtils.equals(apiKey, apiKeyConfig.getGenericApiKey())) {
       return service.storeCallback(body);
     } else {
+      Log.warn(this.getClass().getSimpleName() + " - " + body);
       throw new WebApplicationException(Response
           .status(HttpResponseStatus.UNAUTHORIZED.code())
           .build());

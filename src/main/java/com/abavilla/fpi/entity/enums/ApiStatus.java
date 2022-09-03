@@ -18,15 +18,15 @@
 
 package com.abavilla.fpi.entity.enums;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @AllArgsConstructor
@@ -36,6 +36,7 @@ public enum ApiStatus {
   UND(2, "Undelivered"),
   ACK(8, "Acknowledged"),
   REJ(16, "Rejected"),
+  CREATED(200, "Created"),
   UNKNOWN(-1, ""),
   WAIT(-2, "Waiting");
   private static final Map<String,ApiStatus> ENUM_MAP = new HashMap<>();

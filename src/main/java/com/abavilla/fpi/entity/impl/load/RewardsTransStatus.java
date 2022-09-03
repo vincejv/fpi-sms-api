@@ -18,7 +18,9 @@
 
 package com.abavilla.fpi.entity.impl.load;
 
-import com.abavilla.fpi.entity.impl.gl.GLRewardsCallback;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.abavilla.fpi.entity.mongo.AbsMongoField;
 import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
@@ -34,11 +36,17 @@ import lombok.NoArgsConstructor;
 @MongoEntity(collection="rewards_log")
 public class RewardsTransStatus extends AbsMongoItem {
   private LoadReq loadRequest;
-  private GLRewardsCallback callback;
   private String loadProvider;
   private String transactionId;
   private String extTransactionId;
   private AbsMongoField apiRequest;
   private AbsMongoField apiResponse;
-  private AbsMongoField apiCallback;
+  private List<CallBack> apiCallback;
+
+  public List<CallBack> getApiCallback() {
+    if (apiCallback == null) {
+      apiCallback = new ArrayList<>();
+    }
+    return apiCallback;
+  }
 }

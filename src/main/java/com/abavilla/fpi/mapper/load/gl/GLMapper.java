@@ -24,10 +24,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsReqDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
+import com.abavilla.fpi.entity.impl.gl.GLRewardsCallback;
 import com.abavilla.fpi.entity.impl.gl.GLRewardsReq;
 import com.abavilla.fpi.entity.impl.gl.GLRewardsResp;
+import com.abavilla.fpi.util.AbavillaConst;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -36,11 +39,19 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface GLMapper {
+
   @Mapping(source = "body.", target = ".")
   GLRewardsReq mapGLRewardsReqToEntity(GLRewardsReqDto dto);
+
   @Mapping(source = "body.", target = ".")
   @Mapping(source = "error", target = "error")
   GLRewardsResp mapGLRewardsRespToEntity(GLRewardsRespDto dto);
+
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
+  @Mapping(target = "loadProvider", constant = AbavillaConst.PROV_GL)
+  @Mapping(source = "body.", target = ".")
+  GLRewardsCallback mapGLCallbackDtoToEntity(GLRewardsCallbackDto dto);
 
   default String glLdtToStr(LocalDateTime ldtTimestamp) {
     if (ldtTimestamp != null) {

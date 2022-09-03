@@ -25,10 +25,15 @@ import java.time.ZoneOffset;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.abavilla.fpi.dto.impl.api.load.dtone.DVSCallbackDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
+import com.abavilla.fpi.entity.enums.ApiStatus;
+import com.abavilla.fpi.entity.impl.load.CallBack;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
-import com.abavilla.fpi.mapper.load.RewardsTransStatusMapper;
+import com.abavilla.fpi.mapper.load.dtone.DTOneMapper;
+import com.abavilla.fpi.mapper.load.gl.GLMapper;
 import com.abavilla.fpi.repo.impl.load.RewardsLeakRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;
@@ -37,12 +42,18 @@ import org.eclipse.microprofile.context.ManagedExecutor;
 
 @ApplicationScoped
 public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTransStatus> {
-  @Inject
-  RewardsTransStatusMapper rewardsMapper;
+
   @Inject
   RewardsTransRepo advRepo;
+
   @Inject
   RewardsLeakRepo leakRepo;
+
+  @Inject
+  DTOneMapper dtOneMapper;
+
+  @Inject
+  GLMapper glMapper;
 
   /**
    * Runs background tasks from webhook
@@ -51,28 +62,43 @@ public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTran
   ManagedExecutor executor;
 
   public Uni<Void> storeCallback(GLRewardsCallbackDto dto) {
+    ApiStatus status = ApiStatus.ACK;
+    return storeCallback(glMapper.mapGLCallbackDtoToEntity(dto),
+        status, dto.getBody().getTransactionId());
+  }
+
+  public Uni<Void> storeCallback(DVSCallbackDto dto) {
+    ApiStatus status = ApiStatus.ACK;
+    return storeCallback(dtOneMapper.mapDTOneRespToEntity(dto),
+        status, dto.getDtOneId());
+  }
+
+  private Uni<Void> storeCallback(AbsMongoItem field, ApiStatus status, Long transactionId) {
     var byTransId = advRepo.findByRespTransId(
-        String.valueOf(dto.getBody().getTransactionId()));
+        String.valueOf(transactionId));
     executor.execute(() -> {
       byTransId.chain(rewardsTransStatusOpt -> {
             if (rewardsTransStatusOpt.isPresent()) {
               return Uni.createFrom().item(rewardsTransStatusOpt.get());
             } else {
-              throw new ApiSvcEx("Trans Id for rewards callback not found: " + dto.getBody().getTransactionId());
+              throw new ApiSvcEx("Trans Id for rewards callback not found: " + transactionId);
             }
           })
           .onFailure().retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
           .atMost(5) // Retry for item not found and nothing else
           .chain(rewardsTrans -> {
             //rewardsMapper.mapCallbackDtoToEntity(dto, rewardsTrans);
+            CallBack callBack = new CallBack();
+            callBack.setContent(field);
+            callBack.setDateReceived(LocalDateTime.now(ZoneOffset.UTC));
+            callBack.setStatus(status);
+            rewardsTrans.getApiCallback().add(callBack);
             rewardsTrans.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
             return repo.persistOrUpdate(rewardsTrans);
           }).onFailure().call(ex -> { // leaks/delay
-            //var leakEntity = rewardsMapper.mapCallbackDtoToCallbackEntity(dto);
-            //leakEntity.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
-            //leakEntity.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-            //return leakRepo.persist(leakEntity);
-        return null;
+            field.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+            field.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
+            return leakRepo.persist(field);
           }).onFailure().recoverWithNull().await().indefinitely();
     });
 

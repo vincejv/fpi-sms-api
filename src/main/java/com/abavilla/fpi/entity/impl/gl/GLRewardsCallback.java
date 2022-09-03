@@ -18,14 +18,14 @@
 
 package com.abavilla.fpi.entity.impl.gl;
 
+import java.time.LocalDateTime;
+
 import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -38,4 +38,5 @@ public class GLRewardsCallback extends AbsMongoItem {
   private LocalDateTime timestamp;
   private Integer transactionId;
   private String mobileNumber;
+  private String loadProvider;
 }

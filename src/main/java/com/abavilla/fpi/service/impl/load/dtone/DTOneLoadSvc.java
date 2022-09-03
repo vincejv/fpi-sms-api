@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
+import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.load.PromoSku;
 import com.abavilla.fpi.mapper.load.LoadRespMapper;
 import com.abavilla.fpi.service.impl.load.AbsLoadProviderSvc;
@@ -65,22 +66,24 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
         .item(dvsClient.createTransaction(dvsReq, false))
         .onFailure().recoverWithNull();
 
-    var ret = new LoadRespDto();
-    ret.setTransactionId(req.getTransactionId());
-    ret.setApiRequest(dvsReq);
+    var loadResp = new LoadRespDto();
+    loadResp.setTransactionId(req.getTransactionId());
+    loadResp.setApiRequest(dvsReq);
+    loadResp.setStatus(ApiStatus.CREATED);
 
     return dvsRespJob.map(dvsResp -> {
       if (dvsResp != null) {
         if (dvsResp.isSuccess()) {
-          loadRespMapper.mapDTRespToDto(dvsResp.getResult(), ret);
+          loadResp.setStatus(ApiStatus.WAIT);
+          loadRespMapper.mapDTRespToDto(dvsResp.getResult(), loadResp);
         } else {
-          ret.setError(dvsResp.getErrors()
+          loadResp.setError(dvsResp.getErrors()
               .stream().map(Error::getMessage)
               .collect(Collectors.joining(AbavillaConst.COMMA_SEP)));
         }
-        ret.setApiResponse(dvsResp.getResult());
+        loadResp.setApiResponse(dvsResp.getResult());
       }
-      return ret;
+      return loadResp;
     });
   }
 

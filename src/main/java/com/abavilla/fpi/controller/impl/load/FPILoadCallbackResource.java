@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 
 import com.abavilla.fpi.config.ApiKeyConfig;
 import com.abavilla.fpi.controller.AbsResource;
+import com.abavilla.fpi.dto.impl.api.load.dtone.DVSCallbackDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.service.impl.load.gl.RewardsCallbackSvc;
@@ -49,8 +50,10 @@ public class FPILoadCallbackResource
                             JsonNode body) {
     if (StringUtils.equals(apiKey, apiKeyConfig.getGenericApiKey())) {
       return service.storeCallback(MapperUtil.convert(body, GLRewardsCallbackDto.class));
-    } else {
+    } else if (StringUtils.equals(apiKey, "intlprov")) {
       Log.warn(this.getClass().getSimpleName() + " - " + body.toString());
+      return service.storeCallback(MapperUtil.convert(body, DVSCallbackDto.class));
+    } else {
       throw new WebApplicationException(Response
           .status(HttpResponseStatus.UNAUTHORIZED.code())
           .build());

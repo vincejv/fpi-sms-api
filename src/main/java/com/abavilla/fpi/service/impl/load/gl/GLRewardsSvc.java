@@ -18,10 +18,14 @@
 
 package com.abavilla.fpi.service.impl.load.gl;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsReqDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
 import com.abavilla.fpi.dto.impl.load.LoadReqDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
+import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.load.PromoSku;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
 import com.abavilla.fpi.mapper.load.LoadRespMapper;
@@ -30,9 +34,6 @@ import com.abavilla.fpi.service.impl.load.AbsLoadProviderSvc;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class GLRewardsSvc extends AbsLoadProviderSvc {
@@ -73,6 +74,7 @@ public class GLRewardsSvc extends AbsLoadProviderSvc {
     var loadResp = new LoadRespDto();
     loadResp.setTransactionId(req.getTransactionId());
     loadResp.setApiRequest(apiReq);
+    loadResp.setStatus(ApiStatus.CREATED);
 
     // rewardsMapper.mapRequestDtoToEntity(apiReq, log);
     return loadApi.sendLoad(apiReq)
@@ -83,6 +85,9 @@ public class GLRewardsSvc extends AbsLoadProviderSvc {
           return resp;
         })
         .map(resp -> {
+          if (resp.getLastEx() != null) {
+            loadResp.setStatus(ApiStatus.WAIT);
+          }
           //rewardsMapper.mapGLRespDtoToEntity(resp, );
           rewardsMapper.mapGLRespToDto(resp, loadResp);
           loadResp.setApiResponse(resp);

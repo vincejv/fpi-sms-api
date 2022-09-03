@@ -18,6 +18,9 @@
 
 package com.abavilla.fpi.entity.impl.dtone;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.abavilla.fpi.entity.mongo.AbsMongoField;
 import com.dtone.dvs.dto.Benefit;
 import com.dtone.dvs.dto.Party;
@@ -34,15 +37,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @NoArgsConstructor
 public class DVSResp extends AbsMongoField {
-  private Long id;
+  private Long dtOneId;
   private String externalId;
   private LocalDateTime creationDate;
   private LocalDateTime confirmationExpirationDate;
@@ -61,4 +61,5 @@ public class DVSResp extends AbsMongoField {
   private Party beneficiary;
   private PartyIdentifier debitPartyIdentifier;
   private PartyIdentifier creditPartyIdentifier;
+  private String loadProvider;
 }

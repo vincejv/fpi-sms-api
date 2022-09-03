@@ -24,21 +24,30 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.abavilla.fpi.dto.impl.api.load.dtone.DVSCallbackDto;
+import com.abavilla.fpi.entity.impl.dtone.DVSCallback;
 import com.abavilla.fpi.entity.impl.dtone.DVSReq;
 import com.abavilla.fpi.entity.impl.dtone.DVSResp;
+import com.abavilla.fpi.util.AbavillaConst;
 import com.dtone.dvs.dto.TransactionRequest;
 import com.dtone.dvs.dto.TransactionResponse;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface DTOneMapper {
 
-  DVSReq mapDTOneReqToEntity(TransactionRequest dto);
+  DVSReq copyTransactionReqToDVSReq(TransactionRequest dto);
 
-  DVSResp mapDTOneRespToEntity(TransactionResponse dto);
+  @Mapping(target = "dtOneId", source = "id")
+  DVSResp copyTransactionRespToDVSResp(TransactionResponse dto);
+
+
+  @Mapping(target = "loadProvider", constant = AbavillaConst.PROV_DTONE)
+  DVSCallback mapDTOneRespToEntity(DVSCallbackDto dto);
 
   default String dtLdtToStr(LocalDateTime ldtTimestamp) {
     if (ldtTimestamp != null) {

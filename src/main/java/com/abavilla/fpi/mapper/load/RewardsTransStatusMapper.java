@@ -18,11 +18,17 @@
 
 package com.abavilla.fpi.mapper.load;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsReqDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
+import com.abavilla.fpi.entity.enums.ApiStatus;
+import com.abavilla.fpi.entity.impl.load.CallBack;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.entity.mongo.AbsMongoField;
 import com.abavilla.fpi.mapper.load.dtone.DTOneMapper;
@@ -47,10 +53,22 @@ public abstract class RewardsTransStatusMapper {
 
   @Mappings(value = {
       @Mapping(target = "dateCreated", ignore = true),
-      @Mapping(target = "dateUpdated", ignore = true)
+      @Mapping(target = "dateUpdated", ignore = true),
+      @Mapping(target = "apiCallback", source = "status")
   })
   public abstract void mapLoadRespDtoToEntity(LoadRespDto loadRespDto,
                               @MappingTarget RewardsTransStatus dest);
+
+  /**
+   * Adds initial callback
+   * @return initial callback list
+   */
+  List<CallBack> addInitialCallbackStatus(ApiStatus apiStatus) {
+    CallBack callBack = new CallBack();
+    callBack.setStatus(apiStatus);
+    callBack.setDateReceived(LocalDateTime.now(ZoneOffset.UTC));
+    return List.of(callBack);
+  }
 
   AbsMongoField anyObjectToAbsField(Object dto) {
     AbsMongoField field = null;
@@ -59,9 +77,9 @@ public abstract class RewardsTransStatusMapper {
     } else if (dto instanceof GLRewardsRespDto) {
       field = glMapper.mapGLRewardsRespToEntity((GLRewardsRespDto) dto);
     } else if (dto instanceof TransactionRequest) {
-      field = dtOneMapper.mapDTOneReqToEntity((TransactionRequest) dto);
+      field = dtOneMapper.copyTransactionReqToDVSReq((TransactionRequest) dto);
     } else if (dto instanceof TransactionResponse) {
-      field = dtOneMapper.mapDTOneRespToEntity((TransactionResponse) dto);
+      field = dtOneMapper.copyTransactionRespToDVSResp((TransactionResponse) dto);
     }
     return field;
   }

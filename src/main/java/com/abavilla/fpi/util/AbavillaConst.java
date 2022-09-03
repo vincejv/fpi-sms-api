@@ -21,4 +21,12 @@ package com.abavilla.fpi.util;
 public abstract class AbavillaConst {
   public static final String COMMA_SEP = ", ";
   public static final String PH_CURRENCY = "PHP";
+
+  public static final String CREATED = "Created";
+
+  public static final String ACKNOWLEDGED = "Created";
+
+  public static final String PROV_GL = "GlobeLabs";
+
+  public static final String PROV_DTONE = "DTOne";
 }

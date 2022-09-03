@@ -16,10 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.dto.impl.load;
+package com.abavilla.fpi.entity.impl.load;
 
-import com.abavilla.fpi.dto.AbsDto;
+import java.time.LocalDateTime;
+
 import com.abavilla.fpi.entity.enums.ApiStatus;
+import com.abavilla.fpi.entity.mongo.AbsMongoField;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,14 +30,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @RegisterForReflection
-public class LoadRespDto extends AbsDto {
+@NoArgsConstructor
+public class CallBack extends AbsMongoField {
+  private AbsMongoItem content;
   private ApiStatus status;
-  private String error;
-  private String timestamp;
-  private String transactionId;
-  private String extTransactionId;
-  private transient Object apiResponse;
-  private transient Object apiRequest;
+  private LocalDateTime dateReceived;
 }

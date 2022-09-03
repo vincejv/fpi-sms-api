@@ -41,6 +41,7 @@ public interface LoadRespMapper {
   @Mappings(value = {
       @Mapping(target = "extTransactionId", source = "body.transactionId"),
       @Mapping(target = "transactionId", ignore = true),
+      @Mapping(target = "status", ignore = true), // TODO: temporarily ignore
       @Mapping(target = ".", source = "body."),
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),
@@ -49,9 +50,9 @@ public interface LoadRespMapper {
                       @MappingTarget LoadRespDto dest);
   @Mappings(value = {
       @Mapping(target = "extTransactionId", source = "id"),
-      @Mapping(target = "status", source = "status.message"),
+      // @Mapping(target = "status", source = "status.message"),
       @Mapping(target = "timestamp", source = "creationDate"),
-      @Mapping(target = "status", ignore = true),
+      @Mapping(target = "status", ignore = true),  // TODO: temporarily ignore
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),
   })

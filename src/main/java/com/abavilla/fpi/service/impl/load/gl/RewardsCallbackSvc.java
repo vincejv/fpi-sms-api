@@ -25,7 +25,7 @@ import java.time.ZoneOffset;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.abavilla.fpi.dto.impl.api.load.dtone.DVSRespDto;
+import com.abavilla.fpi.dto.impl.api.load.dtone.DVSCallbackDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.load.CallBack;
@@ -67,10 +67,10 @@ public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTran
         status, dto.getBody().getTransactionId());
   }
 
-  public Uni<Void> storeCallback(DVSRespDto dto) {
+  public Uni<Void> storeCallback(DVSCallbackDto dto) {
     ApiStatus status = ApiStatus.ACK;
     return storeCallback(dtOneMapper.mapDTOneRespToEntity(dto),
-        status, dto.getId());
+        status, dto.getDtOneId());
   }
 
   private Uni<Void> storeCallback(AbsMongoItem field, ApiStatus status, Long transactionId) {

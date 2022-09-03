@@ -32,6 +32,7 @@ import com.dtone.dvs.dto.Promotion;
 import com.dtone.dvs.dto.Rates;
 import com.dtone.dvs.dto.Status;
 import com.dtone.dvs.dto.Values;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,8 +42,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class DVSRespDto extends AbsDto {
-  private Long id;
+public class DVSCallbackDto extends AbsDto {
+  @JsonProperty("id")
+  private Long dtOneId;
   private String externalId;
   private LocalDateTime creationDate;
   private LocalDateTime confirmationExpirationDate;

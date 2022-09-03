@@ -24,7 +24,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.abavilla.fpi.dto.impl.api.load.dtone.DVSRespDto;
+import com.abavilla.fpi.dto.impl.api.load.dtone.DVSCallbackDto;
+import com.abavilla.fpi.entity.impl.dtone.DVSCallback;
 import com.abavilla.fpi.entity.impl.dtone.DVSReq;
 import com.abavilla.fpi.entity.impl.dtone.DVSResp;
 import com.abavilla.fpi.util.AbavillaConst;
@@ -41,11 +42,12 @@ public interface DTOneMapper {
 
   DVSReq copyTransactionReqToDVSReq(TransactionRequest dto);
 
+  @Mapping(target = "dtOneId", source = "id")
   DVSResp copyTransactionRespToDVSResp(TransactionResponse dto);
 
 
   @Mapping(target = "loadProvider", constant = AbavillaConst.PROV_DTONE)
-  DVSResp mapDTOneRespToEntity(DVSRespDto dto);
+  DVSCallback mapDTOneRespToEntity(DVSCallbackDto dto);
 
   default String dtLdtToStr(LocalDateTime ldtTimestamp) {
     if (ldtTimestamp != null) {

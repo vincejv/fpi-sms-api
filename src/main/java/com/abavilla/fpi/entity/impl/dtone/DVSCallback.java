@@ -21,7 +21,7 @@ package com.abavilla.fpi.entity.impl.dtone;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.abavilla.fpi.entity.mongo.AbsMongoField;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import com.dtone.dvs.dto.Benefit;
 import com.dtone.dvs.dto.Party;
 import com.dtone.dvs.dto.PartyIdentifier;
@@ -32,6 +32,7 @@ import com.dtone.dvs.dto.Promotion;
 import com.dtone.dvs.dto.Rates;
 import com.dtone.dvs.dto.Status;
 import com.dtone.dvs.dto.Values;
+import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,7 +42,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @NoArgsConstructor
-public class DVSResp extends AbsMongoField {
+@MongoEntity(collection = "rewards_leak")
+public class DVSCallback extends AbsMongoItem {
   private Long dtOneId;
   private String externalId;
   private LocalDateTime creationDate;

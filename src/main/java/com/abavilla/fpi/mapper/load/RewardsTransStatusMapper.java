@@ -31,6 +31,7 @@ import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.load.CallBack;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.entity.mongo.AbsMongoField;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import com.abavilla.fpi.mapper.load.dtone.DTOneMapper;
 import com.abavilla.fpi.mapper.load.gl.GLMapper;
 import com.dtone.dvs.dto.TransactionRequest;
@@ -63,8 +64,8 @@ public abstract class RewardsTransStatusMapper {
    * Adds initial callback
    * @return initial callback list
    */
-  List<CallBack<AbsMongoField>> addInitialCallbackStatus(ApiStatus apiStatus) {
-    CallBack<AbsMongoField> callBack = new CallBack<>();
+  List<CallBack<AbsMongoItem>> addInitialCallbackStatus(ApiStatus apiStatus) {
+    CallBack<AbsMongoItem> callBack = new CallBack<>();
     callBack.setStatus(apiStatus);
     callBack.setDateReceived(LocalDateTime.now(ZoneOffset.UTC));
     return List.of(callBack);

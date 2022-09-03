@@ -51,6 +51,7 @@ public interface LoadRespMapper {
       @Mapping(target = "extTransactionId", source = "id"),
       @Mapping(target = "status", source = "status.message"),
       @Mapping(target = "timestamp", source = "creationDate"),
+      @Mapping(target = "status", ignore = true),
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),
   })

@@ -8,7 +8,7 @@ WORKDIR /code
 RUN chmod +x ./mvnw
 # RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
 COPY src /code/src
-RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B package -Pnative -Dgit.username=${GITHUB_USERNAME} -Dgit.token=${GITHUB_TOKEN}
+RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B package -Pnative
 
 ## Stage 2 : create the docker final image
 FROM quay.io/quarkus/quarkus-micro-image:1.0

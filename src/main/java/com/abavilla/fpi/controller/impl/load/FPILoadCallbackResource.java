@@ -30,6 +30,8 @@ import com.abavilla.fpi.controller.AbsResource;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.service.impl.load.gl.RewardsCallbackSvc;
+import com.abavilla.fpi.util.MapperUtil;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
@@ -44,11 +46,11 @@ public class FPILoadCallbackResource
   @Path("callback/{apiKey}")
   @POST
   public Uni<Void> callback(@PathParam("apiKey") String apiKey,
-                            GLRewardsCallbackDto body) {
+                            JsonNode body) {
     if (StringUtils.equals(apiKey, apiKeyConfig.getGenericApiKey())) {
-      return service.storeCallback(body);
+      return service.storeCallback(MapperUtil.convert(body, GLRewardsCallbackDto.class));
     } else {
-      Log.warn(this.getClass().getSimpleName() + " - " + body);
+      Log.warn(this.getClass().getSimpleName() + " - " + body.toString());
       throw new WebApplicationException(Response
           .status(HttpResponseStatus.UNAUTHORIZED.code())
           .build());

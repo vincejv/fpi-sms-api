@@ -28,7 +28,7 @@ import io.smallrye.mutiny.Uni;
 
 @ApplicationScoped
 public class RewardsTransRepo extends AbsMongoRepo<RewardsTransStatus> {
-  public Uni<Optional<RewardsTransStatus>> findByRespTransId(Integer transId) {
+  public Uni<Optional<RewardsTransStatus>> findByRespTransId(String transId) {
     return find("extTransactionId", transId).firstResultOptional();
   }
 }

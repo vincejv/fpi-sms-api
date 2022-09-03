@@ -18,6 +18,13 @@
 
 package com.abavilla.fpi.service.impl.load.gl;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
@@ -27,12 +34,6 @@ import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.context.ManagedExecutor;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @ApplicationScoped
 public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTransStatus> {
@@ -50,7 +51,8 @@ public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTran
   ManagedExecutor executor;
 
   public Uni<Void> storeCallback(GLRewardsCallbackDto dto) {
-    var byTransId = advRepo.findByRespTransId(dto.getBody().getTransactionId());
+    var byTransId = advRepo.findByRespTransId(
+        String.valueOf(dto.getBody().getTransactionId()));
     executor.execute(() -> {
       byTransId.chain(rewardsTransStatusOpt -> {
             if (rewardsTransStatusOpt.isPresent()) {

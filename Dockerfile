@@ -1,6 +1,7 @@
 ## Stage 0: expose environment variables
 ARG GITHUB_USERNAME
 ARG GITHUB_TOKEN
+RUN echo $GITHUB_USERNAME
 ## Stage 1 : build with maven builder image with native capabilities
 FROM quay.io/quarkus/ubi-quarkus-native-image:22.2-java17 AS build
 COPY --chown=quarkus:quarkus mvnw /code/mvnw

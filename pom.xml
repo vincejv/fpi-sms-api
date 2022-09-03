@@ -41,7 +41,7 @@
     <repository>
       <id>github</id>
       <name>Github DTOne Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/dtone/dtone-dvs-api-java-client</url>
+      <url>https://maven.pkg.github.com/vincejv/dtone-dvs-api-java-client</url>
     </repository>
   </repositories>
   <dependencyManagement>

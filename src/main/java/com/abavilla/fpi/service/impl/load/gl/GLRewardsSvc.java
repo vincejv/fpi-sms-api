@@ -85,7 +85,7 @@ public class GLRewardsSvc extends AbsLoadProviderSvc {
           return resp;
         })
         .map(resp -> {
-          if (resp.getLastEx() != null) {
+          if (resp.getLastEx() == null) {
             loadResp.setStatus(ApiStatus.WAIT);
           }
           //rewardsMapper.mapGLRespDtoToEntity(resp, );

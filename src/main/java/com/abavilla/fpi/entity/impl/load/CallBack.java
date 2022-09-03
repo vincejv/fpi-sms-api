@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 
 import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.mongo.AbsMongoField;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,8 +32,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @NoArgsConstructor
-public class CallBack<T> extends AbsMongoField {
-  private T content;
+public class CallBack extends AbsMongoField {
+  private AbsMongoItem content;
   private ApiStatus status;
   private LocalDateTime dateReceived;
 }

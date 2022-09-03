@@ -41,9 +41,9 @@ public class RewardsTransStatus extends AbsMongoItem {
   private String extTransactionId;
   private AbsMongoField apiRequest;
   private AbsMongoField apiResponse;
-  private List<CallBack<AbsMongoItem>> apiCallback;
+  private List<CallBack> apiCallback;
 
-  public List<CallBack<AbsMongoItem>> getApiCallback() {
+  public List<CallBack> getApiCallback() {
     if (apiCallback == null) {
       apiCallback = new ArrayList<>();
     }

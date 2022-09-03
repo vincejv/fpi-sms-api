@@ -18,7 +18,6 @@
 
 package com.abavilla.fpi.dto.impl.api.load.dtone;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.abavilla.fpi.dto.AbsDto;
@@ -46,9 +45,9 @@ public class DVSCallbackDto extends AbsDto {
   @JsonProperty("id")
   private Long dtOneId;
   private String externalId;
-  private LocalDateTime creationDate;
-  private LocalDateTime confirmationExpirationDate;
-  private LocalDateTime confirmationDate;
+  private String creationDate;
+  private String confirmationExpirationDate;
+  private String confirmationDate;
   private Status status;
   private String operatorReference;
   private Pin pin;

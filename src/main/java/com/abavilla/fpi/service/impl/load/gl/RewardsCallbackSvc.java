@@ -88,7 +88,7 @@ public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTran
           .atMost(5) // Retry for item not found and nothing else
           .chain(rewardsTrans -> {
             //rewardsMapper.mapCallbackDtoToEntity(dto, rewardsTrans);
-            CallBack<AbsMongoItem> callBack = new CallBack<>();
+            CallBack callBack = new CallBack();
             callBack.setContent(field);
             callBack.setDateReceived(LocalDateTime.now(ZoneOffset.UTC));
             callBack.setStatus(status);

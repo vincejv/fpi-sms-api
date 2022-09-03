@@ -1,7 +1,3 @@
-## Stage 0: expose environment variables
-ARG GITHUB_USERNAME
-ARG GITHUB_TOKEN
-RUN echo $GITHUB_USERNAME
 ## Stage 1 : build with maven builder image with native capabilities
 FROM quay.io/quarkus/ubi-quarkus-native-image:22.2-java17 AS build
 COPY --chown=quarkus:quarkus mvnw /code/mvnw
@@ -10,6 +6,7 @@ COPY --chown=quarkus:quarkus pom.xml /code/
 USER quarkus
 WORKDIR /code
 RUN chmod +x ./mvnw
+RUN echo $GITHUB_USERNAME
 # RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
 COPY src /code/src
 RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B package -Pnative -Dgit.username=${GITHUB_USERNAME} -Dgit.token=${GITHUB_TOKEN}

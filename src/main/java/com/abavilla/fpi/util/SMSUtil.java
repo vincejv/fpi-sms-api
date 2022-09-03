@@ -36,8 +36,8 @@ public class SMSUtil {
       '\f', '^', '{', '}', '\\', '[', '~', ']', '|', '€'
   };
 
-  private final static boolean[] ENCODEABLE_BY_ORD_UP_TO_253 = new boolean[254];
-  private final static Set<Character> ENCODEABLE_REST = new HashSet<>();
+  private static final boolean[] ENCODEABLE_BY_ORD_UP_TO_253 = new boolean[254];
+  private static final Set<Character> ENCODEABLE_REST = new HashSet<>();
   static {
     for (char ch : BASIC_CHARS) {
       if (ch <= 253) {

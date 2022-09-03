@@ -26,7 +26,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI, injectionStrategy = InjectionStrategy.FIELD)
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
   @Mapping(target = "dataCodingScheme")
   BroadcastRequestDto mapToDto(BroadcastRequest entity);

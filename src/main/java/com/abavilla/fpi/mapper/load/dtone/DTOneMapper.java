@@ -18,6 +18,12 @@
 
 package com.abavilla.fpi.mapper.load.dtone;
 
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.abavilla.fpi.entity.impl.dtone.DVSReq;
 import com.abavilla.fpi.entity.impl.dtone.DVSResp;
 import com.dtone.dvs.dto.TransactionRequest;
@@ -26,14 +32,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.FIELD)
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface DTOneMapper {
 
   DVSReq mapDTOneReqToEntity(TransactionRequest dto);

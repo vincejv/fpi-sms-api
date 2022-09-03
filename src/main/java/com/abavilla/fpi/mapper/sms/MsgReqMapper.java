@@ -28,7 +28,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI, injectionStrategy = InjectionStrategy.FIELD, uses = BroadcastRequestMapper.class)
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = BroadcastRequestMapper.class)
 public interface MsgReqMapper extends IMapper<MsgReqDto, MsgReq> {
   MsgReq mapFromResponse(BroadcastResponseDto broadcastResponseDto);
   @AfterMapping

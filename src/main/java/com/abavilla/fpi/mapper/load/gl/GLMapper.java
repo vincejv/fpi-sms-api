@@ -18,6 +18,12 @@
 
 package com.abavilla.fpi.mapper.load.gl;
 
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsReqDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
 import com.abavilla.fpi.entity.impl.gl.GLRewardsReq;
@@ -27,14 +33,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.FIELD)
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface GLMapper {
   @Mapping(source = "body.", target = ".")
   GLRewardsReq mapGLRewardsReqToEntity(GLRewardsReqDto dto);

@@ -18,6 +18,8 @@
 
 package com.abavilla.fpi.mapper.load;
 
+import javax.inject.Inject;
+
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsReqDto;
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
@@ -34,10 +36,8 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
-import javax.inject.Inject;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.FIELD)
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class RewardsTransStatusMapper {
 
   @Inject

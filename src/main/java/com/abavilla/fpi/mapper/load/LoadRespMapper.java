@@ -35,7 +35,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.FIELD)
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface LoadRespMapper {
 
   @Mappings(value = {

@@ -1,7 +1,5 @@
 package com.abavilla.fpi.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Map;
 
 @ApplicationScoped
 public class MapperUtil {
@@ -36,11 +33,7 @@ public class MapperUtil {
     return zdt.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
   }
 
-  public static Map<String, ?> convertJsonNodeToMap(JsonNode jsonNode) {
-    return mapper.convertValue(jsonNode, new TypeReference<Map<String, Object>>(){});
-  }
-
-  public static <T> T convertJsonToObj(JsonNode jsonNode, Class<T> clazz) {
-    return mapper.convertValue(jsonNode, clazz);
+  public static <T> T convert(Object obj, Class<T> clazz) {
+    return mapper.convertValue(obj, clazz);
   }
 }

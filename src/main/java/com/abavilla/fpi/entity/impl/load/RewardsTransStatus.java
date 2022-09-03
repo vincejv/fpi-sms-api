@@ -1,6 +1,8 @@
 package com.abavilla.fpi.entity.impl.load;
 
-import com.abavilla.fpi.entity.MongoItem;
+import com.abavilla.fpi.entity.impl.gl.GLRewardsCallback;
+import com.abavilla.fpi.entity.mongo.AbsMongoField;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
@@ -12,8 +14,11 @@ import lombok.NoArgsConstructor;
 @RegisterForReflection
 @NoArgsConstructor
 @MongoEntity(collection="rewards_log")
-public class RewardsTransStatus extends MongoItem {
-  private RewardsReq request;
-  private RewardsResp response;
-  private RewardsCallback callback;
+public class RewardsTransStatus extends AbsMongoItem {
+  private LoadReq loadRequest;
+  private GLRewardsCallback callback;
+  private String loadProvider;
+  private AbsMongoField apiRequest;
+  private AbsMongoField apiResponse;
+  private AbsMongoField apiCallback;
 }

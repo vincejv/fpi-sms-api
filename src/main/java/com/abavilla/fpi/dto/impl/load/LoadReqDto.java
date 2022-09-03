@@ -13,4 +13,6 @@ import lombok.NoArgsConstructor;
 public class LoadReqDto extends AbsDto {
   private String mobile;
   private String sku;
+  private String transactionId;
+  private String telco;
 }

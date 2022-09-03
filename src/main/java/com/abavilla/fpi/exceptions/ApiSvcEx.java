@@ -21,6 +21,6 @@ public class ApiSvcEx extends RuntimeException {
   }
 
   public <T> T getJsonResponse(Class<T> clazz) {
-    return MapperUtil.convertJsonToObj(jsonResponse, clazz);
+    return MapperUtil.convert(jsonResponse, clazz);
   }
 }

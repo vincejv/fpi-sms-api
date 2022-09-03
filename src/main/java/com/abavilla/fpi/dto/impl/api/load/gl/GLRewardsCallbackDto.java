@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
-public class RewardsCallbackDto extends AbsDto {
+public class GLRewardsCallbackDto extends AbsDto {
   @JsonProperty("outboundRewardRequest")
   private Body body;
 

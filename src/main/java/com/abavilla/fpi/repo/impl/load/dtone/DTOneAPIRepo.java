@@ -1,17 +1,25 @@
 package com.abavilla.fpi.repo.impl.load.dtone;
 
 import com.dtone.dvs.DvsApiClient;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
 @ApplicationScoped
 public class DTOneAPIRepo {
+
+  @ConfigProperty(name = "com.dtone.base-url")
+  String baseUrl;
+
+  @ConfigProperty(name = "com.dtone.api-key")
+  String apiKey;
+
+  @ConfigProperty(name = "com.dtone.api-secret")
+  String apiSecret;
+
   @Produces
   DvsApiClient dvsApiClient() throws Exception {
-    return new DvsApiClient(
-        "https://preprod-dvs-api.dtone.com/v1/",
-        "f5a9f35d-ef74-4840-8f7a-cacef7955d76",
-        "a4f14d67-beac-4d98-b48d-bfc17c44d21c");
+    return new DvsApiClient(baseUrl, apiKey, apiSecret);
   }
 }

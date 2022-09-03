@@ -1,6 +1,6 @@
-package com.abavilla.fpi.entity.impl.load;
+package com.abavilla.fpi.entity.impl.gl;
 
-import com.abavilla.fpi.entity.MongoItem;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @RegisterForReflection
 @MongoEntity(collection = "rewards_leak")
-public class RewardsCallback extends MongoItem {
+public class GLRewardsCallback extends AbsMongoItem {
   private String status;
   private String sku;
   private LocalDateTime timestamp;

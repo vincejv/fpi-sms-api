@@ -1,6 +1,6 @@
-package com.abavilla.fpi.entity.impl.load;
+package com.abavilla.fpi.entity.impl.gl;
 
-import com.abavilla.fpi.entity.AbsFieldItem;
+import com.abavilla.fpi.entity.mongo.AbsMongoField;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @NoArgsConstructor
-public class RewardsResp extends AbsFieldItem {
+public class GLRewardsResp extends AbsMongoField {
   private Integer transactionId;
   private String status;
   private String address;

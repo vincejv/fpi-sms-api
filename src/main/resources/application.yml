@@ -60,3 +60,9 @@ ph:
       app-secret: ${GL_APP_SEC:APPSEC112233}
       rewards:
         token: ${GL_APP_AMAX_TOKEN:APPSEC112233}
+
+com:
+  dtone:
+    base-url: ${DTONE_BASEURL:https://preprod-dvs-api.dtone.com}
+    api-key: ${DTONE_APIKEY:aaaaabbcccceee}
+    api-secret: ${DTONE_APISECRET:zzzzxxeeedd}

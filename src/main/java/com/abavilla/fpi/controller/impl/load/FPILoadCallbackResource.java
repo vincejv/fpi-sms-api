@@ -2,7 +2,7 @@ package com.abavilla.fpi.controller.impl.load;
 
 import com.abavilla.fpi.config.ApiKeyConfig;
 import com.abavilla.fpi.controller.AbsResource;
-import com.abavilla.fpi.dto.impl.api.load.gl.RewardsCallbackDto;
+import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsCallbackDto;
 import com.abavilla.fpi.entity.impl.load.RewardsTransStatus;
 import com.abavilla.fpi.service.impl.load.gl.RewardsCallbackSvc;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -18,14 +18,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/fpi/load")
 public class FPILoadCallbackResource
-    extends AbsResource<RewardsCallbackDto, RewardsTransStatus, RewardsCallbackSvc> {
+    extends AbsResource<GLRewardsCallbackDto, RewardsTransStatus, RewardsCallbackSvc> {
   @Inject
   ApiKeyConfig apiKeyConfig;
 
   @Path("callback/{apiKey}")
   @POST
   public Uni<Void> callback(@PathParam("apiKey") String apiKey,
-                            RewardsCallbackDto body) {
+                            GLRewardsCallbackDto body) {
     if (StringUtils.equals(apiKey, apiKeyConfig.getGenericApiKey())) {
       return service.storeCallback(body);
     } else {

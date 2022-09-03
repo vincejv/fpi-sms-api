@@ -1,7 +1,7 @@
 package com.abavilla.fpi.entity.impl.sms;
 
-import com.abavilla.fpi.entity.MongoItem;
 import com.abavilla.fpi.entity.enums.DCSCoding;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @AllArgsConstructor
-public class BroadcastRequest extends MongoItem {
+public class BroadcastRequest extends AbsMongoItem {
 
   @BsonProperty("msisdn")
   private String mobileNumber;

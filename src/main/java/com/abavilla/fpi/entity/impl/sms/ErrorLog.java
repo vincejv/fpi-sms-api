@@ -1,6 +1,6 @@
 package com.abavilla.fpi.entity.impl.sms;
 
-import com.abavilla.fpi.entity.MongoItem;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @MongoEntity(collection="app_error_log")
-public class ErrorLog extends MongoItem {
+public class ErrorLog extends AbsMongoItem {
   @BsonProperty("Message")
   private String message;
   @BsonProperty("StackTrace")

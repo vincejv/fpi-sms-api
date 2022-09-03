@@ -1,7 +1,7 @@
 package com.abavilla.fpi.entity.impl.sms;
 
-import com.abavilla.fpi.entity.MongoItem;
 import com.abavilla.fpi.entity.enums.ApiStatus;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Comparator;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class StateEncap extends MongoItem implements Comparable<StateEncap> {
+public class StateEncap extends AbsMongoItem implements Comparable<StateEncap> {
   private ApiStatus state;
 
   public StateEncap(ApiStatus state, LocalDateTime dateUpdated) {

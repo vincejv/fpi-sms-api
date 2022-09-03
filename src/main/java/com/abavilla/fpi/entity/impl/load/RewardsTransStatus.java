@@ -36,6 +36,8 @@ public class RewardsTransStatus extends AbsMongoItem {
   private LoadReq loadRequest;
   private GLRewardsCallback callback;
   private String loadProvider;
+  private String transactionId;
+  private String extTransactionId;
   private AbsMongoField apiRequest;
   private AbsMongoField apiResponse;
   private AbsMongoField apiCallback;

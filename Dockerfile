@@ -6,9 +6,6 @@ COPY --chown=quarkus:quarkus pom.xml /code/
 USER quarkus
 WORKDIR /code
 RUN chmod +x ./mvnw
-# Make environment variables accessible
-ARG GITHUB_USERNAME
-ARG GITHUB_TOKEN
 # RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
 COPY src /code/src
 RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B package -Pnative

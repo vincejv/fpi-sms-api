@@ -32,7 +32,7 @@ import com.dtone.dvs.dto.Dates;
 import com.dtone.dvs.dto.Error;
 import com.dtone.dvs.dto.ErrorResponse;
 import com.dtone.dvs.dto.Operator;
-import com.dtone.dvs.dto.Page;
+import com.dtone.dvs.dto.PageAsync;
 import com.dtone.dvs.dto.Party;
 import com.dtone.dvs.dto.PartyIdentifier;
 import com.dtone.dvs.dto.Pin;
@@ -74,7 +74,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
     Error.class,
     ErrorResponse.class,
     Operator.class,
-    Page.class,
+    PageAsync.class,
     Party.class,
     PartyIdentifier.class,
     Pin.class,

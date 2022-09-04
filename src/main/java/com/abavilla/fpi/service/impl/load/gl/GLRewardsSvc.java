@@ -31,6 +31,7 @@ import com.abavilla.fpi.exceptions.ApiSvcEx;
 import com.abavilla.fpi.mapper.load.LoadRespMapper;
 import com.abavilla.fpi.repo.impl.load.gl.GLLoadApiRepo;
 import com.abavilla.fpi.service.impl.load.AbsLoadProviderSvc;
+import com.abavilla.fpi.util.AbavillaConst;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -56,7 +57,7 @@ public class GLRewardsSvc extends AbsLoadProviderSvc {
   @Override
   public void init() {
     priority = 0;
-    providerName = "GlobeLabs";
+    providerName = AbavillaConst.PROV_GL;
   }
 
   @Override

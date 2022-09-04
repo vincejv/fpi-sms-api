@@ -159,7 +159,7 @@
     <dependency>
       <groupId>com.dtone.dvs</groupId>
       <artifactId>dvs-apiclient</artifactId>
-      <version>1.1.0.5-vincejv</version>
+      <version>2.0.0-async-vincejv</version>
     </dependency>
 
   </dependencies>

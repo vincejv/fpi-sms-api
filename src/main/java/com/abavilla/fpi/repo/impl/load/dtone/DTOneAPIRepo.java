@@ -18,11 +18,11 @@
 
 package com.abavilla.fpi.repo.impl.load.dtone;
 
-import com.dtone.dvs.DvsApiClient;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+
+import com.dtone.dvs.DvsApiClientAsync;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class DTOneAPIRepo {
@@ -37,7 +37,7 @@ public class DTOneAPIRepo {
   String apiSecret;
 
   @Produces
-  DvsApiClient dvsApiClient() throws Exception {
-    return new DvsApiClient(baseUrl, apiKey, apiSecret);
+  DvsApiClientAsync dvsApiClient() throws Exception {
+    return new DvsApiClientAsync(baseUrl, apiKey, apiSecret);
   }
 }

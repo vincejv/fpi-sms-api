@@ -30,7 +30,7 @@ import com.abavilla.fpi.entity.impl.load.PromoSku;
 import com.abavilla.fpi.mapper.load.LoadRespMapper;
 import com.abavilla.fpi.service.impl.load.AbsLoadProviderSvc;
 import com.abavilla.fpi.util.AbavillaConst;
-import com.dtone.dvs.DvsApiClient;
+import com.dtone.dvs.DvsApiClientAsync;
 import com.dtone.dvs.dto.Error;
 import com.dtone.dvs.dto.PartyIdentifier;
 import com.dtone.dvs.dto.Source;
@@ -40,11 +40,12 @@ import io.smallrye.mutiny.Uni;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.context.ManagedExecutor;
 
 @ApplicationScoped
 public class DTOneLoadSvc extends AbsLoadProviderSvc {
   @Inject
-  DvsApiClient dvsClient;
+  DvsApiClientAsync dvsClient;
 
   @Inject
   LoadRespMapper loadRespMapper;
@@ -52,10 +53,13 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
   @ConfigProperty(name = "com.dtone.callback-url")
   String callbackUrl;
 
+  @Inject
+  ManagedExecutor executor;
+
   @Override
   public void init() {
     priority = 1;
-    providerName = "DTOne";
+    providerName = AbavillaConst.PROV_DTONE;
   }
 
   @SneakyThrows
@@ -63,7 +67,8 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
   public Uni<LoadRespDto> reload(LoadReqDto req, PromoSku promo) {
     var dvsReq = buildRngRequest(req, promo);
     var dvsRespJob = Uni.createFrom()
-        .item(dvsClient.createTransaction(dvsReq, false))
+        .future(dvsClient.createTransaction(dvsReq))
+        .runSubscriptionOn(executor)
         .onFailure().recoverWithNull();
 
     var loadResp = new LoadRespDto();

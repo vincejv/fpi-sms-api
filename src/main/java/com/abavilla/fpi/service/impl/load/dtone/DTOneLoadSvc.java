@@ -67,8 +67,7 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
   public Uni<LoadRespDto> reload(LoadReqDto req, PromoSku promo) {
     var dvsReq = buildRngRequest(req, promo);
     var dvsRespJob = Uni.createFrom()
-        .future(dvsClient.createTransaction(dvsReq))
-        .runSubscriptionOn(executor)
+        .completionStage(() -> dvsClient.createTransaction(dvsReq))
         .onFailure().recoverWithNull();
 
     var loadResp = new LoadRespDto();

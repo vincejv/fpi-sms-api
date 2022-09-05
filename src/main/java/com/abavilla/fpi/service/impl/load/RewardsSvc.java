@@ -92,7 +92,7 @@ public class RewardsSvc extends AbsSvc<GLRewardsReqDto, RewardsTransStatus> {
         resp.setError(AbavillaConst.NO_LOAD_PROVIDER_AVAILABLE);
         resp.setTimestamp(DateUtil.nowAsStr());
         return Uni.createFrom().item(Response
-            .status(Response.Status.NOT_FOUND)
+            .status(Response.Status.NOT_ACCEPTABLE)
             .entity(resp)
             .build());
       }

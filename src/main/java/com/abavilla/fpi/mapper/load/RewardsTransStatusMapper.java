@@ -54,7 +54,8 @@ public abstract class RewardsTransStatusMapper {
   @Mappings(value = {
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),
-      @Mapping(target = "apiCallback", source = "status")
+      @Mapping(target = "apiCallback", source = "status"),
+      @Mapping(target = "transactionId", source = "extTransactionId")
   })
   public abstract void mapLoadRespDtoToEntity(LoadRespDto loadRespDto,
                               @MappingTarget RewardsTransStatus dest);

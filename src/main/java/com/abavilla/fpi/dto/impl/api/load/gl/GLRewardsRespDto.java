@@ -41,7 +41,7 @@ public class GLRewardsRespDto extends AbsDto {
   @RegisterForReflection
   public static class Body extends AbsFieldDto {
     @JsonProperty("transaction_id")
-    private Integer transactionId;
+    private Long transactionId;
     private String status;
     private String address;
     private String promo;

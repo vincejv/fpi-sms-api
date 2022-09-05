@@ -36,7 +36,7 @@ public class GLRewardsCallback extends AbsMongoItem {
   private String status;
   private String sku;
   private LocalDateTime timestamp;
-  private Integer transactionId;
+  private Long transactionId;
   private String mobileNumber;
   private String loadProvider;
 }

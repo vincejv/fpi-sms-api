@@ -26,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 
 public class DateUtil {
 
+  public static final String DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSz";
+
   public static final String M360_TIMESTAMP_FORMAT = "yyyyMMddHHmmss";
 
   public static String nowAsStr() {

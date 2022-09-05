@@ -23,6 +23,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;
 
 @Data
@@ -30,5 +31,6 @@ import org.bson.types.ObjectId;
 @RegisterForReflection
 @BsonDiscriminator
 public abstract class AbsMongoItem extends AbsItem {
+  @BsonId
   protected ObjectId id;
 }

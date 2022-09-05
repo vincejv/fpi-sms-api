@@ -37,6 +37,7 @@ import com.abavilla.fpi.mapper.load.gl.GLMapper;
 import com.abavilla.fpi.repo.impl.load.RewardsLeakRepo;
 import com.abavilla.fpi.repo.impl.load.RewardsTransRepo;
 import com.abavilla.fpi.service.AbsSvc;
+import com.abavilla.fpi.util.AbavillaConst;
 import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.context.ManagedExecutor;
 
@@ -64,18 +65,19 @@ public class RewardsCallbackSvc extends AbsSvc<GLRewardsCallbackDto, RewardsTran
   public Uni<Void> storeCallback(GLRewardsCallbackDto dto) {
     ApiStatus status = ApiStatus.ACK;
     return storeCallback(glMapper.mapGLCallbackDtoToEntity(dto),
-        status, dto.getBody().getTransactionId());
+        status, AbavillaConst.PROV_GL, dto.getBody().getTransactionId());
   }
 
   public Uni<Void> storeCallback(DVSCallbackDto dto) {
     ApiStatus status = ApiStatus.ACK;
     return storeCallback(dtOneMapper.mapDTOneRespToEntity(dto),
-        status, dto.getDtOneId());
+        status, AbavillaConst.PROV_DTONE, dto.getDtOneId());
   }
 
-  private Uni<Void> storeCallback(AbsMongoItem field, ApiStatus status, Long transactionId) {
-    var byTransId = advRepo.findByRespTransId(
-        String.valueOf(transactionId));
+  private Uni<Void> storeCallback(AbsMongoItem field, ApiStatus status,
+                                  String provider, Long transactionId) {
+    var byTransId = advRepo.findByRespTransIdAndProvider(
+        String.valueOf(transactionId), provider);
     executor.execute(() -> {
       byTransId.chain(rewardsTransStatusOpt -> {
             if (rewardsTransStatusOpt.isPresent()) {

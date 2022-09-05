@@ -34,7 +34,6 @@ import com.abavilla.fpi.service.impl.load.gl.RewardsCallbackSvc;
 import com.abavilla.fpi.util.MapperUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,7 +50,6 @@ public class FPILoadCallbackResource
     if (StringUtils.equals(apiKey, apiKeyConfig.getGenericApiKey())) {
       return service.storeCallback(MapperUtil.convert(body, GLRewardsCallbackDto.class));
     } else if (StringUtils.equals(apiKey, "intlprov")) {
-      Log.warn(this.getClass().getSimpleName() + " - " + body.toString());
       return service.storeCallback(MapperUtil.convert(body, DVSCallbackDto.class));
     } else {
       throw new WebApplicationException(Response

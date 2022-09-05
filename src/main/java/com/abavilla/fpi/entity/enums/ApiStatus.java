@@ -22,6 +22,8 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,6 +53,7 @@ public enum ApiStatus {
   @Setter
   private String value;
 
+  @JsonCreator
   public static ApiStatus fromValue(String value) {
     return ENUM_MAP.getOrDefault(value, ApiStatus.UNKNOWN.setValue(value));
   }
@@ -76,6 +79,7 @@ public enum ApiStatus {
    * 2. dashes instead of underscores <br> <br>
    */
   @Override
+  @JsonValue
   public String toString() {
     return this.value;
   }

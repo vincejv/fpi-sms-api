@@ -18,15 +18,17 @@
 
 package com.abavilla.fpi.entity.enums;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @AllArgsConstructor
@@ -50,6 +52,7 @@ public enum DCSCoding {
   @Setter
   private String value;
 
+  @JsonCreator
   public static DCSCoding fromValue(String value) {
     return ENUM_MAP.getOrDefault(value, DCSCoding.UNKNOWN.setValue(value));
   }
@@ -75,6 +78,7 @@ public enum DCSCoding {
    * 2. dashes instead of underscores <br> <br>
    */
   @Override
+  @JsonValue
   public String toString() {
     return this.value;
   }

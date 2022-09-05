@@ -38,6 +38,8 @@ import org.mapstruct.Named;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface LoadRespMapper {
 
+  String DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSz";
+
   @Mappings(value = {
       @Mapping(target = "extTransactionId", source = "body.transactionId"),
       @Mapping(target = "transactionId", ignore = true),
@@ -65,7 +67,7 @@ public interface LoadRespMapper {
       if (StringUtils.isNotBlank(source)) {
         return DateUtil.convertStrDateToFormat(source,
             DateTimeFormatter.ofPattern(GLMapper.GL_TIMESTAMP_FORMAT),
-            DateTimeFormatter.ISO_DATE_TIME);
+            DateTimeFormatter.ofPattern(DEFAULT_TIMESTAMP_FORMAT));
       }
     return null;
   }

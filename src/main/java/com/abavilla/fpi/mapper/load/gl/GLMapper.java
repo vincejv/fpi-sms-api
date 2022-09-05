@@ -40,6 +40,8 @@ import org.mapstruct.MappingConstants;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface GLMapper {
 
+  String GL_TIMESTAMP_FORMAT = "EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)";
+
   @Mapping(source = "body.", target = ".")
   GLRewardsReq mapGLRewardsReqToEntity(GLRewardsReqDto dto);
 
@@ -56,7 +58,7 @@ public interface GLMapper {
   default String glLdtToStr(LocalDateTime ldtTimestamp) {
     if (ldtTimestamp != null) {
       var formatter = DateTimeFormatter
-          .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
+          .ofPattern(GL_TIMESTAMP_FORMAT);
       return ZonedDateTime.of(ldtTimestamp, ZoneId.of("UTC")).format(formatter);
     } else {
       return null;
@@ -65,7 +67,7 @@ public interface GLMapper {
 
   default LocalDateTime glStrToLdt(String strTimestamp) {
     var formatter = DateTimeFormatter
-        .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
+        .ofPattern(GL_TIMESTAMP_FORMAT);
     try {
       var zdt = ZonedDateTime.parse(strTimestamp, formatter);
       return zdt.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();

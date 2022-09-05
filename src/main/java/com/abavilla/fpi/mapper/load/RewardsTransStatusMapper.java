@@ -84,36 +84,4 @@ public abstract class RewardsTransStatusMapper {
     return field;
   }
 
-
-//  @AfterMapping
-//  default void excludeInEntity(AnyDto anyDto,
-//                       @MappingTarget AnyItem anyItem) {
-//    List<String> excludedFieldsInEntity =
-//        List.of("");
-//    anyItem.keySet().removeAll(excludedFieldsInEntity);
-//  }
-
-//  @Mapping(source = "body.", target = "request.")
-//  @Mapping(target = "dateCreated", ignore = true)
-//  @Mapping(target = "dateUpdated", ignore = true)
-//  void mapGLRequestDtoToEntity(GLRewardsReqDto dto,
-//                               @MappingTarget RewardsTransStatus rewardsTransStatus);
-//
-//  @Mapping(source = "body.", target = "response.")
-//  @Mapping(source = "error", target = "response.error")
-//  @Mapping(target = "dateCreated", ignore = true)
-//  @Mapping(target = "dateUpdated", ignore = true)
-//  void mapGLRespDtoToEntity(GLRewardsRespDto dto,
-//                            @MappingTarget RewardsTransStatus rewardsTransStatus);
-//
-//  @Mapping(source = "body.", target = "callback.")
-//  @Mapping(target = "dateCreated", ignore = true)
-//  @Mapping(target = "dateUpdated", ignore = true)
-//  void mapGLCallbackDtoToEntity(GLRewardsCallbackDto dto,
-//                                @MappingTarget RewardsTransStatus rewardsTransStatus);
-//
-//  @Mapping(source = "body.", target = ".")
-//  @Mapping(target = "dateCreated", ignore = true)
-//  @Mapping(target = "dateUpdated", ignore = true)
-//  GLRewardsCallback mapCallbackDtoToCallbackEntity(GLRewardsCallbackDto dto);
 }

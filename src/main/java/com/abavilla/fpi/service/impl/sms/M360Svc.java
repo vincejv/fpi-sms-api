@@ -18,12 +18,18 @@
 
 package com.abavilla.fpi.service.impl.sms;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.enterprise.context.ApplicationScoped;
+
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.dto.impl.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.dto.impl.sms.MsgReqDto;
 import com.abavilla.fpi.entity.enums.DCSCoding;
 import com.abavilla.fpi.repo.impl.m360.M360ApiRepo;
 import com.abavilla.fpi.service.AbsApiSvc;
+import com.abavilla.fpi.util.DateUtil;
 import com.abavilla.fpi.util.MapperUtil;
 import com.abavilla.fpi.util.SMSUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,10 +37,6 @@ import io.smallrye.mutiny.Uni;
 import lombok.SneakyThrows;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @ApplicationScoped
 public class M360Svc extends AbsApiSvc<BroadcastRequestDto, BroadcastResponseDto, JsonNode> {
@@ -77,8 +79,8 @@ public class M360Svc extends AbsApiSvc<BroadcastRequestDto, BroadcastResponseDto
     if (resp.has("transid"))
       bResp.setTransId(resp.get("transid").asText());
     if (resp.has("timestamp"))
-      bResp.setTimestamp(MapperUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(resp.get("timestamp").asText(),
-          DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))));
+      bResp.setTimestamp(DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(resp.get("timestamp").asText(),
+          DateTimeFormatter.ofPattern(DateUtil.M360_TIMESTAMP_FORMAT))));
     if (resp.has("msgcount"))
       bResp.setMsgCount(resp.get("msgcount").asInt());
 

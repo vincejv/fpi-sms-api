@@ -18,17 +18,42 @@
 
 package com.abavilla.fpi.util;
 
-public abstract class AbavillaConst {
-  public static final String COMMA_SEP = ", ";
-  public static final String PH_CURRENCY = "PHP";
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
-  public static final String CREATED = "Created";
+public class DateUtil {
 
-  public static final String ACKNOWLEDGED = "Created";
+  public static final String M360_TIMESTAMP_FORMAT = "yyyyMMddHHmmss";
 
-  public static final String PROV_GL = "GlobeLabs";
+  public static String nowAsStr() {
+    return LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME);
+  }
 
-  public static final String PROV_DTONE = "DTOne";
+  public static LocalDateTime now() {
+    return LocalDateTime.now(ZoneOffset.UTC);
+  }
 
-  public static final String NO_LOAD_PROVIDER_AVAILABLE = "No Load provider available";
+  public static String convertStrDateToFormat(String dateStr, String inFormat, String outFormat) {
+    var date = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(inFormat));
+    return date.format(DateTimeFormatter.ofPattern(outFormat));
+  }
+
+  public static String convertStrDateToFormat(String dateStr, DateTimeFormatter inFormat, DateTimeFormatter outFormat) {
+    var date = LocalDateTime.parse(dateStr, inFormat);
+    return date.format(outFormat);
+  }
+
+  public static LocalDateTime convertLdtToUtc(LocalDateTime ldt, ZoneId zoneId) {
+    var zdt = ZonedDateTime.of(ldt, zoneId);
+    return zdt.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+  }
+
+  public static LocalDateTime convertLdtUTC8ToUtc(LocalDateTime ldt) {
+    var zdt = ZonedDateTime.of(ldt, ZoneId.of("Asia/Shanghai"));
+    return zdt.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+  }
+
 }

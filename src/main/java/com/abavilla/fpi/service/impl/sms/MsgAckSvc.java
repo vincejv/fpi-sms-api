@@ -18,6 +18,16 @@
 
 package com.abavilla.fpi.service.impl.sms;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import com.abavilla.fpi.dto.impl.NullDto;
 import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.impl.sms.LeakAck;
@@ -26,19 +36,10 @@ import com.abavilla.fpi.entity.impl.sms.StateEncap;
 import com.abavilla.fpi.exceptions.ApiSvcEx;
 import com.abavilla.fpi.repo.impl.sms.MsgReqRepo;
 import com.abavilla.fpi.service.AbsSvc;
-import com.abavilla.fpi.util.MapperUtil;
+import com.abavilla.fpi.util.DateUtil;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.context.ManagedExecutor;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class MsgAckSvc extends AbsSvc<NullDto, LeakAck>  {
@@ -55,8 +56,8 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck>  {
 
   public Uni<Void> acknowledge(String msgId, String ackStsCde, String ackTimestamp) {
     ApiStatus apiStatus = ApiStatus.fromId(Integer.parseInt(ackStsCde));
-    LocalDateTime ackTime = MapperUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(ackTimestamp,
-        DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+    LocalDateTime ackTime = DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(ackTimestamp,
+        DateTimeFormatter.ofPattern(DateUtil.M360_TIMESTAMP_FORMAT)));
     Uni<Optional<MsgReq>> byMsgId = msgReqRepo.findByMsgId(msgId);
 
     /* run in background, immediately return response to webhook */

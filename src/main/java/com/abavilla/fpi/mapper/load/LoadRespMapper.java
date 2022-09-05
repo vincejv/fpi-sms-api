@@ -18,21 +18,21 @@
 
 package com.abavilla.fpi.mapper.load;
 
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.abavilla.fpi.dto.impl.api.load.gl.GLRewardsRespDto;
 import com.abavilla.fpi.dto.impl.load.LoadRespDto;
+import com.abavilla.fpi.mapper.load.gl.GLMapper;
+import com.abavilla.fpi.util.DateUtil;
 import com.dtone.dvs.dto.TransactionResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
@@ -42,6 +42,7 @@ public interface LoadRespMapper {
       @Mapping(target = "extTransactionId", source = "body.transactionId"),
       @Mapping(target = "transactionId", ignore = true),
       @Mapping(target = "status", ignore = true), // TODO: temporarily ignore
+      @Mapping(target = "timestamp", source = "body.timestamp", qualifiedByName = "formatGlTimestamp"),
       @Mapping(target = ".", source = "body."),
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),
@@ -51,7 +52,6 @@ public interface LoadRespMapper {
   @Mappings(value = {
       @Mapping(target = "extTransactionId", source = "id"),
       // @Mapping(target = "status", source = "status.message"),
-      @Mapping(target = "timestamp", source = "creationDate"),
       @Mapping(target = "status", ignore = true),  // TODO: temporarily ignore
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),
@@ -59,24 +59,14 @@ public interface LoadRespMapper {
   void mapDTRespToDto(TransactionResponse source,
                       @MappingTarget LoadRespDto dest);
 
-  default String ldtToStr(LocalDateTime ldtTimestamp) {
-    if (ldtTimestamp != null) {
-      var formatter = DateTimeFormatter
-          .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
-      return ZonedDateTime.of(ldtTimestamp, ZoneId.of("UTC")).format(formatter);
-    } else {
-      return null;
-    }
+  @Named("formatGlTimestamp")
+  default String formatGlTimestamp(String source) {
+      if (StringUtils.isNotBlank(source)) {
+        return DateUtil.convertStrDateToFormat(source,
+            DateTimeFormatter.ofPattern(GLMapper.GL_TIMESTAMP_FORMAT),
+            DateTimeFormatter.ISO_DATE_TIME);
+      }
+    return null;
   }
 
-  default LocalDateTime strToLdt(String strTimestamp) {
-    var formatter = DateTimeFormatter
-        .ofPattern("EEE, MMM dd yyyy HH:mm:ss 'GMT'Z (z)");
-    try {
-      var zdt = ZonedDateTime.parse(strTimestamp, formatter);
-      return zdt.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
-    } catch (DateTimeException ex) {
-      return null;
-    }
-  }
 }

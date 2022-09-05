@@ -36,14 +36,10 @@ public class DateUtil {
     return LocalDateTime.now(ZoneOffset.UTC);
   }
 
-  public static String convertStrDateToFormat(String dateStr, String inFormat, String outFormat) {
-    var date = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(inFormat));
-    return date.format(DateTimeFormatter.ofPattern(outFormat));
-  }
-
   public static String convertStrDateToFormat(String dateStr, DateTimeFormatter inFormat, DateTimeFormatter outFormat) {
-    var date = LocalDateTime.parse(dateStr, inFormat);
-    return date.format(outFormat);
+    var ldt = LocalDateTime.parse(dateStr, inFormat);
+    var zdt = ZonedDateTime.of(ldt, ZoneOffset.UTC);
+    return zdt.format(outFormat);
   }
 
   public static LocalDateTime convertLdtToUtc(LocalDateTime ldt, ZoneId zoneId) {

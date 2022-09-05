@@ -20,7 +20,7 @@ package com.abavilla.fpi.mapper.load.dtone;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -52,7 +52,7 @@ public interface DTOneMapper {
   default String dtLdtToStr(LocalDateTime ldtTimestamp) {
     if (ldtTimestamp != null) {
       var formatter = DateTimeFormatter.ISO_DATE_TIME;
-      return ZonedDateTime.of(ldtTimestamp, ZoneId.of("UTC")).format(formatter);
+      return ZonedDateTime.of(ldtTimestamp, ZoneOffset.UTC).format(formatter);
     } else {
       return null;
     }
@@ -62,7 +62,7 @@ public interface DTOneMapper {
     var formatter = DateTimeFormatter.ISO_DATE_TIME;
     try {
       var zdt = ZonedDateTime.parse(strTimestamp, formatter);
-      return zdt.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+      return zdt.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
     } catch (DateTimeException | NullPointerException ex) {
       return null;
     }

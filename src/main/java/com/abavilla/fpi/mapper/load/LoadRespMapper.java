@@ -52,6 +52,7 @@ public interface LoadRespMapper {
   @Mappings(value = {
       @Mapping(target = "extTransactionId", source = "id"),
       // @Mapping(target = "status", source = "status.message"),
+      @Mapping(target = "timestamp", source = "creationDate"),
       @Mapping(target = "status", ignore = true),  // TODO: temporarily ignore
       @Mapping(target = "dateCreated", ignore = true),
       @Mapping(target = "dateUpdated", ignore = true),

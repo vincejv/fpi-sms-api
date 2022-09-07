@@ -32,15 +32,4 @@ images:
   - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
 options:
   substitutionOption: ALLOW_LOOSE
-  machineType: 'E2_HIGHCPU_32'
-substitutions:
-  _LABELS: gcb-trigger-id=274e2ffb-27a5-4002-8692-d0c11de61c02
-  _TRIGGER_ID: 274e2ffb-27a5-4002-8692-d0c11de61c02
-  _GCR_HOSTNAME: asia.gcr.io
-  _PLATFORM: managed
-  _SERVICE_NAME: fpi-sms-api-v1
-  _DEPLOY_REGION: asia-southeast1
-tags:
-  - gcp-cloud-build-deploy-cloud-run
-  - gcp-cloud-build-deploy-cloud-run-managed
-  - fpi-sms-api-v1
+  machineType: 'E2_HIGHCPU_8'

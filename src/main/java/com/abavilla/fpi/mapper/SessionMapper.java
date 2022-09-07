@@ -16,14 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.repo.impl.sms;
+package com.abavilla.fpi.mapper;
 
-import com.abavilla.fpi.entity.impl.sms.Customer;
-import com.abavilla.fpi.repo.AbsMongoRepo;
+import com.abavilla.fpi.dto.impl.SessionDto;
+import com.abavilla.fpi.entity.impl.Session;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
-import javax.enterprise.context.ApplicationScoped;
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+public interface SessionMapper extends IMapper<SessionDto, Session> {
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
+  SessionDto mapToDto(Session entity);
 
-@ApplicationScoped
-public class CxRepo extends AbsMongoRepo<Customer> {
-
+  @Mapping(target = "dateCreated", ignore = true)
+  @Mapping(target = "dateUpdated", ignore = true)
+  Session mapToEntity(SessionDto dto);
 }

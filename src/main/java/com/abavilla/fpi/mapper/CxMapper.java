@@ -16,9 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.entity.impl.sms;
+package com.abavilla.fpi.mapper;
 
-import com.abavilla.fpi.entity.AbsItem;
+import com.abavilla.fpi.dto.impl.CustomerDto;
+import com.abavilla.fpi.entity.impl.Customer;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-public class NullItem extends AbsItem {
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+public interface CxMapper extends IMapper<CustomerDto, Customer> {
 }

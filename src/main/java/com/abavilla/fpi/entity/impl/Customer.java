@@ -16,10 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.dto.impl.sms;
+package com.abavilla.fpi.entity.impl;
 
-import com.abavilla.fpi.dto.AbsDto;
-import io.quarkus.runtime.annotations.RegisterForReflection;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
+import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -27,8 +27,8 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@RegisterForReflection
-public class CustomerDto extends AbsDto {
+@MongoEntity(collection="customers")
+public class Customer extends AbsMongoItem {
   private String name;
   private String address;
   private String mobile;

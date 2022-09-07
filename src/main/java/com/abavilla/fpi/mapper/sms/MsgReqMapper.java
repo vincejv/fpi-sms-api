@@ -22,6 +22,7 @@ import com.abavilla.fpi.dto.impl.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.dto.impl.sms.MsgReqDto;
 import com.abavilla.fpi.entity.enums.Telco;
 import com.abavilla.fpi.entity.impl.sms.MsgReq;
+import com.abavilla.fpi.mapper.IMapper;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

@@ -16,30 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.dto.impl.sms;
+package com.abavilla.fpi.service.impl;
 
-import com.abavilla.fpi.dto.AbsDto;
-import io.quarkus.runtime.annotations.RegisterForReflection;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import javax.enterprise.context.ApplicationScoped;
 
-import java.time.LocalDateTime;
+import com.abavilla.fpi.dto.impl.ErrorLogDto;
+import com.abavilla.fpi.entity.impl.ErrorLog;
+import com.abavilla.fpi.service.AbsSvc;
+import com.abavilla.fpi.util.MapperUtil;
+import io.smallrye.mutiny.Uni;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@RegisterForReflection
-public class ErrorLogDto extends AbsDto {
-  @BsonProperty("Message")
-  private String message;
-  @BsonProperty("StackTrace")
-  private String stackTrace;
-  @BsonProperty("Payload")
-  private Object payload;
-  @BsonProperty("DateCreated")
-  private LocalDateTime dateCreated;
-  @BsonProperty("DateUpdated")
-  private LocalDateTime dateUpdated;
+@ApplicationScoped
+public class ErrorLogSvc extends AbsSvc<ErrorLogDto, ErrorLog> {
+  public Uni<ErrorLogDto> post(ErrorLogDto dto) {
+    return repo.persist(mapToEntity(dto)).map(this::mapToDto);
+  }
+  @Override
+  public ErrorLogDto mapToDto(ErrorLog entity) {
+    return MapperUtil.mapper().convertValue(entity, ErrorLogDto.class);
+  }
+
+  @Override
+  public ErrorLog mapToEntity(ErrorLogDto dto) {
+    return MapperUtil.mapper().convertValue(dto, ErrorLog.class);
+  }
 }

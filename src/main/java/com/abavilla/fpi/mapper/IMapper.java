@@ -16,14 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.repo.impl.sms;
+package com.abavilla.fpi.mapper;
 
-import com.abavilla.fpi.entity.impl.sms.ErrorLog;
-import com.abavilla.fpi.repo.AbsMongoRepo;
+import com.abavilla.fpi.dto.IDto;
+import com.abavilla.fpi.entity.IItem;
 
-import javax.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
-public class ErrorLogRepo extends AbsMongoRepo<ErrorLog> {
-
+public interface IMapper<DTO extends IDto, ENTITY extends IItem> {
+  DTO mapToDto(ENTITY entity);
+  ENTITY mapToEntity(DTO dto);
 }

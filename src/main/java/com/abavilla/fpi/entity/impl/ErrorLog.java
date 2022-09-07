@@ -16,22 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.entity.impl.sms;
+package com.abavilla.fpi.entity.impl;
+
+import java.time.LocalDateTime;
 
 import com.abavilla.fpi.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@MongoEntity(collection="login_sessions")
-public class Session extends AbsMongoItem {
-  private String username;
-  private String refreshToken;
-  private String accessToken;
-  private String ipAddress;
-  private String userAgent;
+@MongoEntity(collection="app_error_log")
+public class ErrorLog extends AbsMongoItem {
+  @BsonProperty("Message")
+  private String message;
+  @BsonProperty("StackTrace")
+  private String stackTrace;
+  @BsonProperty("Payload")
+  private Object payload;
+  @BsonProperty("DateCreated")
+  private LocalDateTime dateCreated;
+  @BsonProperty("DateUpdated")
+  private LocalDateTime dateUpdated;
 }

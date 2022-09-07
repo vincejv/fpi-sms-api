@@ -16,30 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.entity.impl.sms;
+package com.abavilla.fpi.service.impl;
 
-import com.abavilla.fpi.entity.mongo.AbsMongoItem;
-import io.quarkus.mongodb.panache.common.MongoEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
-import java.time.LocalDateTime;
+import com.abavilla.fpi.dto.impl.CustomerDto;
+import com.abavilla.fpi.entity.impl.Customer;
+import com.abavilla.fpi.mapper.CxMapper;
+import com.abavilla.fpi.service.AbsSvc;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@MongoEntity(collection="app_error_log")
-public class ErrorLog extends AbsMongoItem {
-  @BsonProperty("Message")
-  private String message;
-  @BsonProperty("StackTrace")
-  private String stackTrace;
-  @BsonProperty("Payload")
-  private Object payload;
-  @BsonProperty("DateCreated")
-  private LocalDateTime dateCreated;
-  @BsonProperty("DateUpdated")
-  private LocalDateTime dateUpdated;
+@ApplicationScoped
+public class CxSvc extends AbsSvc<CustomerDto, Customer> {
+  @Inject
+  CxMapper mapper;
+
+  @Override
+  public CustomerDto mapToDto(Customer entity) {
+    return mapper.mapToDto(entity);
+  }
+
+  @Override
+  public Customer mapToEntity(CustomerDto dto) {
+    return mapper.mapToEntity(dto);
+  }
 }

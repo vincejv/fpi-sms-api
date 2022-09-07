@@ -16,15 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.controller.impl;
 
-import com.abavilla.fpi.dto.impl.sms.CustomerDto;
-import com.abavilla.fpi.entity.impl.sms.Customer;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
+import javax.ws.rs.Path;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface CxMapper extends IMapper<CustomerDto, Customer> {
+import com.abavilla.fpi.controller.AbsResource;
+import com.abavilla.fpi.dto.impl.CustomerDto;
+import com.abavilla.fpi.entity.impl.Customer;
+import com.abavilla.fpi.service.impl.CxSvc;
+
+@Path("/fpi/cx")
+public class CxResource extends AbsResource<CustomerDto, Customer, CxSvc> {
+
 }

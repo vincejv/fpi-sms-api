@@ -16,21 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.dto.impl.sms;
+package com.abavilla.fpi.controller.impl;
 
-import com.abavilla.fpi.entity.mongo.AbsMongoItem;
-import io.quarkus.runtime.annotations.RegisterForReflection;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import javax.ws.rs.Path;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@RegisterForReflection
-public class LoginDto extends AbsMongoItem {
-  private String username;
-  private String password;
-  private String remoteAddress;
-  private String userAgent;
+import com.abavilla.fpi.controller.AbsResource;
+import com.abavilla.fpi.dto.impl.ErrorLogDto;
+import com.abavilla.fpi.entity.impl.ErrorLog;
+import com.abavilla.fpi.service.impl.ErrorLogSvc;
+import io.smallrye.mutiny.Uni;
+
+@Path("/fpi/log/error")
+public class ErrorLogResource extends AbsResource<ErrorLogDto, ErrorLog, ErrorLogSvc> {
+  public Uni<ErrorLogDto> post(ErrorLogDto dto) {
+    return service.post(dto);
+  }
 }

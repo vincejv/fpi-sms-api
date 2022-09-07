@@ -16,28 +16,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.service.impl.sms;
+package com.abavilla.fpi.dto.impl;
 
-import com.abavilla.fpi.dto.impl.sms.ErrorLogDto;
-import com.abavilla.fpi.entity.impl.sms.ErrorLog;
-import com.abavilla.fpi.service.AbsSvc;
-import com.abavilla.fpi.util.MapperUtil;
-import io.smallrye.mutiny.Uni;
+import com.abavilla.fpi.entity.mongo.AbsMongoItem;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
-public class ErrorLogSvc extends AbsSvc<ErrorLogDto, ErrorLog> {
-  public Uni<ErrorLogDto> post(ErrorLogDto dto) {
-    return repo.persist(mapToEntity(dto)).map(this::mapToDto);
-  }
-  @Override
-  public ErrorLogDto mapToDto(ErrorLog entity) {
-    return MapperUtil.mapper().convertValue(entity, ErrorLogDto.class);
-  }
-
-  @Override
-  public ErrorLog mapToEntity(ErrorLogDto dto) {
-    return MapperUtil.mapper().convertValue(dto, ErrorLog.class);
-  }
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@RegisterForReflection
+public class LoginDto extends AbsMongoItem {
+  private String username;
+  private String password;
+  private String remoteAddress;
+  private String userAgent;
 }

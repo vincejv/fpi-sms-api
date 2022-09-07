@@ -38,6 +38,7 @@ public enum Telco {
   SMART(2, "Smart"),
   SUN(3, "Sun"),
   DITO(4, "DITO"),
+  CIGNAL(200, "Cignal"),
   UNKNOWN(-1, "");
   private static final Map<String,Telco> ENUM_MAP = new HashMap<>();
 

@@ -31,7 +31,7 @@ public class DateUtil {
   public static final String M360_TIMESTAMP_FORMAT = "yyyyMMddHHmmss";
 
   public static String nowAsStr() {
-    return LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME);
+    return LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(DEFAULT_TIMESTAMP_FORMAT));
   }
 
   public static LocalDateTime now() {

@@ -20,6 +20,7 @@ package com.abavilla.fpi.util;
 
 public abstract class AbavillaConst {
   public static final String COMMA_SEP = ", ";
+
   public static final String PH_CURRENCY = "PHP";
 
   public static final String CREATED = "Created";

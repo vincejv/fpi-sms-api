@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.abavilla</groupId>
   <artifactId>fpi-sms-api</artifactId>
-  <version>1.0.7-RC</version>
+  <version>1.0.8-RC</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
@@ -156,11 +156,13 @@
       <artifactId>quarkus-config-yaml</artifactId>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber -->
     <dependency>
-      <groupId>com.dtone.dvs</groupId>
-      <artifactId>dvs-apiclient</artifactId>
-      <version>2.0.2-async-vincejv</version>
+      <groupId>com.googlecode.libphonenumber</groupId>
+      <artifactId>libphonenumber</artifactId>
+      <version>8.12.54</version>
     </dependency>
+
 
   </dependencies>
   <build>

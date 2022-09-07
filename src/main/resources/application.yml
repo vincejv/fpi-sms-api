@@ -11,10 +11,6 @@ quarkus:
       url: https://api.m360.com.ph/v3/api/broadcast
       #url: https://localhost
       scope: javax.inject.Singleton
-    gl-rewards-api:
-      url: https://devapi.globelabs.com.ph/rewards/v1/transactions/send
-      #url: https://localhost
-      scope: javax.inject.Singleton
   oidc:
     auth-server-url: ${OIDC_AUTH_URL:https://localhost:8543/realms/quarkus}
     client-id: ${OIDC_CLIENT_ID:backend-api}
@@ -55,15 +51,3 @@ ph:
       api-key: ${SMS_API_KEY:123456789}
       api-secret: ${SMS_SECRET:123456789}
       sender-id: ${SMS_SID:ABCDE}
-    gl:
-      app-id: ${GL_APP_ID:APP112233}
-      app-secret: ${GL_APP_SEC:APPSEC112233}
-      rewards:
-        token: ${GL_APP_AMAX_TOKEN:APPSEC112233}
-
-com:
-  dtone:
-    base-url: ${DTONE_BASEURL:https://preprod-dvs-api.dtone.com}
-    api-key: ${DTONE_APIKEY:aaaaabbcccceee}
-    api-secret: ${DTONE_APISECRET:zzzzxxeeedd}
-    callback-url: ${DTONE_CALLBACK_URL:https://example.com}

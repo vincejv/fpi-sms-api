@@ -104,7 +104,7 @@ public class DTOneLoadSvc extends AbsLoadProviderSvc {
     dtoOneReq.setAutoConfirm(true);
 
     var destMob = new PartyIdentifier();
-    destMob.setMobileNumber(loadRequest.getMobile());
+    //destMob.setMobileNumber(loadRequest.getMobile());
     destMob.setAccountNumber(loadRequest.getMobile());
     dtoOneReq.setCreditPartyIdentifier(destMob);
     dtoOneReq.setProductId(NumberUtils.toLong(  // product id selection

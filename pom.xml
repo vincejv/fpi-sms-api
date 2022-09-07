@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.abavilla</groupId>
   <artifactId>fpi-sms-api</artifactId>
-  <version>1.0.6-RC</version>
+  <version>1.0.7-RC</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
@@ -159,7 +159,7 @@
     <dependency>
       <groupId>com.dtone.dvs</groupId>
       <artifactId>dvs-apiclient</artifactId>
-      <version>2.0.1-async-vincejv</version>
+      <version>2.0.2-async-vincejv</version>
     </dependency>
 
   </dependencies>

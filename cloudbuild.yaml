@@ -35,3 +35,4 @@ images:
 options:
   machineType: UNSPECIFIED
   substitutionOption: ALLOW_LOOSE
+timeout: "7200s"

@@ -28,6 +28,8 @@ quarkus:
         '2':
           path: /fpi/sms/dlr/*
           enforcement-mode: DISABLED
+  native:
+    native-image-xmx: 3.5G
 
 fpi:
   webhook:

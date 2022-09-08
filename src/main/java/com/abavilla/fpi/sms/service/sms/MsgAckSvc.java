@@ -37,6 +37,7 @@ import com.abavilla.fpi.sms.entity.sms.LeakAck;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.repo.sms.MsgReqRepo;
+import com.abavilla.fpi.sms.util.M360Const;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.context.ManagedExecutor;
@@ -57,7 +58,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
   public Uni<Void> acknowledge(String msgId, String ackStsCde, String ackTimestamp) {
     ApiStatus apiStatus = ApiStatus.fromId(Integer.parseInt(ackStsCde));
     LocalDateTime ackTime = DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(ackTimestamp,
-        DateTimeFormatter.ofPattern(DateUtil.M360_TIMESTAMP_FORMAT)));
+        DateTimeFormatter.ofPattern(M360Const.M360_TIMESTAMP_FORMAT)));
     Uni<Optional<MsgReq>> byMsgId = msgReqRepo.findByMsgId(msgId);
 
     /* run in background, immediately return response to webhook */

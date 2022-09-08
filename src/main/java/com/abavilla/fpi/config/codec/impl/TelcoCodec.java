@@ -18,8 +18,8 @@
 
 package com.abavilla.fpi.config.codec.impl;
 
-import com.abavilla.fpi.config.codec.AbsCodec;
 import com.abavilla.fpi.entity.enums.Telco;
+import com.abavilla.fpi.fw.config.codec.AbsCodec;
 
 public class TelcoCodec extends AbsCodec<Telco> {
 

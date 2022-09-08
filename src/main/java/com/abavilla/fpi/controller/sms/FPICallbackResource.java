@@ -16,33 +16,41 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.controller.sms;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+import com.abavilla.fpi.config.ApiKeyConfig;
+import com.abavilla.fpi.entity.sms.LeakAck;
+import com.abavilla.fpi.fw.controller.AbsResource;
+import com.abavilla.fpi.fw.dto.impl.NullDto;
+import com.abavilla.fpi.service.sms.MsgAckSvc;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.smallrye.mutiny.Uni;
+import org.apache.commons.lang3.StringUtils;
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
-
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
-  }
-
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+@Path("/fpi/sms/dlr")
+public class FPICallbackResource extends AbsResource<NullDto, LeakAck, MsgAckSvc> {
+  @Inject
+  ApiKeyConfig apiKeyConfig;
+  @Path("webhook/{apiKey}")
+  @GET
+  public Uni<Void> acknowledge(@QueryParam("status_code") String stsCde,
+                               @QueryParam("transid") String msgId,
+                               @QueryParam("timestamp") String timestamp,
+                               @PathParam("apiKey") String apiKey) {
+    if (StringUtils.equals(apiKey, apiKeyConfig.getDlrApiKey())) {
+      return service.acknowledge(msgId, stsCde, timestamp);
+    } else {
+      throw new WebApplicationException(Response
+          .status(HttpResponseStatus.UNAUTHORIZED.code())
+          .build());
+    }
   }
 }

@@ -16,33 +16,48 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.dto.api.m360;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import com.abavilla.fpi.fw.dto.AbsDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+@Data
+@EqualsAndHashCode(callSuper = false)
+@RegisterForReflection
+@AllArgsConstructor
+public class BroadcastRequestDto extends AbsDto {
+  @JsonProperty("app_key")
+  private String appKey;
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
+  @JsonProperty("app_secret")
+  private String appSecret;
 
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
-  }
+  @JsonProperty("msisdn")
+  private String mobileNumber;
 
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+  @JsonProperty("content")
+  private String content;
+
+  @JsonProperty("shortcode_mask")
+  private String senderId;
+
+  @JsonProperty("is_intl")
+  private Boolean isInternational;
+
+  /**
+   * 0 - SMSC Default Alphabet
+   * 1 - ASCII
+   * 3 - Latin 1 (ISO-8859-1)
+   * 8 - UCS2 (ISO/IEC-10646)
+   */
+  @JsonProperty("dcs")
+  private Integer dataCodingScheme;
+
+  public BroadcastRequestDto() {
+    isInternational = false;
   }
 }

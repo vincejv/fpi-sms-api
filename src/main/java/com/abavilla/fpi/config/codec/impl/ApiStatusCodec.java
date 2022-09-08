@@ -18,8 +18,8 @@
 
 package com.abavilla.fpi.config.codec.impl;
 
-import com.abavilla.fpi.config.codec.AbsCodec;
 import com.abavilla.fpi.entity.enums.ApiStatus;
+import com.abavilla.fpi.fw.config.codec.AbsCodec;
 
 public class ApiStatusCodec extends AbsCodec<ApiStatus> {
 

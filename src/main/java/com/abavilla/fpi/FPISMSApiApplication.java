@@ -18,13 +18,13 @@
 
 package com.abavilla.fpi;
 
-import com.abavilla.fpi.util.MapperUtil;
-import io.quarkus.logging.Log;
-import io.quarkus.runtime.StartupEvent;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+
+import com.abavilla.fpi.fw.util.MapperUtil;
+import io.quarkus.logging.Log;
+import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class FPISMSApiApplication {

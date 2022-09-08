@@ -16,33 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.repo.sms;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import java.util.Optional;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+import javax.enterprise.context.ApplicationScoped;
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
+import com.abavilla.fpi.entity.sms.MsgReq;
+import com.abavilla.fpi.fw.repo.IMongoRepo;
+import io.smallrye.mutiny.Uni;
 
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
-  }
-
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+@ApplicationScoped
+public class MsgReqRepo implements IMongoRepo<MsgReq> {
+  public Uni<Optional<MsgReq>> findByMsgId(String msgId){
+    return find("messageId", msgId).firstResultOptional();
   }
 }

@@ -16,33 +16,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.entity.sms;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+@Data
+@EqualsAndHashCode(callSuper = true)
+@RegisterForReflection
+@AllArgsConstructor
+public class BroadcastRequest extends AbsMongoItem {
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
+  @BsonProperty("msisdn")
+  private String mobileNumber;
 
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
-  }
+  @BsonProperty("content")
+  private String content;
 
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+  @BsonProperty("shortcode_mask")
+  private String senderId;
+
+  @BsonProperty("is_intl")
+  private Boolean isInternational;
+
+  @BsonProperty("dcs")
+  private DCSCoding dataCodingScheme;
+
+  public BroadcastRequest() {
+    isInternational = false;
   }
 }

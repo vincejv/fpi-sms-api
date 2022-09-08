@@ -16,33 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.service;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import javax.enterprise.context.ApplicationScoped;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+import com.abavilla.fpi.dto.ErrorLogDto;
+import com.abavilla.fpi.entity.ErrorLog;
+import com.abavilla.fpi.fw.service.AbsSvc;
+import com.abavilla.fpi.fw.util.MapperUtil;
+import io.smallrye.mutiny.Uni;
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
-
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
+@ApplicationScoped
+public class ErrorLogSvc extends AbsSvc<ErrorLogDto, ErrorLog> {
+  public Uni<ErrorLogDto> post(ErrorLogDto dto) {
+    return repo.persist(mapToEntity(dto)).map(this::mapToDto);
+  }
+  @Override
+  public ErrorLogDto mapToDto(ErrorLog entity) {
+    return MapperUtil.mapper().convertValue(entity, ErrorLogDto.class);
   }
 
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+  @Override
+  public ErrorLog mapToEntity(ErrorLogDto dto) {
+    return MapperUtil.mapper().convertValue(dto, ErrorLog.class);
   }
 }

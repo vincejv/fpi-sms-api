@@ -24,13 +24,12 @@ import com.abavilla.fpi.config.codec.impl.TelcoCodec;
 import com.abavilla.fpi.entity.enums.ApiStatus;
 import com.abavilla.fpi.entity.enums.DCSCoding;
 import com.abavilla.fpi.entity.enums.Telco;
+import com.abavilla.fpi.fw.config.codec.IEnumCodecProvider;
 import org.bson.codecs.Codec;
-import org.bson.codecs.configuration.CodecProvider;
-import org.bson.codecs.configuration.CodecRegistry;
 
-public class EnumCodecProvider implements CodecProvider {
+public class EnumCodecProvider implements IEnumCodecProvider {
   @Override
-  public <T> Codec<T> get(Class<T> clazz, CodecRegistry registry) {
+  public <T> Codec<T> getCodecProvider(Class<T> clazz) {
     if (clazz == Telco.class) {
       return (Codec<T>) new TelcoCodec();
     } else if (clazz == ApiStatus.class) {
@@ -38,6 +37,7 @@ public class EnumCodecProvider implements CodecProvider {
     } else if (clazz == DCSCoding.class) {
       return (Codec<T>) new DCSCodingCodec();
     }
+
     return null; // Don't throw here, this tells Mongo this provider doesn't provide a decoder for the requested clazz
   }
 }

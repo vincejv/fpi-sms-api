@@ -16,33 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.service.sms;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import javax.enterprise.context.ApplicationScoped;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+import com.abavilla.fpi.dto.sms.MsgTemplateDto;
+import com.abavilla.fpi.entity.sms.MsgTemplate;
+import com.abavilla.fpi.fw.service.AbsSvc;
+import com.abavilla.fpi.fw.util.MapperUtil;
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
+@ApplicationScoped
+public class MsgTemplateSvc extends AbsSvc<MsgTemplateDto, MsgTemplate> {
 
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
+  @Override
+  public MsgTemplateDto mapToDto(MsgTemplate entity) {
+    return MapperUtil.mapper().convertValue(entity, MsgTemplateDto.class);
   }
 
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+  @Override
+  public MsgTemplate mapToEntity(MsgTemplateDto dto) {
+    return MapperUtil.mapper().convertValue(dto, MsgTemplate.class);
   }
 }

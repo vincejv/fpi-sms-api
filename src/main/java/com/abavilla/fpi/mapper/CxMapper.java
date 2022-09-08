@@ -18,8 +18,9 @@
 
 package com.abavilla.fpi.mapper;
 
-import com.abavilla.fpi.dto.impl.CustomerDto;
-import com.abavilla.fpi.entity.impl.Customer;
+import com.abavilla.fpi.dto.CustomerDto;
+import com.abavilla.fpi.entity.Customer;
+import com.abavilla.fpi.fw.mapper.IMapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

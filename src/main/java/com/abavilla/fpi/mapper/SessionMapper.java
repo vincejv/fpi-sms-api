@@ -18,8 +18,9 @@
 
 package com.abavilla.fpi.mapper;
 
-import com.abavilla.fpi.dto.impl.SessionDto;
-import com.abavilla.fpi.entity.impl.Session;
+import com.abavilla.fpi.dto.SessionDto;
+import com.abavilla.fpi.entity.Session;
+import com.abavilla.fpi.fw.mapper.IMapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

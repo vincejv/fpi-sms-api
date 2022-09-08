@@ -16,33 +16,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.mapper.sms;
+package com.abavilla.fpi.entity.sms;
 
-import com.abavilla.fpi.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.entity.enums.DCSCoding;
-import com.abavilla.fpi.entity.sms.BroadcastRequest;
-import com.abavilla.fpi.fw.mapper.IMapper;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequestDto mapToDto(BroadcastRequest entity);
+import com.abavilla.fpi.entity.enums.ApiStatus;
+import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-  @Mapping(target = "dataCodingScheme")
-  BroadcastRequest mapToEntity(BroadcastRequestDto dto);
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class StateEncap extends AbsMongoItem implements Comparable<StateEncap> {
+  private ApiStatus state;
 
-  default Integer dcsEnumToInt(DCSCoding dcs) {
-    // Custom mapping here resulting in a Map<> map
-    return dcs == null ? 0 : dcs.getId();
+  public StateEncap(ApiStatus state, LocalDateTime dateUpdated) {
+    this.state = state;
+    this.dateUpdated = (dateUpdated);
   }
 
-  default DCSCoding intToDcsEnum(Integer value) {
-    // Custom mapping here resulting in a Map<> map
-    return DCSCoding.fromId(value);
+  @Override
+  public int compareTo(StateEncap other) {
+    return Comparator.comparing(StateEncap::getDateCreated)
+        .thenComparing(StateEncap::getState)
+        .compare(this, other);
   }
 }

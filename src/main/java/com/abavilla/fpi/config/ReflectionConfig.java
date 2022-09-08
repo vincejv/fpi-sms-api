@@ -18,9 +18,10 @@
 
 package com.abavilla.fpi.config;
 
+import com.abavilla.fpi.fw.config.BaseReflectionConfig;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection(targets = {
 })
-public class ReflectionConfig {
+public class ReflectionConfig extends BaseReflectionConfig {
 }

@@ -19,19 +19,9 @@
 package com.abavilla.fpi.sms;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
-import com.abavilla.fpi.fw.util.MapperUtil;
-import io.quarkus.logging.Log;
-import io.quarkus.runtime.StartupEvent;
+import com.abavilla.fpi.fw.FPIApplication;
 
 @ApplicationScoped
-public class FPISMSApiApplication {
-  @Inject
-  MapperUtil mapperUtil;
-  void onStart(@Observes StartupEvent ev) {
-    mapperUtil.init();
-    Log.info("The application is starting...");
-  }
+public class FPISMSApiApplication extends FPIApplication {
 }

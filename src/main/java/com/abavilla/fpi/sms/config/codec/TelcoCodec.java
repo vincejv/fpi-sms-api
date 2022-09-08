@@ -16,19 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.config.codec.impl;
+package com.abavilla.fpi.sms.config.codec;
 
 import com.abavilla.fpi.fw.config.codec.AbsCodec;
-import com.abavilla.fpi.sms.entity.enums.DCSCoding;
+import com.abavilla.fpi.sms.entity.enums.Telco;
 
-public class DCSCodingCodec extends AbsCodec<DCSCoding> {
+public class TelcoCodec extends AbsCodec<Telco> {
 
-  public DCSCodingCodec() {
+  public TelcoCodec() {
     super();
   }
 
   @Override
-  public Class<DCSCoding> getEncoderClass() {
-    return DCSCoding.class;
+  public Class<Telco> getEncoderClass() {
+    return Telco.class;
   }
 }

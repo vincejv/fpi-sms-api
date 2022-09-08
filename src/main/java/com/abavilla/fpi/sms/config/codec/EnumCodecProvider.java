@@ -19,9 +19,6 @@
 package com.abavilla.fpi.sms.config.codec;
 
 import com.abavilla.fpi.fw.config.codec.IEnumCodecProvider;
-import com.abavilla.fpi.sms.config.codec.impl.ApiStatusCodec;
-import com.abavilla.fpi.sms.config.codec.impl.DCSCodingCodec;
-import com.abavilla.fpi.sms.config.codec.impl.TelcoCodec;
 import com.abavilla.fpi.sms.entity.enums.ApiStatus;
 import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.sms.entity.enums.Telco;

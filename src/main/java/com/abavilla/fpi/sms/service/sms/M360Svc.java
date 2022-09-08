@@ -32,6 +32,7 @@ import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.sms.dto.sms.MsgReqDto;
 import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.sms.repo.m360.M360ApiRepo;
+import com.abavilla.fpi.sms.util.M360Const;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.smallrye.mutiny.Uni;
 import lombok.SneakyThrows;
@@ -80,7 +81,7 @@ public class M360Svc extends AbsApiSvc<BroadcastRequestDto, BroadcastResponseDto
       bResp.setTransId(resp.get("transid").asText());
     if (resp.has("timestamp"))
       bResp.setTimestamp(DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(resp.get("timestamp").asText(),
-          DateTimeFormatter.ofPattern(DateUtil.M360_TIMESTAMP_FORMAT))));
+          DateTimeFormatter.ofPattern(M360Const.M360_TIMESTAMP_FORMAT))));
     if (resp.has("msgcount"))
       bResp.setMsgCount(resp.get("msgcount").asInt());
 

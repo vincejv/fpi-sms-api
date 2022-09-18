@@ -8,7 +8,7 @@ quarkus:
 # Your configuration properties
   rest-client:
     m360-api:
-      url: https://api.m360.com.ph/v3/api/broadcast
+      url: ${M360_BROADCAST_URL}
       #url: https://localhost
       scope: javax.inject.Singleton
   oidc:

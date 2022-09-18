@@ -44,6 +44,7 @@ steps:
       - $_SERVICE_NAME
       - '--member="allUsers"'
       - '--role="roles/run.invoker"'
+      - '--region=$_DEPLOY_REGION'
     id: Configure
     entrypoint: gcloud
 images:

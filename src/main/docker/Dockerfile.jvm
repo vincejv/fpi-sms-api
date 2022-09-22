@@ -79,10 +79,10 @@
 FROM registry.access.redhat.com/ubi8/openjdk-17:1.14 AS build
 
 # build jar
-COPY --chown=quarkus:quarkus mvnw /code/mvnw
-COPY --chown=quarkus:quarkus .mvn /code/.mvn
-COPY --chown=quarkus:quarkus pom.xml /code/
-USER quarkus
+COPY --chown=185 mvnw /code/mvnw
+COPY --chown=185 .mvn /code/.mvn
+COPY --chown=185 pom.xml /code/
+USER 185
 WORKDIR /code
 RUN chmod +x ./mvnw
 # Make environment variables accessible for build

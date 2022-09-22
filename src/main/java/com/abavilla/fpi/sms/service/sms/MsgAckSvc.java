@@ -70,7 +70,8 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
               throw new ApiSvcEx("Message Id for acknowledgement not found: " + msgId);
             }
           })
-          .onFailure().retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
+          .onFailure(ApiSvcEx.class)
+          .retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
           .atMost(5) // Retry for item not found and nothing else
           .chain(msgReq -> {
             var stateItem = new StateEncap(apiStatus, ackTime);

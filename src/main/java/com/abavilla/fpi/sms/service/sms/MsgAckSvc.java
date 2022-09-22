@@ -38,6 +38,7 @@ import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.repo.sms.MsgReqRepo;
 import com.abavilla.fpi.sms.util.M360Const;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.context.ManagedExecutor;
@@ -85,6 +86,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
             return msgReqRepo.persistOrUpdate(msgReq);
           })
           .onFailure().call(ex -> {
+            Log.error("Error leak ack", ex);
             LeakAck leak = new LeakAck();
             leak.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
             leak.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));

@@ -35,12 +35,12 @@ public class StateEncap extends AbsMongoItem implements Comparable<StateEncap> {
 
   public StateEncap(ApiStatus state, LocalDateTime dateUpdated) {
     this.state = state;
-    this.dateUpdated = (dateUpdated);
+    this.dateUpdated = dateUpdated;
   }
 
   @Override
   public int compareTo(StateEncap other) {
-    return Comparator.comparing(StateEncap::getDateCreated)
+    return Comparator.comparing(StateEncap::getDateUpdated)
         .thenComparing(StateEncap::getState)
         .compare(this, other);
   }

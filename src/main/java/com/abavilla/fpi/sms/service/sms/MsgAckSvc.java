@@ -38,6 +38,7 @@ import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.repo.sms.MsgReqRepo;
 import com.abavilla.fpi.sms.util.M360Const;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.context.ManagedExecutor;
@@ -70,7 +71,8 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
               throw new ApiSvcEx("Message Id for acknowledgement not found: " + msgId);
             }
           })
-          .onFailure().retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
+          .onFailure(ApiSvcEx.class)
+          .retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
           .atMost(5) // Retry for item not found and nothing else
           .chain(msgReq -> {
             var stateItem = new StateEncap(apiStatus, ackTime);
@@ -84,6 +86,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
             return msgReqRepo.persistOrUpdate(msgReq);
           })
           .onFailure().call(ex -> {
+            Log.error("Error leak ack", ex);
             LeakAck leak = new LeakAck();
             leak.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
             leak.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));

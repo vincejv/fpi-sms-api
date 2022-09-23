@@ -90,7 +90,7 @@ ARG GITHUB_USERNAME
 ARG GITHUB_TOKEN
 # RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
 COPY src /code/src
-RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B package -Dmaven.artifact.threads=24
+RUN ./mvnw -s ./.mvn/wrapper/settings.xml -B package
 
 ## Stage 2 : create the docker final image
 FROM registry.access.redhat.com/ubi8/openjdk-17-runtime:1.14

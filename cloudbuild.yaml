@@ -18,7 +18,6 @@ steps:
     id: Push
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     args:
-      - beta
       - run
       - services
       - update

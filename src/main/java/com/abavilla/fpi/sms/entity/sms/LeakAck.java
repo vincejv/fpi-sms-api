@@ -26,10 +26,12 @@ import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@BsonDiscriminator
 @MongoEntity(collection="m360_leak")
 public class LeakAck extends AbsMongoItem {
   private String msgId;

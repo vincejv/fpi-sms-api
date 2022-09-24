@@ -25,11 +25,13 @@ import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@BsonDiscriminator
 @MongoEntity(collection="app_error_log")
 public class ErrorLog extends AbsMongoItem {
   @BsonProperty("Message")

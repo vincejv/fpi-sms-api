@@ -26,6 +26,7 @@ import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
 import com.abavilla.fpi.sms.service.sms.MsgTemplateSvc;
 
 @Path("/fpi/msg/template")
-public class MsgTemplateResource extends AbsResource<MsgTemplateDto, MsgTemplate, MsgTemplateSvc> {
+public class MsgTemplateResource
+    extends AbsResource<MsgTemplateDto, MsgTemplate, MsgTemplateSvc> {
 
 }

@@ -24,11 +24,9 @@ import com.abavilla.fpi.fw.controller.AbsResource;
 import com.abavilla.fpi.sms.dto.ErrorLogDto;
 import com.abavilla.fpi.sms.entity.ErrorLog;
 import com.abavilla.fpi.sms.service.ErrorLogSvc;
-import io.smallrye.mutiny.Uni;
 
 @Path("/fpi/log/error")
-public class ErrorLogResource extends AbsResource<ErrorLogDto, ErrorLog, ErrorLogSvc> {
-  public Uni<ErrorLogDto> post(ErrorLogDto dto) {
-    return service.post(dto);
-  }
+public class ErrorLogResource
+    extends AbsResource<ErrorLogDto, ErrorLog, ErrorLogSvc> {
+
 }

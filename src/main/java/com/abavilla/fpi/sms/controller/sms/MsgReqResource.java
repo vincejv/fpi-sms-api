@@ -20,30 +20,21 @@ package com.abavilla.fpi.sms.controller.sms;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 
-import com.abavilla.fpi.fw.controller.AbsResource;
+import com.abavilla.fpi.fw.controller.AbsBaseResource;
 import com.abavilla.fpi.sms.dto.sms.MsgReqDto;
 import com.abavilla.fpi.sms.dto.sms.MsgReqStatusDto;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.service.sms.MsgReqSvc;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
 @Path("/fpi/msg")
-public class MsgReqResource extends AbsResource<MsgReqDto, MsgReq, MsgReqSvc> {
+public class MsgReqResource
+    extends AbsBaseResource<MsgReqDto, MsgReq, MsgReqSvc> {
 
   @POST
   public Uni<MsgReqStatusDto> sendMsg(MsgReqDto msgReqDto) {
     return service.sendMsg(msgReqDto);
   }
 
-  @Override
-  public Multi<MsgReqDto> getAll() {
-    throw new WebApplicationException(Response
-        .status(HttpResponseStatus.NOT_FOUND.code())
-        .build());
-  }
 }

@@ -26,10 +26,12 @@ import com.abavilla.fpi.sms.entity.enums.ApiStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@BsonDiscriminator
 public class StateEncap extends AbsMongoItem implements Comparable<StateEncap> {
   private ApiStatus state;
 

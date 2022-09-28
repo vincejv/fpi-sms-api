@@ -26,7 +26,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-import com.abavilla.fpi.fw.controller.AbsResource;
+import com.abavilla.fpi.fw.controller.AbsBaseResource;
 import com.abavilla.fpi.fw.dto.impl.NullDto;
 import com.abavilla.fpi.sms.config.ApiKeyConfig;
 import com.abavilla.fpi.sms.entity.sms.LeakAck;
@@ -36,9 +36,12 @@ import io.smallrye.mutiny.Uni;
 import org.apache.commons.lang3.StringUtils;
 
 @Path("/fpi/sms/dlr")
-public class FPICallbackResource extends AbsResource<NullDto, LeakAck, MsgAckSvc> {
+public class CallbackResource
+    extends AbsBaseResource<NullDto, LeakAck, MsgAckSvc> {
+
   @Inject
   ApiKeyConfig apiKeyConfig;
+
   @Path("webhook/{apiKey}")
   @GET
   public Uni<Void> acknowledge(@QueryParam("status_code") String stsCde,

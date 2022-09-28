@@ -24,12 +24,14 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @RegisterForReflection
 @AllArgsConstructor
+@BsonDiscriminator
 public class BroadcastRequest extends AbsMongoItem {
 
   @BsonProperty("msisdn")

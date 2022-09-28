@@ -24,11 +24,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data transfer object for sending SMS to mobile
+ *
+ * @author <a href="mailto:vincevillamora@gmail.com">Vince Villamora</a>
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
 public class MsgReqDto extends AbsDto {
+
+  /**
+   * Message content
+   */
   private String content;
+
+  /**
+   * Mobile number of recipient
+   */
   private String mobileNumber;
 }

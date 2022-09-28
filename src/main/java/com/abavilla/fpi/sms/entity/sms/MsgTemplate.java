@@ -23,10 +23,12 @@ import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@BsonDiscriminator
 @MongoEntity(collection="sms_template")
 public class MsgTemplate extends AbsMongoItem {
   private String name;

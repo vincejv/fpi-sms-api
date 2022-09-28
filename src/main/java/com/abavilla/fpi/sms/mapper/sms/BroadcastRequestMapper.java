@@ -18,7 +18,7 @@
 
 package com.abavilla.fpi.sms.mapper.sms;
 
-import com.abavilla.fpi.fw.mapper.IMapper;
+import com.abavilla.fpi.fw.mapper.IDtoToEntityMapper;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.sms.entity.sms.BroadcastRequest;
@@ -29,7 +29,7 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface BroadcastRequestMapper extends IMapper<BroadcastRequestDto, BroadcastRequest> {
+public interface BroadcastRequestMapper extends IDtoToEntityMapper<BroadcastRequestDto, BroadcastRequest> {
   @Mapping(target = "dataCodingScheme")
   BroadcastRequestDto mapToDto(BroadcastRequest entity);
 

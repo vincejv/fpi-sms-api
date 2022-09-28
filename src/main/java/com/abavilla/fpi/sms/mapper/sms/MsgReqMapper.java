@@ -18,20 +18,50 @@
 
 package com.abavilla.fpi.sms.mapper.sms;
 
-import com.abavilla.fpi.fw.mapper.IMapper;
+import com.abavilla.fpi.fw.mapper.IDtoToEntityMapper;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.sms.dto.sms.MsgReqDto;
 import com.abavilla.fpi.sms.entity.enums.Telco;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
+import org.bson.types.ObjectId;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = BroadcastRequestMapper.class)
-public interface MsgReqMapper extends IMapper<MsgReqDto, MsgReq> {
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+    uses = BroadcastRequestMapper.class)
+public interface MsgReqMapper extends IDtoToEntityMapper<MsgReqDto, MsgReq> {
+
+  @Override
+  @Mappings(value = {
+      @Mapping(target = "id", qualifiedByName = "MsgReqMapper")
+  })
+  MsgReqDto mapToDto(MsgReq msgReq);
+
+  @Override
+  @Mappings(value = {
+      @Mapping(target = "id", qualifiedByName = "MsgReqMapper")
+  })
+  MsgReq mapToEntity(MsgReqDto dto);
+
+  @Override
+  @Named("MsgReqMapper")
+  default ObjectId strToMongoId(String id) {
+    return IDtoToEntityMapper.super.strToMongoId(id);
+  }
+
+  @Override
+  @Named("MsgReqMapper")
+  default String mongoIdToStr(ObjectId id) {
+    return IDtoToEntityMapper.super.mongoIdToStr(id);
+  }
+
   MsgReq mapFromResponse(BroadcastResponseDto broadcastResponseDto);
   @AfterMapping
   default void afterMappingFromResponse(BroadcastResponseDto broadcastResponseDto, @MappingTarget MsgReq msgReq) {

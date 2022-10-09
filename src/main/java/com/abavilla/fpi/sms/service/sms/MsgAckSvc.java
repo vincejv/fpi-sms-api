@@ -21,7 +21,6 @@ package com.abavilla.fpi.sms.service.sms;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,8 +57,8 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
 
   public Uni<Void> acknowledge(String msgId, String ackStsCde, String ackTimestamp) {
     ApiStatus apiStatus = ApiStatus.fromId(Integer.parseInt(ackStsCde));
-    LocalDateTime ackTime = DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(ackTimestamp,
-        DateTimeFormatter.ofPattern(M360Const.M360_TIMESTAMP_FORMAT)));
+    var ackTime = DateUtil.modLdtToUtc(
+        DateUtil.parseStrDateToLdt(ackTimestamp, M360Const.M360_TIMESTAMP_FORMAT));
     Uni<Optional<MsgReq>> byMsgId = msgReqRepo.findByMsgId(msgId);
 
     /* run in background, immediately return response to webhook */

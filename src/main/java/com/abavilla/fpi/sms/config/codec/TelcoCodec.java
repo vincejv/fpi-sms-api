@@ -18,10 +18,10 @@
 
 package com.abavilla.fpi.sms.config.codec;
 
-import com.abavilla.fpi.fw.config.codec.AbsCodec;
+import com.abavilla.fpi.fw.config.codec.AbsEnumCodec;
 import com.abavilla.fpi.sms.entity.enums.Telco;
 
-public class TelcoCodec extends AbsCodec<Telco> {
+public class TelcoCodec extends AbsEnumCodec<Telco> {
 
   public TelcoCodec() {
     super();

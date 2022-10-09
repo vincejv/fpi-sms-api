@@ -18,9 +18,6 @@
 
 package com.abavilla.fpi.sms.service.sms;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import javax.enterprise.context.ApplicationScoped;
 
 import com.abavilla.fpi.fw.service.AbsApiSvc;
@@ -80,8 +77,8 @@ public class M360Svc extends AbsApiSvc<BroadcastRequestDto, BroadcastResponseDto
     if (resp.has("transid"))
       bResp.setTransId(resp.get("transid").asText());
     if (resp.has("timestamp"))
-      bResp.setTimestamp(DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(resp.get("timestamp").asText(),
-          DateTimeFormatter.ofPattern(M360Const.M360_TIMESTAMP_FORMAT))));
+      bResp.setTimestamp(
+          DateUtil.modLdtToUtc(DateUtil.parseStrDateToLdt(resp.get("timestamp").asText(), M360Const.M360_TIMESTAMP_FORMAT)));
     if (resp.has("msgcount"))
       bResp.setMsgCount(resp.get("msgcount").asInt());
 

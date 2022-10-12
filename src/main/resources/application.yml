@@ -1,6 +1,12 @@
 quarkus:
   http:
     port: ${PORT:8080}
+    auth:
+      permission:
+        permit1:
+          paths: /fpi/sms/dlr/*
+          policy: permit
+          methods: GET
   mongodb:
     connection-string:
       ${MONGO_CONN_STRING:mongodb://localhost}
@@ -19,13 +25,13 @@ quarkus:
   keycloak:
     policy-enforcer:
       enable: true
-      paths:
-        '1':
-          path: /fpi/login/*
-          enforcement-mode: DISABLED
-        '2':
-          path: /fpi/sms/dlr/*
-          enforcement-mode: DISABLED
+#      paths:
+#        '1':
+#          path: /fpi/login/*
+#          enforcement-mode: DISABLED
+#        '2':
+#          path: /fpi/sms/dlr/*
+#          enforcement-mode: DISABLED
 
 fpi:
   webhook:

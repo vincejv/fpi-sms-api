@@ -22,12 +22,12 @@ import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import com.abavilla.fpi.fw.repo.IMongoRepo;
+import com.abavilla.fpi.fw.repo.AbsMongoRepo;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import io.smallrye.mutiny.Uni;
 
 @ApplicationScoped
-public class MsgReqRepo implements IMongoRepo<MsgReq> {
+public class MsgReqRepo extends AbsMongoRepo<MsgReq> {
   public Uni<Optional<MsgReq>> findByMsgId(String msgId){
     return find("messageId", msgId).firstResultOptional();
   }

@@ -29,6 +29,7 @@ import javax.inject.Inject;
 
 import com.abavilla.fpi.fw.dto.impl.NullDto;
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
+import com.abavilla.fpi.fw.exceptions.OptimisticLockEx;
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.fw.util.DateUtil;
 import com.abavilla.fpi.sms.entity.enums.ApiStatus;
@@ -70,6 +71,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
               throw new ApiSvcEx("Message Id for acknowledgement not found: " + msgId);
             }
           })
+          .onFailure(OptimisticLockEx.class).retry().indefinitely()
           .onFailure(ApiSvcEx.class)
           .retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
           .atMost(5) // Retry for item not found and nothing else

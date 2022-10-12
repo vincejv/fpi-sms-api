@@ -18,7 +18,6 @@
 
 package com.abavilla.fpi.sms.dto.api.m360;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.abavilla.fpi.fw.dto.AbsDto;
@@ -37,11 +36,11 @@ public class M360ResponseDto extends AbsDto {
   private String name;
   @JsonProperty("transid")
   private String transId;
-  private LocalDateTime timestamp;
+  private String timestamp;
   @JsonProperty("msgcount")
   private Integer msgCount;
   @JsonProperty("telco_id")
-  private Integer telco;
+  private Integer telcoId;
   private String messageId;
   private List<String> message;
 }

@@ -20,9 +20,9 @@ package com.abavilla.fpi.sms.repo.sms;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import com.abavilla.fpi.fw.repo.IMongoRepo;
+import com.abavilla.fpi.fw.repo.AbsMongoRepo;
 import com.abavilla.fpi.sms.entity.sms.LeakAck;
 
 @ApplicationScoped
-public class LeackAckRepo implements IMongoRepo<LeakAck> {
+public class LeackAckRepo extends AbsMongoRepo<LeakAck> {
 }

@@ -36,8 +36,8 @@ public class BroadcastResponseDto extends AbsDto {
   private String name;
   private String transId;
   private LocalDateTime timestamp;
-  private int msgCount;
-  private int telcoId;
+  private Integer msgCount;
+  private Integer telcoId;
   private String messageId;
   private List<String> message;
   private BroadcastRequestDto broadcastRequest;

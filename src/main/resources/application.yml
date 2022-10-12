@@ -5,11 +5,9 @@ quarkus:
     connection-string:
       ${MONGO_CONN_STRING:mongodb://localhost}
     database: vbl
-# Your configuration properties
   rest-client:
     m360-api:
       url: ${M360_BROADCAST_URL}
-      #url: https://localhost
       scope: javax.inject.Singleton
   oidc:
     auth-server-url: ${OIDC_AUTH_URL:https://localhost:8543/realms/quarkus}

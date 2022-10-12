@@ -16,29 +16,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.service.sms;
+package com.abavilla.fpi.sms.dto.api.m360;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import com.abavilla.fpi.fw.service.AbsSvc;
-import com.abavilla.fpi.sms.dto.sms.MsgTemplateDto;
-import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
-import com.abavilla.fpi.sms.mapper.sms.MsgTemplateMapper;
+import com.abavilla.fpi.fw.dto.AbsDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@ApplicationScoped
-public class MsgTemplateSvc extends AbsSvc<MsgTemplateDto, MsgTemplate> {
-
-  @Inject
-  MsgTemplateMapper msgTemplateMapper;
-
-  @Override
-  public MsgTemplateDto mapToDto(MsgTemplate entity) {
-    return msgTemplateMapper.mapToDto(entity);
-  }
-
-  @Override
-  public MsgTemplate mapToEntity(MsgTemplateDto dto) {
-    return msgTemplateMapper.mapToEntity(dto);
-  }
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@RegisterForReflection
+public class M360ResponseDto extends AbsDto {
+  private Integer code;
+  private String name;
+  @JsonProperty("transid")
+  private String transId;
+  private LocalDateTime timestamp;
+  @JsonProperty("msgcount")
+  private Integer msgCount;
+  @JsonProperty("telco_id")
+  private Integer telco;
+  private String messageId;
+  private List<String> message;
 }

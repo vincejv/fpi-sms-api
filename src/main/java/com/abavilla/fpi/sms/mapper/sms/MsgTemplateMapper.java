@@ -16,14 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.exceptions.handler;
+package com.abavilla.fpi.sms.mapper.sms;
 
-import javax.ws.rs.Priorities;
+import com.abavilla.fpi.fw.mapper.IDtoToEntityMapper;
+import com.abavilla.fpi.sms.dto.sms.MsgTemplateDto;
+import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-import com.abavilla.fpi.fw.exceptions.handler.IApiRepoExHandler;
-import io.quarkus.arc.Priority;
-
-@Priority(Priorities.USER)
-public class ApiRepoExHandler
-    implements IApiRepoExHandler {
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
+  injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+public interface MsgTemplateMapper extends IDtoToEntityMapper<MsgTemplateDto, MsgTemplate> {
 }

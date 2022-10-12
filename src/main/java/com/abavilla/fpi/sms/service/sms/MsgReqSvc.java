@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
 import com.abavilla.fpi.sms.dto.sms.MsgReqDto;
 import com.abavilla.fpi.sms.dto.sms.MsgReqStatusDto;
 import com.abavilla.fpi.sms.entity.enums.ApiStatus;
@@ -39,14 +40,12 @@ import io.smallrye.mutiny.Uni;
 
 @ApplicationScoped
 public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
+
   @Inject
   MsgReqMapper msgReqMapper;
+
   @Inject
   M360Svc m360Svc;
-
-  public Uni<MsgReq> save(MsgReq entity) {
-    return repo.persist(entity);
-  }
 
   public Uni<MsgReqStatusDto> sendMsg(MsgReqDto msgReqDto) {
     Uni<BroadcastResponseDto> broadcastResponseDtoUni = m360Svc.sendMsg(msgReqDto);
@@ -55,8 +54,9 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
         .onFailure().recoverWithItem(ex-> {  // | api failure
           Log.error("m360 api error: " + ex);
           BroadcastResponseDto broadcastResponseDto = new BroadcastResponseDto();
-          if (ex instanceof ApiSvcEx)
-            broadcastResponseDto = m360Svc.mapResponseToDto(((ApiSvcEx) ex).getJsonResponse());
+          if (ex instanceof ApiSvcEx apiEx) {
+            broadcastResponseDto = m360Svc.mapResponseToDto(apiEx.getJsonResponse(M360ResponseDto.class));
+          }
           return broadcastResponseDto;
         })
         .chain(respDto -> {

@@ -99,14 +99,4 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
 
     return Uni.createFrom().voidItem();
   }
-
-  @Override
-  public NullDto mapToDto(LeakAck entity) {
-    return null;
-  }
-
-  @Override
-  public LeakAck mapToEntity(NullDto dto) {
-    return null;
-  }
 }

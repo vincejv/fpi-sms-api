@@ -21,7 +21,6 @@ package com.abavilla.fpi.sms.service.sms;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +29,7 @@ import javax.inject.Inject;
 
 import com.abavilla.fpi.fw.dto.impl.NullDto;
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
+import com.abavilla.fpi.fw.exceptions.OptimisticLockEx;
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.fw.util.DateUtil;
 import com.abavilla.fpi.sms.entity.enums.ApiStatus;
@@ -58,8 +58,8 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
 
   public Uni<Void> acknowledge(String msgId, String ackStsCde, String ackTimestamp) {
     ApiStatus apiStatus = ApiStatus.fromId(Integer.parseInt(ackStsCde));
-    LocalDateTime ackTime = DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(ackTimestamp,
-        DateTimeFormatter.ofPattern(M360Const.M360_TIMESTAMP_FORMAT)));
+    var ackTime = DateUtil.modLdtToUtc(
+        DateUtil.parseStrDateToLdt(ackTimestamp, M360Const.M360_TIMESTAMP_FORMAT));
     Uni<Optional<MsgReq>> byMsgId = msgReqRepo.findByMsgId(msgId);
 
     /* run in background, immediately return response to webhook */
@@ -71,6 +71,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
               throw new ApiSvcEx("Message Id for acknowledgement not found: " + msgId);
             }
           })
+          .onFailure(OptimisticLockEx.class).retry().indefinitely()
           .onFailure(ApiSvcEx.class)
           .retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
           .atMost(5) // Retry for item not found and nothing else
@@ -99,15 +100,5 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
     });
 
     return Uni.createFrom().voidItem();
-  }
-
-  @Override
-  public NullDto mapToDto(LeakAck entity) {
-    return null;
-  }
-
-  @Override
-  public LeakAck mapToEntity(NullDto dto) {
-    return null;
   }
 }

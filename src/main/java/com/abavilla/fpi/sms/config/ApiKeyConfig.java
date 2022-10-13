@@ -20,11 +20,11 @@ package com.abavilla.fpi.sms.config;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import lombok.Getter;
+import lombok.Data;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-@Getter
+@Data
 public class ApiKeyConfig {
   @ConfigProperty(name = "fpi.webhook.dlr.api-key")
   String dlrApiKey;

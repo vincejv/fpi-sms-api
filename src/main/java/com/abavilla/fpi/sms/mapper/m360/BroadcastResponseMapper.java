@@ -16,20 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.repo.m360;
+package com.abavilla.fpi.sms.mapper.m360;
 
-import javax.ws.rs.POST;
+import java.time.LocalDateTime;
 
-import com.abavilla.fpi.sms.dto.api.m360.BroadcastRequestDto;
-import com.abavilla.fpi.sms.exceptions.handler.ApiRepoExHandler;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.smallrye.mutiny.Uni;
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import com.abavilla.fpi.fw.mapper.IMapper;
+import com.abavilla.fpi.fw.util.DateUtil;
+import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
+import com.abavilla.fpi.sms.util.M360Const;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-@RegisterRestClient(configKey = "m360-api")
-@RegisterProvider(value = ApiRepoExHandler.class)
-public interface M360ApiRepo {
-  @POST
-  Uni<JsonNode> sendMsg(BroadcastRequestDto broadcastRequestDto);
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI,
+  injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+public interface BroadcastResponseMapper extends IMapper {
+  BroadcastResponseDto mapApiToDto(M360ResponseDto apiResponse);
+
+  default LocalDateTime parseTimestamp(String timestamp) {
+    return DateUtil.modLdtToUtc(DateUtil.parseStrDateToLdt(timestamp, M360Const.M360_TIMESTAMP_FORMAT));
+  }
 }

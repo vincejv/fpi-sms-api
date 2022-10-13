@@ -16,19 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.config.codec;
+package com.abavilla.fpi.sms.dto.api.m360;
 
-import com.abavilla.fpi.fw.config.codec.AbsEnumCodec;
-import com.abavilla.fpi.sms.entity.enums.ApiStatus;
+import java.util.List;
 
-public class ApiStatusCodec extends AbsEnumCodec<ApiStatus> {
+import com.abavilla.fpi.fw.dto.AbsDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-  public ApiStatusCodec() {
-    super();
-  }
-
-  @Override
-  public Class<ApiStatus> getEncoderClass() {
-    return ApiStatus.class;
-  }
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@RegisterForReflection
+public class M360ResponseDto extends AbsDto {
+  private Integer code;
+  private String name;
+  @JsonProperty("transid")
+  private String transId;
+  private String timestamp;
+  @JsonProperty("msgcount")
+  private Integer msgCount;
+  @JsonProperty("telco_id")
+  private Integer telcoId;
+  private String messageId;
+  private List<String> message;
 }

@@ -23,17 +23,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 
 import com.abavilla.fpi.fw.controller.AbsBaseResource;
 import com.abavilla.fpi.fw.dto.impl.NullDto;
+import com.abavilla.fpi.fw.exceptions.FPISvcEx;
 import com.abavilla.fpi.sms.config.ApiKeyConfig;
 import com.abavilla.fpi.sms.entity.sms.LeakAck;
 import com.abavilla.fpi.sms.service.sms.MsgAckSvc;
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.lang3.StringUtils;
+import org.jboss.resteasy.reactive.RestResponse;
 
 @Path("/fpi/sms/dlr")
 public class CallbackResource
@@ -51,9 +50,7 @@ public class CallbackResource
     if (StringUtils.equals(apiKey, apiKeyConfig.getDlrApiKey())) {
       return service.acknowledge(msgId, stsCde, timestamp);
     } else {
-      throw new WebApplicationException(Response
-          .status(HttpResponseStatus.UNAUTHORIZED.code())
-          .build());
+      throw new FPISvcEx("Unauthorized", RestResponse.StatusCode.UNAUTHORIZED);
     }
   }
 }

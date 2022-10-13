@@ -19,22 +19,26 @@
 package com.abavilla.fpi.sms.service.sms;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import com.abavilla.fpi.fw.service.AbsSvc;
-import com.abavilla.fpi.fw.util.MapperUtil;
 import com.abavilla.fpi.sms.dto.sms.MsgTemplateDto;
 import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
+import com.abavilla.fpi.sms.mapper.sms.MsgTemplateMapper;
 
 @ApplicationScoped
 public class MsgTemplateSvc extends AbsSvc<MsgTemplateDto, MsgTemplate> {
 
+  @Inject
+  MsgTemplateMapper msgTemplateMapper;
+
   @Override
   public MsgTemplateDto mapToDto(MsgTemplate entity) {
-    return MapperUtil.mapper().convertValue(entity, MsgTemplateDto.class);
+    return msgTemplateMapper.mapToDto(entity);
   }
 
   @Override
   public MsgTemplate mapToEntity(MsgTemplateDto dto) {
-    return MapperUtil.mapper().convertValue(dto, MsgTemplate.class);
+    return msgTemplateMapper.mapToEntity(dto);
   }
 }

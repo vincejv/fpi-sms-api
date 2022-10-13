@@ -18,7 +18,11 @@
 
 package com.abavilla.fpi.sms.util;
 
-public abstract class M360Const {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class M360Const {
 
   public static final String M360_TIMESTAMP_FORMAT = "yyyyMMddHHmmss";
 

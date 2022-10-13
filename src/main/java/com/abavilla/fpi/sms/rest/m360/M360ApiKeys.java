@@ -16,15 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.exceptions;
+package com.abavilla.fpi.sms.rest.m360;
 
-import lombok.Getter;
-import lombok.ToString;
+import javax.enterprise.context.ApplicationScoped;
 
-@Getter
-@ToString(callSuper = true)
-public class LateAckEx extends RuntimeException {
-  public LateAckEx(String message) {
-    super(message);
-  }
+import com.abavilla.fpi.fw.rest.IApiKeyConfig;
+import lombok.Data;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+@Data
+@ApplicationScoped
+public class M360ApiKeys implements IApiKeyConfig {
+
+  @ConfigProperty(name = "ph.com.m360.api-secret")
+  String apiSecret;
+
+  @ConfigProperty(name = "ph.com.m360.api-key")
+  String apiKey;
+
+  @ConfigProperty(name = "ph.com.m360.sender-id")
+  String senderId;
+
 }

@@ -20,10 +20,10 @@ package com.abavilla.fpi.sms.repo.sms;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import com.abavilla.fpi.fw.repo.IMongoRepo;
+import com.abavilla.fpi.fw.repo.AbsMongoRepo;
 import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
 
 @ApplicationScoped
-public class MsgTemplateRepo implements IMongoRepo<MsgTemplate> {
+public class MsgTemplateRepo extends AbsMongoRepo<MsgTemplate> {
 
 }

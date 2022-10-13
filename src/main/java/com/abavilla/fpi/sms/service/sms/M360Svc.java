@@ -18,52 +18,38 @@
 
 package com.abavilla.fpi.sms.service.sms;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
-import com.abavilla.fpi.fw.service.AbsApiSvc;
-import com.abavilla.fpi.fw.util.DateUtil;
-import com.abavilla.fpi.fw.util.MapperUtil;
-import com.abavilla.fpi.fw.util.SMSUtil;
+import com.abavilla.fpi.fw.rest.AbsApiSecSvc;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
 import com.abavilla.fpi.sms.dto.sms.MsgReqDto;
 import com.abavilla.fpi.sms.entity.enums.DCSCoding;
-import com.abavilla.fpi.sms.repo.m360.M360ApiRepo;
-import com.abavilla.fpi.sms.util.M360Const;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.abavilla.fpi.sms.mapper.m360.BroadcastResponseMapper;
+import com.abavilla.fpi.sms.rest.m360.M360ApiKeys;
+import com.abavilla.fpi.sms.rest.m360.M360ApiRepo;
+import com.abavilla.fpi.sms.util.SMSUtil;
 import io.smallrye.mutiny.Uni;
-import lombok.SneakyThrows;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
-public class M360Svc extends AbsApiSvc<BroadcastRequestDto, BroadcastResponseDto, JsonNode> {
-  @RestClient
-  M360ApiRepo m360Api;
+public class M360Svc extends AbsApiSecSvc<M360ApiRepo, M360ApiKeys> {
 
-  @ConfigProperty(name = "ph.com.m360.api-secret")
-  String apiSecret;
-
-  @ConfigProperty(name = "ph.com.m360.api-key")
-  String apiKey;
-
-  @ConfigProperty(name = "ph.com.m360.sender-id")
-  String senderId;
+  @Inject
+  BroadcastResponseMapper broadcastResponseMapper;
 
   public Uni<BroadcastResponseDto> sendMsg(MsgReqDto msgReqDto) {
     var bRquest = new BroadcastRequestDto();
-    bRquest.setAppKey(apiKey);
-    bRquest.setAppSecret(apiSecret);
+    bRquest.setAppKey(keys.getApiKey());
+    bRquest.setAppSecret(keys.getApiSecret());
     bRquest.setMobileNumber(msgReqDto.getMobileNumber());
     bRquest.setContent(msgReqDto.getContent());
-    bRquest.setSenderId(senderId);
+    bRquest.setSenderId(keys.getSenderId());
     bRquest.setDataCodingScheme(SMSUtil.isEncodeableInGsm0338(msgReqDto.getContent()) ?
         DCSCoding.GSM0338.getId() : DCSCoding.UCS2.getId());
 
-    Uni<JsonNode> m360Resp = m360Api.sendMsg(bRquest);
+    Uni<M360ResponseDto> m360Resp = client.sendMsg(bRquest);
     return m360Resp.map(resp -> {
       BroadcastResponseDto dto = mapResponseToDto(resp);
       dto.setBroadcastRequest(bRquest);
@@ -71,33 +57,7 @@ public class M360Svc extends AbsApiSvc<BroadcastRequestDto, BroadcastResponseDto
     });
   }
 
-  @SneakyThrows
-  @Override
-  public BroadcastResponseDto mapResponseToDto(JsonNode resp) {
-    var bResp = new BroadcastResponseDto();
-    bResp.setCode(resp.get("code").asInt());
-    bResp.setName(resp.get("name").asText());
-    if (resp.has("transid"))
-      bResp.setTransId(resp.get("transid").asText());
-    if (resp.has("timestamp"))
-      bResp.setTimestamp(DateUtil.convertLdtUTC8ToUtc(LocalDateTime.parse(resp.get("timestamp").asText(),
-          DateTimeFormatter.ofPattern(M360Const.M360_TIMESTAMP_FORMAT))));
-    if (resp.has("msgcount"))
-      bResp.setMsgCount(resp.get("msgcount").asInt());
-
-    if (resp.has("telco_id"))
-      bResp.setTelcoId(resp.get("telco_id").asInt());
-
-    if (resp.has("messageId"))
-      bResp.setMessageId(resp.get("messageId").asText());
-    if(resp.has("message"))
-      bResp.setMessage(MapperUtil.mapper().readerForListOf(String.class).readValue(resp.get("message")));
-
-    return bResp;
-  }
-
-  @Override
-  public JsonNode mapToEntity(BroadcastRequestDto dto) {
-    return null;
+  public BroadcastResponseDto mapResponseToDto(M360ResponseDto apiResponse) {
+    return broadcastResponseMapper.mapApiToDto(apiResponse);
   }
 }

@@ -2,7 +2,9 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ "gcp-build" ]
+    branches:
+      - main
+      - gcp-build
 
 env:
   PROJECT_ID: fpi-sms-api

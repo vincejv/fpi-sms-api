@@ -19,69 +19,80 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <licenses>
-      <license>
-          <name>The GNU General Public License v3.0</name>
-          <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
-      </license>
+    <license>
+      <name>The GNU General Public License v3.0</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+    </license>
   </licenses>
 
   <developers>
-      <developer>
-          <name>Vince Jerald Villamora</name>
-          <email>vincevillamora@gmail.com</email>
-          <organization>Abavilla</organization>
-          <organizationUrl>https://github.com/vincejv</organizationUrl>
-      </developer>
+    <developer>
+      <name>Vince Jerald Villamora</name>
+      <email>vincevillamora@gmail.com</email>
+      <organization>Abavilla</organization>
+      <organizationUrl>https://github.com/vincejv</organizationUrl>
+    </developer>
   </developers>
 
-  <scm>
-    <url>https://github.com/vincejv/fpi-sms-api</url>
-    <connection>scm:git:git://github.com/vincejv/fpi-sms-api.git</connection>
-    <developerConnection>scm:git:git@github.com:vincejv/fpi-sms-api.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-
-  <name>FPI SMS API parent POM</name>
+  <name>FPI SMS API core module</name>
   <description>Reactive backend REST SMS API, contains usage for M360 Messaging API with callback functionality</description>
   <url>https://github.com/vincejv/fpi-sms-api</url>
 
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>fpi-sms-api-core</artifactId>
+  <version>0</version>
+
   <parent>
     <groupId>com.abavilla</groupId>
-    <artifactId>fpi-framework-pom</artifactId>
-    <version>1.0.135</version>
+    <artifactId>fpi-sms-api</artifactId>
+    <version>0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
-
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>fpi-sms-api</artifactId>
-  <version>0</version>
-  <packaging>pom</packaging>
-
-  <modules>
-    <module>fpi-sms-api-lib</module>
-    <module>fpi-sms-api-core</module>
-  </modules>
 
   <properties>
 
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
+  <dependencies>
 
-      <dependency>
-        <groupId>com.abavilla</groupId>
-        <artifactId>fpi-sms-api-lib</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+    <dependency>
+      <groupId>com.abavilla</groupId>
+      <artifactId>fpi-sms-api-lib</artifactId>
+    </dependency>
 
-      <!-- https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber -->
-      <dependency>
-        <groupId>com.googlecode.libphonenumber</groupId>
-        <artifactId>libphonenumber</artifactId>
-        <version>8.12.56</version>
-      </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
+    </dependency>
 
-    </dependencies>
-  </dependencyManagement>
+    <!-- https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber -->
+    <dependency>
+      <groupId>com.googlecode.libphonenumber</groupId>
+      <artifactId>libphonenumber</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jboss.jandex</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

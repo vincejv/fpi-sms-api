@@ -1,4 +1,4 @@
-name: GCP Cloud Run CI/CD Dev
+name: GCP Cloud Run CI Dev
 
 on:
   pull_request:

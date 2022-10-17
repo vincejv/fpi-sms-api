@@ -1,4 +1,4 @@
-name: GCP Cloud Run CI/CD Prod
+name: GCP Cloud Run CI Prod
 
 on:
   push:

@@ -16,12 +16,14 @@
   ~ You should have received a copy of the GNU General Public License         ~
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.    ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <licenses>
     <license>
       <name>The GNU General Public License v3.0</name>
       <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <distribution>repo</distribution>
     </license>
   </licenses>
 
@@ -37,6 +39,7 @@
   <name>FPI SMS API core module</name>
   <description>Reactive backend REST SMS API, contains usage for M360 Messaging API with callback functionality</description>
   <url>https://github.com/vincejv/fpi-sms-api</url>
+  <inceptionYear>2022</inceptionYear>
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>fpi-sms-api-core</artifactId>

@@ -16,22 +16,23 @@
   ~ You should have received a copy of the GNU General Public License         ~
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.    ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <licenses>
-      <license>
-          <name>The GNU General Public License v3.0</name>
-          <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
-      </license>
+    <license>
+      <name>The GNU General Public License v3.0</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+    </license>
   </licenses>
 
   <developers>
-      <developer>
-          <name>Vince Jerald Villamora</name>
-          <email>vincevillamora@gmail.com</email>
-          <organization>Abavilla</organization>
-          <organizationUrl>https://github.com/vincejv</organizationUrl>
-      </developer>
+    <developer>
+      <name>Vince Jerald Villamora</name>
+      <email>vincevillamora@gmail.com</email>
+      <organization>Abavilla</organization>
+      <organizationUrl>https://github.com/vincejv</organizationUrl>
+    </developer>
   </developers>
 
   <scm>
@@ -44,6 +45,7 @@
   <name>FPI SMS API parent POM</name>
   <description>Reactive backend REST SMS API, contains usage for M360 Messaging API with callback functionality</description>
   <url>https://github.com/vincejv/fpi-sms-api</url>
+  <inceptionYear>2022</inceptionYear>
 
   <parent>
     <groupId>com.abavilla</groupId>
@@ -64,6 +66,11 @@
   <properties>
 
   </properties>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/vincejv/fpi-framework/issues</url>
+  </issueManagement>
 
   <dependencyManagement>
     <dependencies>

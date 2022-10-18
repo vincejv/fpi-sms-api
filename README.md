@@ -1,5 +1,18 @@
-# Abavilla FPI SMS Project
+<img src="https://raw.githubusercontent.com/vincejv/fpi-framework/main/banner.png" alt="FPI Framework" width="500"/>
 
+[![Maven Central version](https://img.shields.io/maven-central/v/com.abavilla/fpi-sms-api?logo=apache-maven)](https://search.maven.org/artifact/com.abavilla/fpi-sms-api-lib)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vincejv/fpi-sms-api/GCP%20Cloud%20Run%20CI%20Prod?label=CI/CD&logo=github)](https://github.com/vincejv/fpi-sms-api/actions?query=workflow%3A%22GCP+Cloud+Run+CI+Prod%22)
+[![License](https://img.shields.io/github/license/vincejv/fpi-sms-api?logo=apache)](https://github.com/vincejv/fpi-sms-api/blob/main/LICENSE)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vincejv/fpi-sms-api?label=commits&logo=git)](https://github.com/vincejv/fpi-sms-api/pulse)
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=vincejv_fpi-sms-api)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=vincejv_fpi-sms-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=vincejv_fpi-sms-api)
+[![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=vincejv_fpi-sms-api)
+[![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=vincejv_fpi-sms-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=security_rating)](https://sonarcloud.io/dashboard?id=vincejv_fpi-sms-api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=vincejv_fpi-sms-api&metric=ncloc)](https://sonarcloud.io/dashboard?id=vincejv_fpi-sms-api)
+
+# SMS API
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .

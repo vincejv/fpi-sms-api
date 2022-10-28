@@ -18,7 +18,7 @@
 
 package com.abavilla.fpi.sms.entity;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
 import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
 import io.quarkus.mongodb.panache.common.MongoEntity;
@@ -26,22 +26,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
-import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @BsonDiscriminator
-@MongoEntity(collection="app_error_log")
+@MongoEntity(collection="sms_error_log")
 public class ErrorLog extends AbsMongoItem {
-  @BsonProperty("Message")
   private String message;
-  @BsonProperty("StackTrace")
   private String stackTrace;
-  @BsonProperty("Payload")
-  private Object payload;
-  @BsonProperty("DateCreated")
-  private LocalDateTime dateCreated;
-  @BsonProperty("DateUpdated")
-  private LocalDateTime dateUpdated;
+  private Serializable payload;
 }

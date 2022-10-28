@@ -18,28 +18,18 @@
 
 package com.abavilla.fpi.sms.dto;
 
-import java.time.LocalDateTime;
-
 import com.abavilla.fpi.fw.dto.AbsDto;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RegisterForReflection
 public class ErrorLogDto extends AbsDto {
-  @BsonProperty("Message")
   private String message;
-  @BsonProperty("StackTrace")
   private String stackTrace;
-  @BsonProperty("Payload")
-  private Object payload;
-  @BsonProperty("DateCreated")
-  private LocalDateTime dateCreated;
-  @BsonProperty("DateUpdated")
-  private LocalDateTime dateUpdated;
+  private AbsDto payload;
 }

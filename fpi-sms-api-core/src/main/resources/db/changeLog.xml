@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="1" author="vincejv" labels="sms_api" context="main">
+    <comment>initial sms api schema</comment>
+    <ext:createCollection collectionName="customers"/>
+    <ext:createCollection collectionName="sms_template"/>
+    <ext:createCollection collectionName="m360_log"/>
+    <ext:createCollection collectionName="m360_leak"/>
+    <ext:createCollection collectionName="sms_error_log"/>
+
+    <ext:createIndex collectionName="customers">
+      <ext:keys>{name: 1}</ext:keys>
+      <ext:options>{unique: true, name: "name"}</ext:options> <!-- every customer name is unique -->
+    </ext:createIndex>
+
+    <ext:createIndex collectionName="m360_log">
+      <ext:keys>{messageId: 1}</ext:keys>
+      <ext:options>{unique: true, name: "name", sparse: true}</ext:options>
+    </ext:createIndex>
+    <ext:createIndex collectionName="m360_log">
+      <ext:keys>{lastAcknowledgement: -1}</ext:keys>
+      <ext:options>{name: "timestamp"}</ext:options>
+    </ext:createIndex>
+    <ext:createIndex collectionName="m360_log">
+      <ext:keys>{dateUpdated: -1}</ext:keys>
+      <ext:options>{name: "dateUpdated"}</ext:options>
+    </ext:createIndex>
+
+  </changeSet>
+
+</databaseChangeLog>

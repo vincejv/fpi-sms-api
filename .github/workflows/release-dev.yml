@@ -161,6 +161,7 @@ jobs:
             SMS_API_KEY=${{ secrets.SMS_API_KEY }}
             SMS_SID=${{ secrets.SMS_SID }}
             M360_BROADCAST_URL=${{ secrets.M360_BROADCAST_URL }}
+            DB_NAME=vbl-dev
           secrets: |
             MONGO_CONN_STRING=vbl_mongo_connection_string:latest
             OIDC_SECRET=oidc_secret_keycloak:latest

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import com.abavilla.fpi.fw.entity.enums.IBaseEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @AllArgsConstructor
 @RegisterForReflection
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, defaultImpl = Telco.class)
 public enum Telco implements IBaseEnum {
   GLOBE(1, "Globe"),
   SMART(2, "Smart"),

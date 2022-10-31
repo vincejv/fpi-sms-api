@@ -20,7 +20,6 @@ package com.abavilla.fpi.sms.dto.api.m360;
 
 import com.abavilla.fpi.fw.dto.AbsDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +29,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @RegisterForReflection
 @AllArgsConstructor
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, defaultImpl = BroadcastRequestDto.class)
 public class BroadcastRequestDto extends AbsDto {
   @JsonProperty("app_key")
   private String appKey;

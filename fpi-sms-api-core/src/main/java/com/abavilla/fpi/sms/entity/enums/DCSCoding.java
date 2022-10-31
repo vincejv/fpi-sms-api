@@ -26,7 +26,6 @@ import java.util.Map;
 
 import com.abavilla.fpi.fw.entity.enums.IBaseEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
@@ -36,7 +35,6 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @AllArgsConstructor
 @RegisterForReflection
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, defaultImpl = DCSCoding.class)
 public enum DCSCoding implements IBaseEnum {
   GSM0338(0, "GSM 03.38"),
   ASCII(1, "ASCII"),

@@ -16,19 +16,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.config.codec;
+package com.abavilla.fpi.sms.ext.rest;
 
-import com.abavilla.fpi.fw.config.codec.AbsEnumCodec;
-import com.abavilla.fpi.sms.entity.enums.ApiStatus;
+import javax.ws.rs.POST;
 
-public class ApiStatusCodec extends AbsEnumCodec<ApiStatus> {
+import com.abavilla.fpi.fw.exceptions.handler.ApiRepoExHandler;
+import com.abavilla.fpi.fw.rest.IApi;
+import com.abavilla.fpi.login.ext.rest.AppToAppPreAuth;
+import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
+import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
+import io.smallrye.mutiny.Uni;
+import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-  public ApiStatusCodec() {
-    super();
-  }
+/**
+ * Resource access for authenticating with sending SMS through SMS service
+ *
+ * @author <a href="mailto:vincevillamora@gmail.com">Vince Villamora</a>
+ */
+@RegisterRestClient(configKey = "sms-api")
+@RegisterProvider(value = ApiRepoExHandler.class)
+@RegisterClientHeaders(AppToAppPreAuth.class)
+public interface SmsApi extends IApi {
 
-  @Override
-  public Class<ApiStatus> getEncoderClass() {
-    return ApiStatus.class;
-  }
+  /**
+   * Send an SMS through SMS service
+   * @param msgReqDto {@link MsgReqDto} object
+   *
+   * @return {@link MsgReqDto} future object containing the status
+   */
+  @POST
+  Uni<MsgReqStatusDto> sendSms(MsgReqDto msgReqDto);
 }

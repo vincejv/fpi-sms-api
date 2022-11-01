@@ -20,9 +20,9 @@ package com.abavilla.fpi.sms.mapper.sms;
 
 import com.abavilla.fpi.fw.mapper.IDtoToEntityMapper;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
-import com.abavilla.fpi.sms.entity.enums.Telco;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
+import com.abavilla.fpi.telco.ext.entity.enums.Telco;
 import org.bson.types.ObjectId;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InjectionStrategy;

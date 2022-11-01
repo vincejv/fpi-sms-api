@@ -1,10 +1,19 @@
 quarkus:
   http:
     port: ${PORT:8080}
+  arc:
+    exclude-types:
+      - com.abavilla.fpi.sms.ext.rest.*
+      - com.abavilla.fpi.login.ext.rest.*
   mongodb:
     connection-string:
       ${MONGO_CONN_STRING:mongodb://localhost}
-    database: vbl
+    database: ${DB_NAME}
+  liquibase-mongodb:
+    migrate-at-start: true
+    change-log: db/changeLog.xml
+    validate-on-migrate: true
+    clean-at-start: false
   rest-client:
     m360-api:
       url: ${M360_BROADCAST_URL}

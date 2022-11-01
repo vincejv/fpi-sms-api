@@ -18,8 +18,6 @@
 
 package com.abavilla.fpi.sms.entity.enums;
 
-import static com.abavilla.fpi.fw.util.FWConst.UNKNOWN_PREFIX;
-
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @AllArgsConstructor
@@ -45,10 +42,10 @@ public enum DCSCoding implements IBaseEnum {
   /**
    * Ordinal id to enum mapping
    */
-  private static final Map<Integer, DCSCoding> ENUM_MAP = new HashMap<>();
+  private static final Map<Integer, IBaseEnum> ENUM_MAP = new HashMap<>();
 
   static {
-    for(DCSCoding w : EnumSet.allOf(DCSCoding.class))
+    for(IBaseEnum w : EnumSet.allOf(DCSCoding.class))
       ENUM_MAP.put(w.getId(), w);
   }
 
@@ -60,7 +57,7 @@ public enum DCSCoding implements IBaseEnum {
   /**
    * The enum value
    */
-  private String value;
+  private final String value;
 
   /**
    * Creates an enum based from given string value
@@ -68,23 +65,9 @@ public enum DCSCoding implements IBaseEnum {
    * @param value the string value
    * @return the created enum
    */
-  @JsonCreator
+  @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
   public static DCSCoding fromValue(String value) {
-    if (StringUtils.isBlank(value)) {
-      return null;
-    } else {
-      return ENUM_MAP.values().stream().filter(enumItem ->
-              StringUtils.equalsIgnoreCase(value, enumItem.getValue())).findAny()
-          .orElseGet(() -> {
-            var unknown = UNKNOWN;
-            String enumValue = value;
-            if (StringUtils.startsWithIgnoreCase(enumValue, UNKNOWN_PREFIX)) {
-              enumValue = StringUtils.removeStart(enumValue, UNKNOWN_PREFIX);
-            }
-            unknown.value = UNKNOWN_PREFIX + enumValue;
-            return unknown;
-          });
-    }
+    return (DCSCoding) IBaseEnum.fromValue(value, ENUM_MAP, UNKNOWN);
   }
 
   /**
@@ -94,13 +77,7 @@ public enum DCSCoding implements IBaseEnum {
    * @return the created enum
    */
   public static DCSCoding fromId(int id) {
-    return ENUM_MAP.values().stream().filter(enumItem ->
-            id == enumItem.getId()).findAny()
-        .orElseGet(() -> {
-          var unknown = UNKNOWN;
-          unknown.value = UNKNOWN_PREFIX + id;
-          return unknown;
-        });
+    return (DCSCoding) IBaseEnum.fromId(id, ENUM_MAP, UNKNOWN);
   }
 
   /**

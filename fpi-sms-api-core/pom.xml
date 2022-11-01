@@ -74,6 +74,11 @@
       <artifactId>libphonenumber</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.abavilla</groupId>
+      <artifactId>fpi-telco-plugin-lib</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -29,12 +29,12 @@ import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
-import com.abavilla.fpi.sms.entity.enums.ApiStatus;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
 import com.abavilla.fpi.sms.mapper.sms.MsgReqMapper;
+import com.abavilla.fpi.telco.ext.entity.enums.ApiStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 
@@ -77,13 +77,7 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
             status.setStatus(2); // mongo failure
           }
           return status;
-        }); // if you chain failure it will replace it
-//        .onFailure().recoverWithItem(mongoEx -> {
-//          Log.info("mongo failure");
-//          MsgReqStatusDto status = new MsgReqStatusDto(); // will go here if mongo failure
-//          status.setStatus(2); // mongo failure
-//          return status;
-//        });
+        });
   }
 
   @Override

@@ -1,6 +1,10 @@
 quarkus:
   http:
     port: ${PORT:8080}
+  arc:
+    exclude-types:
+      - com.abavilla.fpi.sms.ext.rest.*
+      - com.abavilla.fpi.login.ext.rest.*
   mongodb:
     connection-string:
       ${MONGO_CONN_STRING:mongodb://localhost}

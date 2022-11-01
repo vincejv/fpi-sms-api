@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
-import com.abavilla.fpi.sms.entity.enums.Telco;
+import com.abavilla.fpi.telco.ext.entity.enums.Telco;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

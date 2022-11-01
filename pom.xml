@@ -50,7 +50,7 @@
   <parent>
     <groupId>com.abavilla</groupId>
     <artifactId>fpi-framework-pom</artifactId>
-    <version>1.1.32</version>
+    <version>1.1.33</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -91,7 +91,13 @@
       <dependency>
         <groupId>com.abavilla</groupId>
         <artifactId>fpi-login-api-lib</artifactId>
-        <version>1.0.26-7b90e01-SNAPSHOT</version>
+        <version>1.0.27</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.abavilla</groupId>
+        <artifactId>fpi-telco-plugin-lib</artifactId>
+        <version>1.0.2</version>
       </dependency>
 
     </dependencies>

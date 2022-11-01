@@ -32,12 +32,12 @@ import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.exceptions.OptimisticLockEx;
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.fw.util.DateUtil;
-import com.abavilla.fpi.sms.entity.enums.ApiStatus;
 import com.abavilla.fpi.sms.entity.sms.LeakAck;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.repo.sms.MsgReqRepo;
 import com.abavilla.fpi.sms.util.M360Const;
+import com.abavilla.fpi.telco.ext.entity.enums.ApiStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import org.apache.commons.collections4.CollectionUtils;
@@ -63,7 +63,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
     Uni<Optional<MsgReq>> byMsgId = msgReqRepo.findByMsgId(msgId);
 
     /* run in background, immediately return response to webhook */
-    executor.execute(() -> {
+    executor.execute(() ->
       byMsgId.chain(msgReqOpt -> {
             if (msgReqOpt.isPresent()) {
               return Uni.createFrom().item(msgReqOpt.get());
@@ -96,8 +96,8 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
             leak.setTimestamp(ackTime);
             return repo.persist(leak);
           }).onFailure().recoverWithNull() // still has to recover from Exception (LateAck)
-          .await().indefinitely();
-    });
+          .await().indefinitely()
+    );
 
     return Uni.createFrom().voidItem();
   }

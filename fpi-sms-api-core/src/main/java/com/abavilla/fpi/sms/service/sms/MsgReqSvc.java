@@ -34,7 +34,7 @@ import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
 import com.abavilla.fpi.sms.mapper.sms.MsgReqMapper;
-import com.abavilla.fpi.telco.ext.entity.enums.ApiStatus;
+import com.abavilla.fpi.telco.ext.enums.ApiStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 

@@ -18,13 +18,12 @@
 
 package com.abavilla.fpi.sms.service.sms;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.sms.dto.MsgTemplateDto;
 import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
 import com.abavilla.fpi.sms.mapper.sms.MsgTemplateMapper;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class MsgTemplateSvc extends AbsSvc<MsgTemplateDto, MsgTemplate> {

@@ -24,9 +24,6 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import com.abavilla.fpi.fw.dto.impl.NullDto;
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.exceptions.OptimisticLockEx;
@@ -40,6 +37,8 @@ import com.abavilla.fpi.sms.util.M360Const;
 import com.abavilla.fpi.telco.ext.enums.ApiStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.context.ManagedExecutor;
 

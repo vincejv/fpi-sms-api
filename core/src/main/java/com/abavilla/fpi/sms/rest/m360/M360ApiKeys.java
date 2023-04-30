@@ -18,9 +18,8 @@
 
 package com.abavilla.fpi.sms.rest.m360;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.abavilla.fpi.fw.rest.IApiKeyConfig;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Data;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

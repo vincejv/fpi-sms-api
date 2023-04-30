@@ -18,15 +18,14 @@
 
 package com.abavilla.fpi.sms.controller.sms;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-
 import com.abavilla.fpi.fw.controller.AbsBaseResource;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
 import com.abavilla.fpi.sms.service.sms.MsgReqSvc;
 import io.smallrye.mutiny.Uni;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
 
 @Path("/fpi/msg")
 public class MsgReqResource

@@ -18,10 +18,9 @@
 
 package com.abavilla.fpi.sms.repo;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.abavilla.fpi.fw.repo.AbsMongoRepo;
 import com.abavilla.fpi.sms.entity.Customer;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CxRepo extends AbsMongoRepo<Customer> {

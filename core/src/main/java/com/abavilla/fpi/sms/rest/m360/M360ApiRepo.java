@@ -18,15 +18,14 @@
 
 package com.abavilla.fpi.sms.rest.m360;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import com.abavilla.fpi.fw.rest.IApi;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
 import io.smallrye.mutiny.Uni;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "m360-api")

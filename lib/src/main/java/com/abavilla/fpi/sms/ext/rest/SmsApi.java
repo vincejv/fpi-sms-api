@@ -20,8 +20,6 @@ package com.abavilla.fpi.sms.ext.rest;
 
 import java.time.temporal.ChronoUnit;
 
-import javax.ws.rs.POST;
-
 import com.abavilla.fpi.fw.exceptions.AuthApiSvcEx;
 import com.abavilla.fpi.fw.exceptions.handler.ApiRepoExHandler;
 import com.abavilla.fpi.fw.rest.IApi;
@@ -30,6 +28,7 @@ import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
 import io.smallrye.faulttolerance.api.ExponentialBackoff;
 import io.smallrye.mutiny.Uni;
+import jakarta.ws.rs.POST;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;

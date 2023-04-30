@@ -18,13 +18,12 @@
 
 package com.abavilla.fpi.sms.service;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.sms.dto.CustomerDto;
 import com.abavilla.fpi.sms.entity.Customer;
 import com.abavilla.fpi.sms.mapper.CxMapper;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class CxSvc extends AbsSvc<CustomerDto, Customer> {

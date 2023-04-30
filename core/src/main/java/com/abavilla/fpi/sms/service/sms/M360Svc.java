@@ -18,9 +18,6 @@
 
 package com.abavilla.fpi.sms.service.sms;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import com.abavilla.fpi.fw.rest.AbsApiSecSvc;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastRequestDto;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
@@ -32,6 +29,8 @@ import com.abavilla.fpi.sms.rest.m360.M360ApiKeys;
 import com.abavilla.fpi.sms.rest.m360.M360ApiRepo;
 import com.abavilla.fpi.sms.util.SMSUtil;
 import io.smallrye.mutiny.Uni;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class M360Svc extends AbsApiSecSvc<M360ApiRepo, M360ApiKeys> {

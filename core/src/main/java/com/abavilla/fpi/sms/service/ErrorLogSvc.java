@@ -18,13 +18,12 @@
 
 package com.abavilla.fpi.sms.service;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.fw.util.MapperUtil;
 import com.abavilla.fpi.sms.dto.ErrorLogDto;
 import com.abavilla.fpi.sms.entity.ErrorLog;
 import io.smallrye.mutiny.Uni;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ErrorLogSvc extends AbsSvc<ErrorLogDto, ErrorLog> {

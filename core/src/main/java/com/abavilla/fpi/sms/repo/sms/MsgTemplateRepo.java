@@ -18,10 +18,9 @@
 
 package com.abavilla.fpi.sms.repo.sms;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.abavilla.fpi.fw.repo.AbsMongoRepo;
 import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class MsgTemplateRepo extends AbsMongoRepo<MsgTemplate> {

@@ -18,12 +18,11 @@
 
 package com.abavilla.fpi.sms.controller;
 
-import javax.ws.rs.Path;
-
 import com.abavilla.fpi.fw.controller.AbsResource;
 import com.abavilla.fpi.sms.dto.CustomerDto;
 import com.abavilla.fpi.sms.entity.Customer;
 import com.abavilla.fpi.sms.service.CxSvc;
+import jakarta.ws.rs.Path;
 
 @Path("/fpi/cx")
 public class CxResource

@@ -18,12 +18,11 @@
 
 package com.abavilla.fpi.sms.controller.sms;
 
-import javax.ws.rs.Path;
-
 import com.abavilla.fpi.fw.controller.AbsResource;
 import com.abavilla.fpi.sms.dto.MsgTemplateDto;
 import com.abavilla.fpi.sms.entity.sms.MsgTemplate;
 import com.abavilla.fpi.sms.service.sms.MsgTemplateSvc;
+import jakarta.ws.rs.Path;
 
 @Path("/fpi/msg/template")
 public class MsgTemplateResource

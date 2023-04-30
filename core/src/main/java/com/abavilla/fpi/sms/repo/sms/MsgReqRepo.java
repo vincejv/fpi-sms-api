@@ -20,11 +20,10 @@ package com.abavilla.fpi.sms.repo.sms;
 
 import java.util.Optional;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.abavilla.fpi.fw.repo.AbsMongoRepo;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import io.smallrye.mutiny.Uni;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class MsgReqRepo extends AbsMongoRepo<MsgReq> {

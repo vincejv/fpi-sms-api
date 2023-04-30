@@ -18,9 +18,8 @@
 
 package com.abavilla.fpi.sms;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.abavilla.fpi.fw.FPIApplication;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class FPISMSApiApplication extends FPIApplication {

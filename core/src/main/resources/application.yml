@@ -17,7 +17,7 @@ quarkus:
   rest-client:
     m360-api:
       url: ${M360_BROADCAST_URL}
-      scope: javax.inject.Singleton
+      scope: jakarta.inject.Singleton
   oidc:
     auth-server-url: ${OIDC_AUTH_URL:https://localhost:8543/realms/quarkus}
     client-id: ${OIDC_CLIENT_ID:backend-api}

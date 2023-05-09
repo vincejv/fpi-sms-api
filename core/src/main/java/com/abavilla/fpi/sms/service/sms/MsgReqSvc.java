@@ -31,11 +31,14 @@ import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
 import com.abavilla.fpi.sms.mapper.sms.MsgReqMapper;
+import com.abavilla.fpi.sms.util.SMSConst;
 import com.abavilla.fpi.telco.ext.enums.ApiStatus;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import lombok.SneakyThrows;
 
 @ApplicationScoped
 public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
@@ -43,40 +46,71 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
   @Inject
   MsgReqMapper msgReqMapper;
 
+  /**
+   * Utility library for detecting and formatting phone numbers
+   */
+  @Inject
+  PhoneNumberUtil phoneNumberUtil;
+
   @Inject
   M360Svc m360Svc;
 
   public Uni<MsgReqStatusDto> sendMsg(MsgReqDto msgReqDto) {
-    Uni<BroadcastResponseDto> broadcastResponseDtoUni = m360Svc.sendMsg(msgReqDto);
-    Log.debug("message request: " + msgReqDto);
+    var status = new MsgReqStatusDto();
+    Log.debug("raw message request: " + msgReqDto);
+
+    if (!validateAndFormatNumber(msgReqDto)) {
+      status.setStatus(SMSConst.SMS_MOBILE_FORMAT_ERR); // consider adding a separate error code for invalid phone numbers
+      return Uni.createFrom().item(status);
+    }
+
+    var broadcastResponseDtoUni = m360Svc.sendMsg(msgReqDto);
+
     return broadcastResponseDtoUni
-        .onFailure().recoverWithItem(ex-> {  // | api failure
-          Log.error("m360 api error: " + ex);
-          BroadcastResponseDto broadcastResponseDto = new BroadcastResponseDto();
-          if (ex instanceof ApiSvcEx apiEx) {
-            broadcastResponseDto = m360Svc.mapResponseToDto(apiEx.getJsonResponse(M360ResponseDto.class));
-          }
-          return broadcastResponseDto;
-        })
-        .chain(respDto -> {
-          MsgReq msgReq = msgReqMapper.mapFromResponse(respDto);
-          msgReq.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
-          msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-          var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now(ZoneOffset.UTC));
-          msgReq.setApiStatus(List.of(stateItem));
-          return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
-        })
-        .map(respMongo -> {
-          Log.debug("mongo save: " + respMongo);  // receive request from to save to mongo
-          MsgReqStatusDto status = new MsgReqStatusDto();
-          if (respMongo != null) {
-            status.setStatus(respMongo
-                .getName().equalsIgnoreCase("Created") ? 0 : 1);  // if both mongo and api is success
-          } else {
-            status.setStatus(2); // mongo failure
-          }
-          return status;
-        });
+      .onFailure().recoverWithItem(ex -> {  // | api failure
+        Log.error("m360 api error: " + ex);
+        var broadcastResponseDto = new BroadcastResponseDto();
+        if (ex instanceof ApiSvcEx apiEx) {
+          broadcastResponseDto = m360Svc.mapResponseToDto(apiEx.getJsonResponse(M360ResponseDto.class));
+        }
+        return broadcastResponseDto;
+      })
+      .chain(respDto -> {
+        var msgReq = msgReqMapper.mapFromResponse(respDto);
+        msgReq.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+        msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
+        var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now(ZoneOffset.UTC));
+        msgReq.setApiStatus(List.of(stateItem));
+        return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
+      })
+      .map(respMongo -> {
+        Log.debug("mongo save: " + respMongo);  // receive request from to save to mongo
+        if (respMongo != null) {
+          status.setStatus(respMongo
+            .getName().equalsIgnoreCase("Created") ? SMSConst.SMS_SENT_SUCCESS :
+            SMSConst.SMS_API_FAIL);  // if both mongo and api is success
+        } else {
+          status.setStatus(SMSConst.SMS_MONGO_FAIL); // mongo failure
+        }
+        return status;
+      });
+  }
+
+  /**
+   * Checks the validity and formats the given phone number to the E164 format as accepted by backend SMS API.
+   * @param msgReqDto {@link MsgReqDto} Object containing phone number given, the formatted phone number will be
+   *                  returned and stored in this object
+   * @return {@code true} if phone number is valid and formatting was attempted, otherwise {@code false}
+   */
+  @SneakyThrows
+  private boolean validateAndFormatNumber(MsgReqDto msgReqDto) {
+    var number = phoneNumberUtil.parse(msgReqDto.getMobileNumber(), SMSConst.PH_REGION_CODE);
+    if (!phoneNumberUtil.isValidNumber(number)) {
+      return false;
+    } else {
+      msgReqDto.setMobileNumber(phoneNumberUtil.format(number, PhoneNumberUtil.PhoneNumberFormat.E164));
+    }
+    return true;
   }
 
   @Override

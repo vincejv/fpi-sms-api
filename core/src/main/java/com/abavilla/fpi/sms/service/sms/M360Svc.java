@@ -28,6 +28,7 @@ import com.abavilla.fpi.sms.mapper.m360.BroadcastResponseMapper;
 import com.abavilla.fpi.sms.rest.m360.M360ApiKeys;
 import com.abavilla.fpi.sms.rest.m360.M360ApiRepo;
 import com.abavilla.fpi.sms.util.SMSUtil;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -39,6 +40,7 @@ public class M360Svc extends AbsApiSecSvc<M360ApiRepo, M360ApiKeys> {
   BroadcastResponseMapper broadcastResponseMapper;
 
   public Uni<BroadcastResponseDto> sendMsg(MsgReqDto msgReqDto) {
+    Log.debug("m360 message request: " + msgReqDto);
     var bRquest = new BroadcastRequestDto();
     bRquest.setAppKey(keys.getApiKey());
     bRquest.setAppSecret(keys.getApiSecret());

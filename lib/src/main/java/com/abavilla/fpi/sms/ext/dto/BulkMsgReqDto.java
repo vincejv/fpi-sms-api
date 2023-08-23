@@ -16,31 +16,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.     *
  ******************************************************************************/
 
-package com.abavilla.fpi.sms.controller.sms;
+package com.abavilla.fpi.sms.ext.dto;
 
-import com.abavilla.fpi.fw.controller.AbsBaseResource;
-import com.abavilla.fpi.sms.entity.sms.MsgReq;
-import com.abavilla.fpi.sms.ext.dto.BulkMsgReqDto;
-import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
-import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
-import com.abavilla.fpi.sms.service.sms.MsgReqSvc;
-import io.smallrye.mutiny.Uni;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import java.util.List;
 
-@Path("/fpi/msg")
-public class MsgReqResource
-    extends AbsBaseResource<MsgReqDto, MsgReq, MsgReqSvc> {
+import com.abavilla.fpi.fw.dto.AbsDto;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-  @POST
-  public Uni<MsgReqStatusDto> sendMsg(MsgReqDto msgReqDto) {
-    return service.sendMsg(msgReqDto);
-  }
+/**
+ * Data transfer object for sending SMS to mobile
+ *
+ * @author <a href="mailto:vincevillamora@gmail.com">Vince Villamora</a>
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@RegisterForReflection
+public class BulkMsgReqDto extends AbsDto {
 
-  @Path("bulk")
-  @POST
-  public Uni<MsgReqStatusDto> sendMsg(BulkMsgReqDto bulkMsgReqDto) {
-    return service.sendBulkMsg(bulkMsgReqDto);
-  }
+  /**
+   * Message content
+   */
+  private String content;
 
+  /**
+   * Mobile number of recipient
+   */
+  private List<String> mobileNumber;
 }

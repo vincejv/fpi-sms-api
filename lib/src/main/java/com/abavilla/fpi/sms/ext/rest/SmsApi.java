@@ -24,11 +24,13 @@ import com.abavilla.fpi.fw.exceptions.AuthApiSvcEx;
 import com.abavilla.fpi.fw.exceptions.handler.ApiRepoExHandler;
 import com.abavilla.fpi.fw.rest.IApi;
 import com.abavilla.fpi.login.ext.rest.AppToAppPreAuth;
+import com.abavilla.fpi.sms.ext.dto.BulkMsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.ext.dto.MsgReqStatusDto;
 import io.smallrye.faulttolerance.api.ExponentialBackoff;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
@@ -51,8 +53,19 @@ public interface SmsApi extends IApi {
    * Send an SMS through SMS service
    * @param msgReqDto {@link MsgReqDto} object
    *
-   * @return {@link MsgReqDto} future object containing the status
+   * @return {@link MsgReqStatusDto} future object containing the status
    */
   @POST
   Uni<MsgReqStatusDto> sendSms(MsgReqDto msgReqDto);
+
+  /**
+   * Send an SMS through SMS service
+   * @param bulkMsgReqDto {@link MsgReqDto} object
+   *
+   * @return {@link MsgReqStatusDto} future object containing the status
+   */
+  @Path("bulk")
+  @POST
+  Uni<MsgReqStatusDto> sendBulkSms(BulkMsgReqDto bulkMsgReqDto);
+
 }

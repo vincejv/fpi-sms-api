@@ -162,6 +162,8 @@ jobs:
             SMS_SID=${{ secrets.SMS_SID }}
             M360_BROADCAST_URL=${{ secrets.M360_BROADCAST_URL }}
             DB_NAME=sms-api-dev
+            USER_BASE_URI=${{ secrets.USER_BASE_URI }}
+            FPI_APP_TO_APP_USERN=${{ secrets.FPI_APP_TO_APP_USERN }}
           secrets: |
             MONGO_CONN_STRING=vbl_mongo_connection_string:latest
             OIDC_SECRET=oidc_secret_keycloak:latest
@@ -169,6 +171,7 @@ jobs:
             FPI_MO_WEBHOOK_KEY=fpi_mo_incoming_webook_key:latest
             FPI_DLR_WEBHOOK_KEY=fpi_dlr_incoming_webhook_key:latest
             FPI_GEN_WEBHOOK_KEY=fpi_gen_incoming_webhook_key:latest
+            FPI_APP_TO_APP_PASSW=fpi_sms_api_creds_secret_key:latest
           labels: |
             env=${{ env.SERVICE_ENV }}
 

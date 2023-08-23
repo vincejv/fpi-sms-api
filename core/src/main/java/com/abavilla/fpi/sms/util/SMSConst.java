@@ -49,6 +49,11 @@ public abstract class SMSConst {
    */
   public static final int SMS_MOBILE_FORMAT_ERR = 3;
 
+  /**
+   * Code to return if SMS was not sent as user opt-out from the service
+   */
+  public static final int SMS_USER_OPT_OUT = 4;
+
   private SMSConst() {
     // constants class
   }

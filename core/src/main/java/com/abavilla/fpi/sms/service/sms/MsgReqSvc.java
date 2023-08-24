@@ -218,7 +218,7 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
         } else {
           return null; // skip opted out users
         }
-      }));
+      }).onFailure().recoverWithNull());
     }
     return Uni.join().all(retrieveUsrOptIns).andCollectFailures().map(mobs -> {
       var bulkMobileSend = mobs.stream().filter(Objects::nonNull).toList();

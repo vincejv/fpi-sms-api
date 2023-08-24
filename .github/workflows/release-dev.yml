@@ -164,6 +164,7 @@ jobs:
             DB_NAME=sms-api-dev
             USER_BASE_URI=${{ secrets.USER_BASE_URI }}
             FPI_APP_TO_APP_USERN=${{ secrets.FPI_APP_TO_APP_USERN }}
+            LOGIN_BASE_URI=${{ secrets.LOGIN_BASE_URI }}
           secrets: |
             MONGO_CONN_STRING=vbl_mongo_connection_string:latest
             OIDC_SECRET=oidc_secret_keycloak:latest

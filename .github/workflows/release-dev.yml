@@ -170,6 +170,7 @@ jobs:
             --set-env-vars FPI_DLR_WEBHOOK_KEY=${{ secrets.FPI_DLR_WEBHOOK_KEY }}
             --set-env-vars FPI_GEN_WEBHOOK_KEY=${{ secrets.FPI_GEN_WEBHOOK_KEY }}
             --set-env-vars FPI_APP_TO_APP_PASSW=${{ secrets.FPI_APP_TO_APP_PASSW }}
+            --set-env-vars M360_API_URL=${{ secrets.M360_API_URL }}
             --set-env-vars DB_NAME=sms-api-dev
             --cpu ${{ env.SERVICE_CPU }}
             --memory ${{ env.SERVICE_MEMORY }}

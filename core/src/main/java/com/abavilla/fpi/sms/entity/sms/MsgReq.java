@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
 import com.abavilla.fpi.telco.ext.enums.Telco;
+import com.vincejv.m360.dto.IApiRequest;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,6 +48,7 @@ public class MsgReq extends AbsMongoItem {
   private Telco telco;
   private String messageId;
   private List<StateEncap> apiStatus;
+  private List<String> message;
   @BsonProperty("request")
-  private BroadcastRequest broadcastRequest;
+  private IApiRequest broadcastRequest;
 }

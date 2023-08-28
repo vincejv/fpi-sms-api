@@ -23,8 +23,8 @@ import java.time.LocalDateTime;
 import com.abavilla.fpi.fw.mapper.IMapper;
 import com.abavilla.fpi.fw.util.DateUtil;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
-import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
 import com.abavilla.fpi.sms.util.M360Const;
+import com.vincejv.m360.dto.BroadcastResponse;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -32,7 +32,8 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
   injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface BroadcastResponseMapper extends IMapper {
-  BroadcastResponseDto mapApiToDto(M360ResponseDto apiResponse);
+
+  BroadcastResponseDto mapApiToDto(BroadcastResponse apiResponse);
 
   default LocalDateTime parseTimestamp(String timestamp) {
     return DateUtil.modLdtToUtc(DateUtil.parseStrDateToLdt(timestamp, M360Const.M360_TIMESTAMP_FORMAT));

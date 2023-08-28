@@ -21,6 +21,7 @@ package com.abavilla.fpi.sms.service.sms;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,6 @@ import com.abavilla.fpi.fw.service.AbsSvc;
 import com.abavilla.fpi.login.ext.entity.ServiceStatus;
 import com.abavilla.fpi.login.ext.rest.UserApi;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
-import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.ext.dto.BulkMsgReqDto;
@@ -39,6 +39,7 @@ import com.abavilla.fpi.sms.mapper.sms.MsgReqMapper;
 import com.abavilla.fpi.sms.util.SMSConst;
 import com.abavilla.fpi.telco.ext.enums.ApiStatus;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.groups.UniJoin;
@@ -81,7 +82,9 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
           Log.error("m360 api error: " + ex);
           var broadcastResponseDto = new BroadcastResponseDto();
           if (ex instanceof ApiSvcEx apiEx) {
-            broadcastResponseDto = m360Svc.mapResponseToDto(apiEx.getJsonResponse(M360ResponseDto.class));
+            broadcastResponseDto.setCode(apiEx.getHttpResponseStatus().code());
+            broadcastResponseDto.setName(apiEx.getHttpResponseStatus().reasonPhrase());
+            broadcastResponseDto.setMessage(Collections.singletonList(apiEx.getMessage()));
           }
           return broadcastResponseDto;
         })
@@ -89,7 +92,10 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
           var msgReq = msgReqMapper.mapFromResponse(respDto);
           msgReq.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
           msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-          var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now(ZoneOffset.UTC));
+          var stateItem = new StateEncap(respDto.getCode() ==
+            HttpResponseStatus.CREATED.code() ? ApiStatus.WAIT // success
+            : ApiStatus.REJ, // api failure
+            LocalDateTime.now(ZoneOffset.UTC));
           msgReq.setApiStatus(List.of(stateItem));
           return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
         })
@@ -130,7 +136,9 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
             Log.error("m360 api error: " + ex);
             var apiResp = new BroadcastResponseDto();
             if (ex instanceof ApiSvcEx apiEx) {
-              apiResp = m360Svc.mapResponseToDto(apiEx.getJsonResponse(M360ResponseDto.class));
+              apiResp.setCode(apiEx.getHttpResponseStatus().code());
+              apiResp.setName(apiEx.getHttpResponseStatus().reasonPhrase());
+              apiResp.setMessage(Collections.singletonList(apiEx.getMessage()));
             }
             return apiResp;
           })
@@ -138,7 +146,10 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
             var resp = msgReqMapper.mapFromResponse(apiResp);
             resp.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
             resp.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-            var stateItem = new StateEncap(ApiStatus.WAIT, LocalDateTime.now(ZoneOffset.UTC));
+            var stateItem = new StateEncap(apiResp.getCode() ==
+              HttpResponseStatus.CREATED.code() ? ApiStatus.WAIT // success
+              : ApiStatus.REJ, // api failure
+              LocalDateTime.now(ZoneOffset.UTC));
             resp.setApiStatus(List.of(stateItem));
             return repo.persist(resp).onFailure().recoverWithNull(); // if failed to save to mongo, return null
           })

@@ -79,6 +79,11 @@
       <artifactId>fpi-telco-plugin</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.vincejv</groupId>
+      <artifactId>m360-api-client</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

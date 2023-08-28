@@ -18,47 +18,60 @@
 
 package com.abavilla.fpi.sms.service.sms;
 
-import com.abavilla.fpi.fw.rest.AbsApiSecSvc;
-import com.abavilla.fpi.sms.dto.api.m360.BroadcastRequestDto;
+import java.util.stream.Collectors;
+
+import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
+import com.abavilla.fpi.fw.service.ISvc;
+import com.abavilla.fpi.fw.util.DateUtil;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
-import com.abavilla.fpi.sms.dto.api.m360.M360ResponseDto;
 import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.mapper.m360.BroadcastResponseMapper;
-import com.abavilla.fpi.sms.rest.m360.M360ApiKeys;
-import com.abavilla.fpi.sms.rest.m360.M360ApiRepo;
 import com.abavilla.fpi.sms.util.SMSUtil;
+import com.vincejv.m360.M360ApiClient;
+import com.vincejv.m360.dto.ApiError;
+import com.vincejv.m360.dto.SMSRequest;
+import com.vincejv.m360.exception.M360ApiException;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-public class M360Svc extends AbsApiSecSvc<M360ApiRepo, M360ApiKeys> {
+public class M360Svc implements ISvc {
 
   @Inject
-  BroadcastResponseMapper broadcastResponseMapper;
+  M360ApiClient m360client;
+
+  @Inject
+  BroadcastResponseMapper mapper;
 
   public Uni<BroadcastResponseDto> sendMsg(MsgReqDto msgReqDto) {
     Log.debug("m360 message request: " + msgReqDto);
-    var bRquest = new BroadcastRequestDto();
-    bRquest.setAppKey(keys.getApiKey());
-    bRquest.setAppSecret(keys.getApiSecret());
-    bRquest.setMobileNumber(msgReqDto.getMobileNumber());
-    bRquest.setContent(msgReqDto.getContent());
-    bRquest.setSenderId(keys.getSenderId());
-    bRquest.setDataCodingScheme(SMSUtil.isEncodeableInGsm0338(msgReqDto.getContent()) ?
+    var smsRequest = new SMSRequest();
+    smsRequest.setMobileNumber(msgReqDto.getMobileNumber());
+    smsRequest.setContent(msgReqDto.getContent());
+    smsRequest.setDataCodingScheme(SMSUtil.isEncodeableInGsm0338(msgReqDto.getContent()) ?
         DCSCoding.GSM0338.getId() : DCSCoding.UCS2.getId());
 
-    Uni<M360ResponseDto> m360Resp = client.sendMsg(bRquest);
+    var m360Resp = Uni.createFrom().completionStage(() ->
+      m360client.sendBroadcastMessage(smsRequest));
     return m360Resp.map(resp -> {
-      BroadcastResponseDto dto = mapResponseToDto(resp);
-      dto.setBroadcastRequest(bRquest);
+      var dto = new BroadcastResponseDto();
+      if (resp.isSuccess()) {
+        dto = mapper.mapApiToDto(resp.getResult());
+      } else { // fail
+        dto.setCode(resp.getCode());
+        dto.setName(HttpResponseStatus.valueOf(resp.getCode()).reasonPhrase());
+        dto.setTimestamp(DateUtil.now());
+        dto.setMessage(resp.getErrors().stream().map(ApiError::getMessage).collect(Collectors.toList()));
+      }
+      dto.setBroadcastRequest(smsRequest);
       return dto;
+    }).onFailure(M360ApiException.class).recoverWithItem(ex -> {
+      throw new ApiSvcEx(ex.getMessage(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
     });
   }
 
-  public BroadcastResponseDto mapResponseToDto(M360ResponseDto apiResponse) {
-    return broadcastResponseMapper.mapApiToDto(apiResponse);
-  }
 }

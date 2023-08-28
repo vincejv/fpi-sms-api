@@ -14,9 +14,6 @@ quarkus:
     validate-on-migrate: true
     clean-at-start: false
   rest-client:
-    m360-api:
-      url: ${M360_BROADCAST_URL}
-      scope: jakarta.inject.Singleton
     login-api: # required by app-to-app auth
       url: ${LOGIN_BASE_URI}
       scope: jakarta.inject.Singleton
@@ -56,6 +53,7 @@ fpi:
 ph:
   com:
     m360:
+      base-url: ${M360_API_URL}
       api-key: ${SMS_API_KEY:123456789}
       api-secret: ${SMS_SECRET:123456789}
       sender-id: ${SMS_SID:ABCDE}

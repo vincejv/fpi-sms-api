@@ -19,9 +19,25 @@
 package com.abavilla.fpi.sms.config;
 
 import com.abavilla.fpi.fw.config.BaseReflectionConfig;
+import com.vincejv.m360.dto.ApiError;
+import com.vincejv.m360.dto.ApiResponse;
+import com.vincejv.m360.dto.BroadcastRequest;
+import com.vincejv.m360.dto.BroadcastResponse;
+import com.vincejv.m360.dto.ErrorResponse;
+import com.vincejv.m360.dto.IApiRequest;
+import com.vincejv.m360.dto.PageInfo;
+import com.vincejv.m360.dto.SMSRequest;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection(targets = {
+  IApiRequest.class,
+  ApiError.class,
+  ApiResponse.class,
+  BroadcastRequest.class,
+  BroadcastResponse.class,
+  ErrorResponse.class,
+  PageInfo.class,
+  SMSRequest.class,
 })
 public class ReflectionConfig extends BaseReflectionConfig {
 }

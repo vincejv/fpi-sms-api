@@ -18,6 +18,7 @@
 
 package com.abavilla.fpi.sms.codec;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vincejv.m360.dto.ApiRequest;
@@ -27,6 +28,7 @@ import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.ClassModel;
+import org.bson.codecs.pojo.ClassModelBuilder;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
 /**
@@ -39,10 +41,14 @@ public class M360CodecProvider implements CodecProvider {
   @SuppressWarnings("rawtypes")
   private static final List<Class> discriminatorClasses;
 
+  private static final List<String> ignoredFields;
+
   static {
     discriminatorClasses = List.of(
       ApiRequest.class, BroadcastRequest.class, SMSRequest.class
     );
+
+    ignoredFields = List.of("appKey", "appSecret");
   }
 
   @Override
@@ -53,12 +59,30 @@ public class M360CodecProvider implements CodecProvider {
     return null; // Don't throw here, this tells
   }
 
-  private static <T> Codec<T> buildDiscriminatorCodec(Class<T> clazz, CodecRegistry registry) {
-    ClassModel<T> discriminatorModel = ClassModel.builder(clazz)
-      .enableDiscriminator(true).build();
+  private <T> Codec<T> buildDiscriminatorCodec(Class<T> clazz, CodecRegistry registry) {
+    var dscmntrMdlBldr = ClassModel.builder(clazz)
+      .enableDiscriminator(true);
+    if (clazz == BroadcastRequest.class) {
+      stripNonProperties(dscmntrMdlBldr);
+    }
     return PojoCodecProvider.builder()
-      .register(discriminatorModel)
+      .register(dscmntrMdlBldr.build())
       .build().get(clazz, registry);
+  }
+
+  private <T> void stripNonProperties(final ClassModelBuilder<T> builder) {
+    List<String> names = new ArrayList<>();
+
+    for (var property : builder.getPropertyModelBuilders()) {
+      var name = property.getName();
+      if (ignoredFields.contains(name)) {
+        names.add(name);
+      }
+    }
+
+    for (var name : names) {
+      builder.removeProperty(name);
+    }
   }
 
 }

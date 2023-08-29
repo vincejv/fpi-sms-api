@@ -59,36 +59,35 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
     var byMsgId = msgReqRepo.findByMsgId(msgId);
 
     /* run in background, immediately return response to webhook */
-    executor.execute(() ->
-      byMsgId.map(msgReqOpt -> msgReqOpt.orElseThrow(() ->
-          new ApiSvcEx("Message Id for acknowledgement not found: " + msgId)))
-        .onFailure(OptimisticLockEx.class).retry().indefinitely()
-        .onFailure(ApiSvcEx.class)
-        .retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
-        .atMost(5) // Retry for item not found and nothing else
-        .chain(msgReq -> {
-          var stateItem = new StateEncap(apiStatus, ackTime);
-          if (ObjectUtils.isEmpty(msgReq.getApiStatus())) {
-            msgReq.setApiStatus(List.of(stateItem));
-          } else {
-            msgReq.getApiStatus().add(stateItem);
-          }
-          msgReq.setLastAcknowledgement(ackTime);
-          msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-          return msgReqRepo.persistOrUpdate(msgReq);
-        })
-        .onFailure().call(ex -> {
-          Log.error("Error leak ack", ex);
-          var leak = new LeakAck();
-          leak.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
-          leak.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-          leak.setMsgId(msgId);
-          leak.setApiStatus(apiStatus);
-          leak.setTimestamp(ackTime);
-          return repo.persist(leak);
-        })
-        .await().indefinitely()
-    );
+    byMsgId.map(msgReqOpt -> msgReqOpt.orElseThrow(() ->
+        new ApiSvcEx("Message Id for acknowledgement not found: " + msgId)))
+      .onFailure(OptimisticLockEx.class).retry().indefinitely()
+      .onFailure(ApiSvcEx.class)
+      .retry().withBackOff(Duration.ofSeconds(3)).withJitter(0.2)
+      .atMost(5) // Retry for item not found and nothing else
+      .chain(msgReq -> {
+        var stateItem = new StateEncap(apiStatus, ackTime);
+        if (ObjectUtils.isEmpty(msgReq.getApiStatus())) {
+          msgReq.setApiStatus(List.of(stateItem));
+        } else {
+          msgReq.getApiStatus().add(stateItem);
+        }
+        msgReq.setLastAcknowledgement(ackTime);
+        msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
+        return msgReqRepo.update(msgReq);
+      })
+      .onFailure().call(ex -> {
+        Log.error("Error leak ack", ex);
+        var leak = new LeakAck();
+        leak.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+        leak.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
+        leak.setMsgId(msgId);
+        leak.setApiStatus(apiStatus);
+        leak.setTimestamp(ackTime);
+        return repo.persist(leak);
+      })
+      .subscribe().with(ignored -> {
+      });
 
     return Uni.createFrom().voidItem();
   }

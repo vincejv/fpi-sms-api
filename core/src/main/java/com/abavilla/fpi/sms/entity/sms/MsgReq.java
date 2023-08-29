@@ -25,6 +25,7 @@ import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
 import com.abavilla.fpi.telco.ext.enums.Telco;
 import com.vincejv.m360.dto.ApiRequest;
 import io.quarkus.mongodb.panache.common.MongoEntity;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@RegisterForReflection
 @NoArgsConstructor
 @BsonDiscriminator
 @MongoEntity(collection="m360_log")
@@ -49,6 +51,6 @@ public class MsgReq extends AbsMongoItem {
   private String messageId;
   private List<StateEncap> apiStatus;
   private List<String> message;
-  @BsonProperty("request")
+  @BsonProperty(value = "request", useDiscriminator = true)
   private ApiRequest broadcastRequest;
 }

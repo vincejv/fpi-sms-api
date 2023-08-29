@@ -55,7 +55,7 @@ public class M360Svc implements ISvc {
     smsRequest.setDataCodingScheme(SMSUtil.isEncodeableInGsm0338(msgReqDto.getContent()) ?
         DCSCoding.GSM0338.getId() : DCSCoding.UCS2.getId());
 
-    var m360Resp = Uni.createFrom().completionStage(() ->
+    var m360Resp = Uni.createFrom().future(() ->
       m360client.sendBroadcastMessage(smsRequest));
     return m360Resp.map(resp -> {
       var dto = new BroadcastResponseDto();

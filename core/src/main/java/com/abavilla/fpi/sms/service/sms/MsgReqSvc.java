@@ -76,40 +76,7 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
       return Uni.createFrom().item(status);
     }
 
-    return
-      m360Svc.sendMsg(msgReqDto)
-        .onFailure().recoverWithItem(ex -> {  // | api failure
-          Log.error("m360 api error: " + ex);
-          var broadcastResponseDto = new BroadcastResponseDto();
-          if (ex instanceof ApiSvcEx apiEx) {
-            broadcastResponseDto.setCode(apiEx.getHttpResponseStatus().code());
-            broadcastResponseDto.setName(apiEx.getHttpResponseStatus().reasonPhrase());
-            broadcastResponseDto.setMessage(Collections.singletonList(apiEx.getMessage()));
-          }
-          return broadcastResponseDto;
-        })
-        .chain(respDto -> {
-          var msgReq = msgReqMapper.mapFromResponse(respDto);
-          msgReq.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
-          msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-          var stateItem = new StateEncap(respDto.getCode() ==
-            HttpResponseStatus.CREATED.code() ? ApiStatus.WAIT // success
-            : ApiStatus.REJ, // api failure
-            LocalDateTime.now(ZoneOffset.UTC));
-          msgReq.setApiStatus(List.of(stateItem));
-          return repo.persist(msgReq).onFailure().recoverWithNull(); // if failed to save to mongo, return null
-        })
-        .map(respMongo -> {
-          Log.debug("mongo save: " + respMongo);  // receive request from to save to mongo
-          if (respMongo != null) {
-            status.setStatus(respMongo
-              .getName().equalsIgnoreCase("Created") ? SMSConst.SMS_SENT_SUCCESS :
-              SMSConst.SMS_API_FAIL);  // if both mongo and api is success
-          } else {
-            status.setStatus(SMSConst.SMS_MONGO_FAIL); // mongo failure
-          }
-          return status;
-        });
+    return callMsgSvc(status, msgReqDto);
   }
 
   public Uni<MsgReqStatusDto> sendBulkMsg(BulkMsgReqDto bulkMsgReqDto) {
@@ -131,39 +98,8 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
         msgReq.setMobileNumber(mobile);
         msgReq.setContent(filteredReq.getContent());
 
-        var sendMsg = m360Svc.sendMsg(msgReq)
-          .onFailure().recoverWithItem(ex -> {  // | api failure
-            Log.error("m360 api error: " + ex);
-            var apiResp = new BroadcastResponseDto();
-            if (ex instanceof ApiSvcEx apiEx) {
-              apiResp.setCode(apiEx.getHttpResponseStatus().code());
-              apiResp.setName(apiEx.getHttpResponseStatus().reasonPhrase());
-              apiResp.setMessage(Collections.singletonList(apiEx.getMessage()));
-            }
-            return apiResp;
-          })
-          .chain(apiResp -> {
-            var resp = msgReqMapper.mapFromResponse(apiResp);
-            resp.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
-            resp.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
-            var stateItem = new StateEncap(apiResp.getCode() ==
-              HttpResponseStatus.CREATED.code() ? ApiStatus.WAIT // success
-              : ApiStatus.REJ, // api failure
-              LocalDateTime.now(ZoneOffset.UTC));
-            resp.setApiStatus(List.of(stateItem));
-            return repo.persist(resp).onFailure().recoverWithNull(); // if failed to save to mongo, return null
-          })
-          .map(respMongo -> {
-            Log.debug("mongo save: " + respMongo);  // receive request from to save to mongo
-            if (respMongo != null) {
-              status.setStatus(respMongo
-                .getName().equalsIgnoreCase("Created") ? SMSConst.SMS_SENT_SUCCESS :
-                SMSConst.SMS_API_FAIL);  // if both mongo and api is success
-            } else {
-              status.setStatus(SMSConst.SMS_MONGO_FAIL); // mongo failure
-            }
-            return status;
-          });
+        // | api failure
+        var sendMsg = callMsgSvc(status, msgReq);
         bulkSend = bulkSend.add(sendMsg);
       }
 
@@ -176,6 +112,48 @@ public class MsgReqSvc extends AbsSvc<MsgReqDto, MsgReq> {
         return resList.get(0); // return first
       });
     });
+  }
+
+  private Uni<MsgReq> mapBroadcastRespToMsgReq(BroadcastResponseDto respDto) {
+    var msgReq = msgReqMapper.mapFromResponse(respDto);
+    msgReq.setDateCreated(LocalDateTime.now(ZoneOffset.UTC));
+    msgReq.setDateUpdated(LocalDateTime.now(ZoneOffset.UTC));
+    var stateItem = new StateEncap(respDto.getCode() ==
+      HttpResponseStatus.CREATED.code() ? ApiStatus.WAIT // success
+      : ApiStatus.REJ, // api failure
+      LocalDateTime.now(ZoneOffset.UTC));
+    msgReq.setApiStatus(List.of(stateItem));
+    return repo.persist(msgReq).onFailure().recoverWithNull();
+  }
+
+  private BroadcastResponseDto recoverFromError(Throwable ex) {
+    Log.error("m360 api error: " + ex);
+    var broadcastResponseDto = new BroadcastResponseDto();
+    if (ex instanceof ApiSvcEx apiEx) {
+      broadcastResponseDto.setCode(apiEx.getHttpResponseStatus().code());
+      broadcastResponseDto.setName(apiEx.getHttpResponseStatus().reasonPhrase());
+      broadcastResponseDto.setMessage(Collections.singletonList(apiEx.getMessage()));
+    }
+    return broadcastResponseDto;
+  }
+
+  private Uni<MsgReqStatusDto> callMsgSvc(MsgReqStatusDto status, MsgReqDto msgReq) {
+    return m360Svc.sendMsg(msgReq)
+      .onFailure().recoverWithItem(this::recoverFromError) // | api failure
+      .chain(this::mapBroadcastRespToMsgReq)
+      .map(respMongo -> determineMsgReqSts(status, respMongo));
+  }
+
+  private static MsgReqStatusDto determineMsgReqSts(MsgReqStatusDto status, MsgReq respMongo) {
+    Log.debug("mongo save: " + respMongo);  // receive request from to save to mongo
+    if (respMongo != null) {
+      status.setStatus(respMongo
+        .getName().equalsIgnoreCase("Created") ? SMSConst.SMS_SENT_SUCCESS :
+        SMSConst.SMS_API_FAIL);  // if both mongo and api is success
+    } else {
+      status.setStatus(SMSConst.SMS_MONGO_FAIL); // mongo failure
+    }
+    return status;
   }
 
   /**

@@ -38,8 +38,7 @@ import org.bson.codecs.pojo.PojoCodecProvider;
  */
 public class M360CodecProvider implements CodecProvider {
 
-  @SuppressWarnings("rawtypes")
-  private static final List<Class> discriminatorClasses;
+  private static final List<Class<?>> discriminatorClasses;
 
   private static final List<String> ignoredFields;
 
@@ -60,13 +59,13 @@ public class M360CodecProvider implements CodecProvider {
   }
 
   private <T> Codec<T> buildDiscriminatorCodec(Class<T> clazz, CodecRegistry registry) {
-    var dscmntrMdlBldr = ClassModel.builder(clazz)
+    var discriminatorModelBuilder = ClassModel.builder(clazz)
       .enableDiscriminator(true);
     if (clazz == BroadcastRequest.class) {
-      stripNonProperties(dscmntrMdlBldr);
+      stripNonProperties(discriminatorModelBuilder);
     }
     return PojoCodecProvider.builder()
-      .register(dscmntrMdlBldr.build())
+      .register(discriminatorModelBuilder.build())
       .build().get(clazz, registry);
   }
 

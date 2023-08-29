@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.service.ISvc;
-import com.abavilla.fpi.fw.util.DateUtil;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
 import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
@@ -64,7 +63,6 @@ public class M360Svc implements ISvc {
       } else { // fail
         dto.setCode(resp.getCode());
         dto.setName(HttpResponseStatus.valueOf(resp.getCode()).reasonPhrase());
-        dto.setTimestamp(DateUtil.now());
         dto.setMessage(resp.getErrors().stream().map(ApiError::getMessage).collect(Collectors.toList()));
       }
       dto.setBroadcastRequest(smsRequest);

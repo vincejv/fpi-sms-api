@@ -40,6 +40,7 @@ public interface MsgReqMapper extends IDtoToEntityMapper<MsgReqDto, MsgReq> {
   MsgReq mapToEntity(MsgReqDto dto);
 
   MsgReq mapFromResponse(BroadcastResponseDto broadcastResponseDto);
+
   @AfterMapping
   default void afterMappingFromResponse(BroadcastResponseDto broadcastResponseDto, @MappingTarget MsgReq msgReq) {
     msgReq.setTelco(Telco.fromId(broadcastResponseDto.getTelcoId()));

@@ -20,8 +20,8 @@ package com.abavilla.fpi.sms.codec;
 
 import java.util.List;
 
+import com.vincejv.m360.dto.ApiRequest;
 import com.vincejv.m360.dto.BroadcastRequest;
-import com.vincejv.m360.dto.IApiRequest;
 import com.vincejv.m360.dto.SMSRequest;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;
@@ -41,7 +41,7 @@ public class M360CodecProvider implements CodecProvider {
 
   static {
     discriminatorClasses = List.of(
-      IApiRequest.class, BroadcastRequest.class, SMSRequest.class
+      ApiRequest.class, BroadcastRequest.class, SMSRequest.class
     );
   }
 

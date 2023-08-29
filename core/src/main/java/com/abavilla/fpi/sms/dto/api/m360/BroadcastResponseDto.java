@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.abavilla.fpi.fw.dto.AbsDto;
-import com.vincejv.m360.dto.IApiRequest;
+import com.vincejv.m360.dto.ApiRequest;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,5 +41,5 @@ public class BroadcastResponseDto extends AbsDto {
   private Integer telcoId;
   private String messageId;
   private List<String> message;
-  private IApiRequest broadcastRequest;
+  private ApiRequest broadcastRequest;
 }

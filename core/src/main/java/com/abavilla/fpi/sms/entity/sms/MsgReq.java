@@ -21,9 +21,9 @@ package com.abavilla.fpi.sms.entity.sms;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.abavilla.fpi.fw.entity.mongo.AbsMongoField;
 import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
 import com.abavilla.fpi.telco.ext.enums.Telco;
-import com.vincejv.m360.dto.ApiRequest;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
@@ -52,5 +52,5 @@ public class MsgReq extends AbsMongoItem {
   private List<StateEncap> apiStatus;
   private List<String> message;
   @BsonProperty(value = "request", useDiscriminator = true)
-  private ApiRequest broadcastRequest;
+  private AbsMongoField broadcastRequest;
 }

@@ -18,31 +18,53 @@
 
 package com.abavilla.fpi.sms.mapper.sms;
 
+import com.abavilla.fpi.fw.entity.mongo.AbsMongoField;
 import com.abavilla.fpi.fw.mapper.IDtoToEntityMapper;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
+import com.abavilla.fpi.sms.entity.sms.BroadcastRequestEntity;
 import com.abavilla.fpi.sms.entity.sms.MsgReq;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.telco.ext.enums.Telco;
+import com.vincejv.m360.dto.ApiRequest;
+import com.vincejv.m360.dto.BroadcastRequest;
+import com.vincejv.m360.dto.SMSRequest;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface MsgReqMapper extends IDtoToEntityMapper<MsgReqDto, MsgReq> {
+public abstract class MsgReqMapper implements IDtoToEntityMapper<MsgReqDto, MsgReq> {
 
-  @Override
-  MsgReqDto mapToDto(MsgReq msgReq);
+  @ConfigProperty(name = "ph.com.m360.sender-id")
+  String senderId;
 
-  @Override
-  MsgReq mapToEntity(MsgReqDto dto);
+  public abstract MsgReq mapFromResponse(BroadcastResponseDto broadcastResponseDto);
 
-  MsgReq mapFromResponse(BroadcastResponseDto broadcastResponseDto);
+  AbsMongoField mapApiReqToBroadcastReqEntity(ApiRequest request) {
+    AbsMongoField entity = null;
+    if (request instanceof BroadcastRequest req) {
+      entity = mapBroadcastReqDtoToBroadcastReqEntity(req);
+    } else if (request instanceof SMSRequest req) {
+      entity = mapSMSReqToBroadcastReqEntity(req);
+    }
+    return entity;
+  }
+
+  @Mapping(target = "senderId", expression = "java(senderId)")
+  abstract BroadcastRequestEntity mapSMSReqToBroadcastReqEntity(SMSRequest smsRequest);
+
+
+  @Mapping(target = "senderId", expression = "java(senderId)")
+  abstract BroadcastRequestEntity mapBroadcastReqDtoToBroadcastReqEntity(BroadcastRequest smsRequest);
 
   @AfterMapping
-  default void afterMappingFromResponse(BroadcastResponseDto broadcastResponseDto, @MappingTarget MsgReq msgReq) {
+  void afterMappingFromResponse(BroadcastResponseDto broadcastResponseDto, @MappingTarget MsgReq msgReq) {
     msgReq.setTelco(Telco.fromId(broadcastResponseDto.getTelcoId()));
   }
+
 }

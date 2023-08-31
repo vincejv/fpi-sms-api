@@ -18,17 +18,83 @@
 
 package com.abavilla.fpi.sms.codec;
 
-import com.abavilla.fpi.fw.codec.AbsEnumCodec;
-import com.abavilla.fpi.sms.entity.enums.DCSCoding;
+import java.lang.reflect.Method;
 
-public class DCSCodingCodec extends AbsEnumCodec<DCSCoding> {
+import com.vincejv.m360.dto.DCSCoding;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
+import org.bson.BsonReader;
+import org.bson.BsonType;
+import org.bson.BsonWriter;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
 
-  public DCSCodingCodec() {
-    super();
+/**
+ * Codec for encoding and decoding {@link DCSCoding} enum to MongoDB Document
+ *
+ * @author <a href="mailto:vincevillamora@gmail.com">Vince Villamora</a>
+ */
+@NoArgsConstructor
+public class DCSCodingCodec implements Codec<DCSCoding> {
+
+  /**
+   * Document key name for the value node
+   */
+  public static final String VALUE_KEY_NODE_NAME = "value";
+
+  /**
+   * Document key name for the enum id
+   */
+  public static final String ORD_KEY_NODE_NAME = "ord";
+
+  /**
+   * {@inheritDoc}
+   */
+  @SneakyThrows
+  @Override
+  public DCSCoding decode(BsonReader reader, DecoderContext decoderContext) {
+    reader.readStartDocument();
+    int ord = Integer.MIN_VALUE;
+    while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+      // decode only value type, ignore ord
+      String key = reader.readName();
+      if (StringUtils.equals(key, VALUE_KEY_NODE_NAME)) {
+        reader.readString();
+      } else if (StringUtils.equals(key, ORD_KEY_NODE_NAME)) {
+        ord = reader.readInt32();
+      } else {
+        reader.skipValue();
+      }
+    }
+    reader.readEndDocument();
+
+    Method fromValue = getEncoderClass().getDeclaredMethod("fromId", int.class);
+    return (DCSCoding) fromValue.invoke(null, ord);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @SneakyThrows
+  @Override
+  public void encode(BsonWriter writer, DCSCoding value, EncoderContext encoderContext) {
+    if (value != null) {
+      Method getId = getEncoderClass().getDeclaredMethod("getId");
+      writer.writeStartDocument();
+      writer.writeString(VALUE_KEY_NODE_NAME, value.toString());
+      writer.writeInt32(ORD_KEY_NODE_NAME, (Integer) getId.invoke(value));
+      writer.writeEndDocument();
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Class<DCSCoding> getEncoderClass() {
     return DCSCoding.class;
   }
+
 }

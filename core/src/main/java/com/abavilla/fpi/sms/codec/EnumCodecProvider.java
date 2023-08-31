@@ -19,11 +19,11 @@
 package com.abavilla.fpi.sms.codec;
 
 import com.abavilla.fpi.fw.codec.IEnumCodecProvider;
-import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.telco.ext.codec.ApiStatusCodec;
 import com.abavilla.fpi.telco.ext.codec.TelcoCodec;
 import com.abavilla.fpi.telco.ext.enums.ApiStatus;
 import com.abavilla.fpi.telco.ext.enums.Telco;
+import com.vincejv.m360.dto.DCSCoding;
 import org.bson.codecs.Codec;
 
 public class EnumCodecProvider implements IEnumCodecProvider {

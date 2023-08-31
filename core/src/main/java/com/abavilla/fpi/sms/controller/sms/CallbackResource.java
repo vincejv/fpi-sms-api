@@ -20,6 +20,7 @@ package com.abavilla.fpi.sms.controller.sms;
 
 import com.abavilla.fpi.fw.controller.AbsBaseResource;
 import com.abavilla.fpi.fw.dto.impl.NullDto;
+import com.abavilla.fpi.fw.dto.impl.RespDto;
 import com.abavilla.fpi.fw.exceptions.FPISvcEx;
 import com.abavilla.fpi.sms.config.ApiKeyConfig;
 import com.abavilla.fpi.sms.entity.sms.LeakAck;
@@ -42,10 +43,10 @@ public class CallbackResource
 
   @Path("webhook/{apiKey}")
   @GET
-  public Uni<Void> acknowledge(@QueryParam("status_code") String stsCde,
-                               @QueryParam("transid") String msgId,
-                               @QueryParam("timestamp") String timestamp,
-                               @PathParam("apiKey") String apiKey) {
+  public Uni<RespDto<NullDto>> acknowledge(@QueryParam("status_code") String stsCde,
+                                           @QueryParam("transid") String msgId,
+                                           @QueryParam("timestamp") String timestamp,
+                                           @PathParam("apiKey") String apiKey) {
     if (StringUtils.equals(apiKey, apiKeyConfig.getDlrApiKey())) {
       return service.acknowledge(msgId, stsCde, timestamp);
     } else {

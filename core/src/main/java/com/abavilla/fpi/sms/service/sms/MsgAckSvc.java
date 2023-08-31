@@ -24,6 +24,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 import com.abavilla.fpi.fw.dto.impl.NullDto;
+import com.abavilla.fpi.fw.dto.impl.RespDto;
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.exceptions.OptimisticLockEx;
 import com.abavilla.fpi.fw.service.AbsSvc;
@@ -33,12 +34,12 @@ import com.abavilla.fpi.sms.entity.sms.StateEncap;
 import com.abavilla.fpi.sms.repo.sms.MsgReqRepo;
 import com.abavilla.fpi.sms.util.M360Const;
 import com.abavilla.fpi.telco.ext.enums.ApiStatus;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.ObjectUtils;
-import org.eclipse.microprofile.context.ManagedExecutor;
 
 @ApplicationScoped
 public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
@@ -46,13 +47,7 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
   @Inject
   MsgReqRepo msgReqRepo;
 
-  /**
-   * Runs background tasks from webhook
-   */
-  @Inject
-  ManagedExecutor executor;
-
-  public Uni<Void> acknowledge(String msgId, String ackStsCde, String ackTimestamp) {
+  public Uni<RespDto<NullDto>> acknowledge(String msgId, String ackStsCde, String ackTimestamp) {
     var apiStatus = ApiStatus.fromId(Integer.parseInt(ackStsCde));
     var ackTime = DateUtil.modLdtToUtc(
       DateUtil.parseStrDateToLdt(ackTimestamp, M360Const.M360_TIMESTAMP_FORMAT));
@@ -89,6 +84,14 @@ public class MsgAckSvc extends AbsSvc<NullDto, LeakAck> {
       .subscribe().with(ignored -> {
       });
 
-    return Uni.createFrom().voidItem();
+    return Uni.createFrom().item(this::buildAckResponse);
   }
+
+  public RespDto<NullDto> buildAckResponse() {
+    RespDto<NullDto> ackResp = new RespDto<>();
+    ackResp.setTimestamp(DateUtil.nowAsStr());
+    ackResp.setStatus(HttpResponseStatus.OK.reasonPhrase());
+    return ackResp;
+  }
+
 }

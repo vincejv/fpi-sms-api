@@ -24,6 +24,7 @@ import com.vincejv.m360.dto.ApiRequest;
 import com.vincejv.m360.dto.ApiResponse;
 import com.vincejv.m360.dto.BroadcastRequest;
 import com.vincejv.m360.dto.BroadcastResponse;
+import com.vincejv.m360.dto.DCSCoding;
 import com.vincejv.m360.dto.ErrorResponse;
 import com.vincejv.m360.dto.PageInfo;
 import com.vincejv.m360.dto.SMSRequest;
@@ -35,6 +36,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
   ApiResponse.class,
   BroadcastRequest.class,
   BroadcastResponse.class,
+  DCSCoding.class,
   ErrorResponse.class,
   PageInfo.class,
   SMSRequest.class,

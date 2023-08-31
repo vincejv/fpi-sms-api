@@ -23,10 +23,8 @@ import java.util.stream.Collectors;
 import com.abavilla.fpi.fw.exceptions.ApiSvcEx;
 import com.abavilla.fpi.fw.service.ISvc;
 import com.abavilla.fpi.sms.dto.api.m360.BroadcastResponseDto;
-import com.abavilla.fpi.sms.entity.enums.DCSCoding;
 import com.abavilla.fpi.sms.ext.dto.MsgReqDto;
 import com.abavilla.fpi.sms.mapper.m360.BroadcastResponseMapper;
-import com.abavilla.fpi.sms.util.SMSUtil;
 import com.vincejv.m360.M360ApiClient;
 import com.vincejv.m360.dto.ApiError;
 import com.vincejv.m360.dto.SMSRequest;
@@ -48,11 +46,8 @@ public class M360Svc implements ISvc {
 
   public Uni<BroadcastResponseDto> sendMsg(MsgReqDto msgReqDto) {
     Log.debug("m360 message request: " + msgReqDto);
-    var smsRequest = new SMSRequest();
-    smsRequest.setMobileNumber(msgReqDto.getMobileNumber());
-    smsRequest.setContent(msgReqDto.getContent());
-    smsRequest.setDataCodingScheme(SMSUtil.isEncodeableInGsm0338(msgReqDto.getContent()) ?
-        DCSCoding.GSM0338.getId() : DCSCoding.UCS2.getId());
+    var smsRequest = new SMSRequest(msgReqDto.getMobileNumber(),
+      msgReqDto.getContent());
 
     var m360Resp = Uni.createFrom().future(() ->
       m360client.sendBroadcastMessage(smsRequest));

@@ -18,12 +18,13 @@
 
 package com.abavilla.fpi.sms.entity.sms;
 
-import com.abavilla.fpi.fw.entity.mongo.AbsMongoItem;
-import com.abavilla.fpi.sms.entity.enums.DCSCoding;
+import com.abavilla.fpi.fw.entity.mongo.AbsMongoField;
+import com.vincejv.m360.dto.DCSCoding;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -32,7 +33,8 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 @RegisterForReflection
 @AllArgsConstructor
 @BsonDiscriminator
-public class BroadcastRequest extends AbsMongoItem {
+@NoArgsConstructor
+public class BroadcastRequestEntity extends AbsMongoField {
 
   @BsonProperty("msisdn")
   private String mobileNumber;
@@ -49,7 +51,4 @@ public class BroadcastRequest extends AbsMongoItem {
   @BsonProperty("dcs")
   private DCSCoding dataCodingScheme;
 
-  public BroadcastRequest() {
-    isInternational = false;
-  }
 }

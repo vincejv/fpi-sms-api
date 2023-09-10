@@ -98,7 +98,7 @@
       <dependency>
         <groupId>com.vincejv</groupId>
         <artifactId>m360-api-client</artifactId>
-        <version>1.0.9</version>
+        <version>1.0.11</version>
       </dependency>
 
     </dependencies>
